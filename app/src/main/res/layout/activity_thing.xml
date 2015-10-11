@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.dzy.done.view.activity.PictureActivity">
+    <include layout="@layout/toolbar"/>
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:layout_margin="16dp"
+                android:scaleType="fitStart"/>
+            <TextView
+                android:id="@+id/tv_title"
+                tools:text="open toys"
+                android:textColor="#ba000000"
+                android:textSize="30sp"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingBottom="30dp"
+                    android:paddingTop="10dp"
+                    android:lineSpacingExtra="6dp"
+                    tools:text="    这套为孩子们设计的组合玩具，能够令他们在玩耍的过程中找到和探索食物的乐趣。"/>
+            </LinearLayout>
+    </ScrollView>
+</LinearLayout>
