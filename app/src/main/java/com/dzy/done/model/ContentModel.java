@@ -1,25 +1,21 @@
 package com.dzy.done.model;
 
 import android.os.AsyncTask;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.OneApi;
+import com.dzy.done.config.app;
+import com.dzy.done.util.HtmlLoader;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * Created by dzysg on 2015/10/9 0009.
@@ -29,9 +25,9 @@ public class ContentModel implements IContentModel {
     int mType = 1;
     ModelCallback mCallback;
 
-    static Executor mThreadprool;
+    LruCache<String, ListItem> mLruCache = new LruCache<String, ListItem>(64);
 
-    int TimeOut = 2000;
+
 
 
     public ContentModel(int type, ModelCallback callback) {
@@ -40,19 +36,55 @@ public class ContentModel implements IContentModel {
 
     }
 
-    public Executor getExecutor()
+    @Override
+    public void LoadDatasFromNetWork(int page)
     {
-        if (mThreadprool==null)
-            mThreadprool = Executors.newFixedThreadPool(4);
-        return mThreadprool;
+//        String constr ="";
+//        if (mType == 1)
+//            constr = OneApi.OneArticle.replace("%d", page + "");
+//        if (mType == 2)
+//            constr = OneApi.OnePicture.replace("%d", page + "");
+//        if (mType == 3)
+//            constr = OneApi.OneThing.replace("%d", page + "");
+//
+//        Log.i("Tag","LoadDatasFromNetWork url = "+constr);
+//        StringRequest request = new StringRequest(constr, new Response.Listener<String>()
+//        {
+//            @Override
+//            public void onResponse(String response)
+//            {
+//                Log.i("tag","ContentModel StringRequest succeed  content: "+response);
+//                praseHTMLByAsyncTask(response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error)
+//            {
+//                mCallback.OnFalure(error.getMessage());
+//            }
+//        });
+//        app.getRequestQueue().add(request);
+        new GetHTMLThead(page).start();
     }
-
 
     @Override
-    public void LoadDatas(int page) {
-        LoadHtml(page);
-    }
+    public void LoadDatasFromCache(int page)
+    {
+        String constr = OneApi.getConnectUrl(mType, page);
 
+        if (app.getRequestQueue().getCache().get(constr)!=null) {
+            try {
+                String response = new String(app.getRequestQueue().getCache().get(constr).data, "GBK");
+                praseHTMLByAsyncTask(response);
+            }
+            catch (Exception e)
+            {
+                mCallback.OnFalure(e.getMessage());
+            }
+        }
+        else
+            mCallback.OnFalure("no cache");
+    }
 
     public List<ListItem> praseArticles(String html) {
         Document doc;
@@ -74,7 +106,8 @@ public class ContentModel implements IContentModel {
                 item.setTYPE(mType);
                 list.add(item);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return list;
@@ -103,7 +136,8 @@ public class ContentModel implements IContentModel {
                 item.setTYPE(mType);
                 list.add(item);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return list;
@@ -132,75 +166,49 @@ public class ContentModel implements IContentModel {
                 item.setTYPE(mType);
                 list.add(item);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
 
-    public void praseHTMLByAsyncTask(String html)
-    {
+    public void praseHTMLByAsyncTask(String html) {
+
         new praseHtmlDatesTask().execute(html);
-        Log.i("tag","prase html");
-    }
-
-    public void LoadHtml(int page) {
-        new GetHTMLThead(page).start();
-        Log.i("tag", "loadHTML thread start");
+        Log.i("tag", "prase html");
     }
 
 
-    private  class GetHTMLThead extends Thread {
+    private class GetHTMLThead extends Thread {
         int mPage;
 
         public GetHTMLThead(int page) {
             mPage = page;
         }
+
         @Override
         public void run() {
-            HttpURLConnection conn;
             String constr = "";
-            InputStream is;
-            InputStreamReader isr;
-            BufferedReader br;
-
             if (mType == 1)
                 constr = OneApi.OneArticle.replace("%d", mPage + "");
             if (mType == 2)
                 constr = OneApi.OnePicture.replace("%d", mPage + "");
-            if (mType==3)
-                constr = OneApi.OneThing.replace("%d",mPage+"");
+            if (mType == 3)
+                constr = OneApi.OneThing.replace("%d", mPage + "");
+
 
             try {
-                URL url = new URL(constr);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(TimeOut);
-                conn.setUseCaches(false);
-                is = conn.getInputStream();
-                isr = new InputStreamReader(is,"GBK");
-                br = new BufferedReader(isr);
 
-                String line = "";
-                StringBuilder sb = new StringBuilder();
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                br.close();
-                isr.close();
-                is.close();
-                conn.disconnect();
-
-                praseHTMLByAsyncTask(sb.toString());
+                String re = HtmlLoader.getStringByUrl(constr,"GBK");
+                praseHTMLByAsyncTask(re);
 
             }
             catch (Exception e) {
                 e.printStackTrace();
                 mCallback.OnFalure(e.getMessage());
             }
-
-
         }
     }
 
@@ -209,13 +217,13 @@ public class ContentModel implements IContentModel {
 
         @Override
         protected List<ListItem> doInBackground(String... params) {
-            String page = params[0];
+            String html = params[0];
             if (mType == 1)
-                return praseArticles(page);
+                return praseArticles(html);
             if (mType == 2)
-                return prasePicture(page);
+                return prasePicture(html);
             if (mType == 3)
-                return praseThing(page);
+                return praseThing(html);
 
             return null;
         }

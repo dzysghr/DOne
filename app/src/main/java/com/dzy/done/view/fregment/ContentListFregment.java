@@ -28,7 +28,8 @@ import butterknife.ButterKnife;
 /**
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ContentListFregment extends Fragment implements IViewPager, SwipeRefreshLayout.OnRefreshListener {
+public class ContentListFregment extends Fragment implements IViewPager, SwipeRefreshLayout.OnRefreshListener
+{
 
     @Bind(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -37,9 +38,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
     int mType = 1;
-    String mTitle;
     List<ListItem> mDatas = new ArrayList<ListItem>();
     ContentPresenter mPresenter;
     private ArticleAdapter mAdapter;
@@ -49,7 +48,8 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
 
         View view = inflater.inflate(R.layout.fregment_article, container, false);
         ButterKnife.bind(this, view);
@@ -65,28 +65,33 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
         mRecyclerView.setVerticalScrollBarEnabled(true);
 
 
-
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 
-                    if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
+                    if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0
+                            || mRecyclerView.getChildCount() == 0)
                         mSwipeRefreshLayout.setEnabled(true);
                     else
                         mSwipeRefreshLayout.setEnabled(false);
 
-                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
-                        mPresenter.LoadDatas(++mPageCount);
-                        Log.i("tag", "load more");
+                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size()-1)
+                    {
+                        if (mRecyclerView.getChildCount() > 0) {
+                            mPresenter.LoadDatas(++mPageCount);
+                            Log.i("tag", "load more");
+                        }
                     }
                 }
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
@@ -96,28 +101,24 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
         mPresenter.LoadDatas(1);
         Log.i("tag", "mPresenter loaddatas");
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ContentListFregment.this.scrollToTop();
-//            }
-//        });
-
 
         return view;
     }
 
-    public ContentListFregment(int type) {
+    public ContentListFregment(int type)
+    {
         mType = type;
     }
 
-    public static ContentListFregment newInstance(int type) {
+    public static ContentListFregment newInstance(int type)
+    {
 
         return new ContentListFregment(type);
     }
 
     @Override
-    public void loadData(List<ListItem> datas) {
+    public void loadData(List<ListItem> datas)
+    {
         if (mPageCount == 1)
             mDatas.clear();
 
@@ -126,32 +127,38 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
     }
 
     @Override
-    public void showProgress() {
+    public void showProgress()
+    {
         Log.i("tag", "show progress");
         mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideProgress() {
+    public void hideProgress()
+    {
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setEnabled(false);
     }
 
     @Override
-    public void failload() {
+    public void failload()
+    {
+        mSwipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void networkunavaiable() {
+    public void networkunavaiable()
+    {
+        mSwipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), "无网络连接", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh()
+    {
         Log.i("tag", "on Refresh");
-
         mPresenter.LoadDatas(1);
         mPageCount = 1;
     }

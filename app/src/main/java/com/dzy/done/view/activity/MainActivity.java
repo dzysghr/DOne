@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.config.app;
 import com.dzy.done.view.adapter.MainPageAdapter;
 import com.dzy.done.view.fregment.ContentListFregment;
 
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        app.getRequestQueue(this);
         setupView();
 
     }

@@ -105,6 +105,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyHolder
             else if (mItem.getTYPE()==2) {
                 Intent intent = new Intent(mContext, PictureActivity.class);
                 intent.putExtra("url", mItem.getUrl());
+                intent.putExtra("num",mItem.getTitle().split(" ",2)[0]);
+
+                intent.putExtra("author", mItem.getTitle().split(" ",2)[1]);
                 mContext.startActivity(intent);
             } else if (mItem.getTYPE()==3) {
                 Intent intent = new Intent(mContext, ThingActivity.class);

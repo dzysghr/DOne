@@ -19,12 +19,11 @@ public class app extends Application {
     public void onCreate() {
         super.onCreate();
         mContext =this;
+        mQueue = Volley.newRequestQueue(this);
     }
 
-    public static RequestQueue getRequestQueue(Context context)
+    public static RequestQueue getRequestQueue()
     {
-        if (mQueue==null)
-            mQueue = Volley.newRequestQueue(context);
         return mQueue;
     }
 

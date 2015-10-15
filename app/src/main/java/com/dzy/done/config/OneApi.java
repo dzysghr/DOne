@@ -18,6 +18,18 @@ public class OneApi
 	public static String OneThingHead="http://www.wufafuwu.com/a/ONE_dongxi/";
 	public static String OneThing="http://www.wufafuwu.com/a/ONE_dongxi/list_10_%d.html";
 
+	public static synchronized String getConnectUrl(int Type,int page)
+    {
+        String constr = null;
+        if (Type == 1)
+            constr = OneApi.OneArticle.replace("%d", page + "");
+        if (Type == 2)
+            constr = OneApi.OnePicture.replace("%d", page + "");
+        if (Type == 3)
+            constr = OneApi.OneThing.replace("%d", page + "");
+
+        return constr;
+    }
 
 
 

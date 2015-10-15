@@ -5,7 +5,8 @@ package com.dzy.done.model;
  */
 public interface IContentModel {
 
-    public void LoadDatas(int page);
+    public void LoadDatasFromNetWork(int page);
+    public void LoadDatasFromCache(int page);
 
 
 }

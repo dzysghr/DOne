@@ -27,13 +27,13 @@ public class ContentPresenter {
 
             mPager.loadData(items);
             mPager.hideProgress();
-            Log.i("tag",items.size()+"");
-
+            Log.i("tag", "presenter onFinish    items:"+items.size()+"");
         }
 
         @Override
         public void OnFalure(String msg) {
-            Log.i("tag",msg);
+            Log.i("tag","onFalure    "+msg);
+            mPager.failload();
         }
     };
 
@@ -43,20 +43,24 @@ public class ContentPresenter {
         mPager =pager;
         mType = type;
         mModel = new ContentModel(mType,mCallback);
+
     }
 
 
     public void LoadDatas(int page)
     {
-        Log.i("tag","check network");
-
+        Log.i("tag", "Contentpresenter check network");
+         mPager.showProgress();
          if (NetworkUtils.isNetworkConnected()) {
-             mPager.showProgress();
-             mModel.LoadDatas(page);
-             Log.i("tag","Model load datas");
+             Log.i("tag", "Load by network");
+             mModel.LoadDatasFromNetWork(page);
          }
-        else
-             mPager.networkunavaiable();
+         else {
+             mModel.LoadDatasFromNetWork(page);
+             //mModel.LoadDatasFromCache(page);
+             Log.i("tag", "Load by cache");
+
+         }
     }
 
 

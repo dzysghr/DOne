@@ -30,6 +30,9 @@
         </activity>
         <activity android:name=".view.activity.ThingActivity" >
         </activity>
+        <activity android:name=".view.activity.PhotoViewerActivity" >
+        </activity>
+
     </application>
 
 </manifest>

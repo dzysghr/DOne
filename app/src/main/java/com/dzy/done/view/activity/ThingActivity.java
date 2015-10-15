@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ThingItem;
 import com.dzy.done.config.OneApi;
+import com.dzy.done.util.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -62,12 +64,21 @@ public class ThingActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Log.i("tag", url);
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            onFalure();
+            return;
+        }
+
         mTask = new ThingTask();
         mTask.execute(url);
 
     }
 
+    public void onFalure()
+    {
+        Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT).show();
+    }
 
     private class ThingTask extends AsyncTask<String,Void,ThingItem>
     {
@@ -116,7 +127,6 @@ public class ThingActivity extends AppCompatActivity {
                 mTvTitle.setVisibility(View.GONE);
             else
             mTvTitle.setText(item.getName());
-
             mTvContent.setText(item.getContent());
         }
     }

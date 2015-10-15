@@ -1,7 +1,6 @@
 package com.dzy.done.view.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,23 +8,19 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.PictureItem;
-import com.dzy.done.config.OneApi;
+import com.dzy.done.model.ContentCache;
 import com.squareup.picasso.Picasso;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class PictureActivity extends AppCompatActivity {
+public class PictureActivity extends AppCompatActivity implements ContentCache.IGetPictureCallback
+{
 
 
     @Bind(R.id.toolbar)
@@ -43,7 +38,8 @@ public class PictureActivity extends AppCompatActivity {
     @Bind(R.id.tv_mm_yy)
     TextView mTvMonth;
 
-    PictureTask mTask;
+
+    String mImgurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +51,9 @@ public class PictureActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
 
+        mTvNum.setText(intent.getStringExtra("num"));
+        mTvAuthor.setText(intent.getStringExtra("author"));
+
         WindowManager wm = this.getWindowManager();
 
         int height = wm.getDefaultDisplay().getHeight();
@@ -63,81 +62,53 @@ public class PictureActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mTask = new PictureTask();
-        mTask.execute(url);
+        ContentCache.get().getPicture(url,this);
 
 
     }
 
-    private class PictureTask extends AsyncTask<String,Void,PictureItem>
+    @OnClick(R.id.iv)
+    public void ImageOnClick()
     {
-
-        @Override
-        protected PictureItem doInBackground(String... params) {
-            String url = params[0];
-            Document doc;
-            PictureItem item = null;
-            try
-            {
-                doc = Jsoup.parse(new URL(url), 2000);
-                item = new PictureItem();
-
-                Element root = doc.getElementsByClass("d").get(0);
-
-                String src = root.getElementsByClass("one-imagen").get(0).getElementsByTag("img").get(0).attr("src");
-                item.setImg(OneApi.One+src);
-
-                String num = root.getElementsByClass("one-titulo").get(0).ownText();
-                item.setNum(num);
-
-                String author = root.getElementsByClass("one-imagen-leyenda").get(0).ownText();
-                item.setAuthor(author);
-
-                String content = root.getElementsByClass("one-cita").get(0).ownText();
-                item.setContent("     "+content);
-
-                String day = root.getElementsByClass("dom").get(0).ownText();
-                item.setDay(day);
-
-                String year = root.getElementsByClass("may").get(0).ownText();
-
-                item.setYear(year);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            return item;
-        }
-
-        @Override
-        protected void onPostExecute(PictureItem pictureItem) {
-            ShowData(pictureItem);
+        if (mIv.getDrawable()!=null)
+        {
+            Intent intent = new Intent(this,PhotoViewerActivity.class);
+            intent.putExtra("url",mImgurl);
+            startActivity(intent);
         }
     }
+
 
     private void ShowData(PictureItem item) {
-        Picasso.with(this).load(item.getImg()).fit().into(mIv);
+
+        Picasso.with(this).load(item.getImg()).into(mIv);
 
         mTvContent.setText(item.getContent());
         mTvDay.setText(item.getDay());
         mTvMonth.setText(item.getYear());
-        mTvAuthor.setText(item.getAuthor());
-        mTvNum.setText(item.getNum());
+        //mTvAuthor.setText(item.getAuthor());
+        //mTvNum.setText(item.getNum());
+        mImgurl = item.getImg();
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mTask!=null)
-            mTask.cancel(true);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==android.R.id.home)
             onBackPressed();
         return true;
+    }
+
+    @Override
+    public void Finish(PictureItem item)
+    {
+        ShowData(item);
+    }
+
+    @Override
+    public void Falure(String msg)
+    {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }
