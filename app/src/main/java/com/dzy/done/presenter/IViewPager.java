@@ -14,6 +14,4 @@ public interface IViewPager {
 
     void failload();
 
-    void networkunavaiable();
-
 }

@@ -16,7 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * 没用到
+ *
  * Created by dzysg on 2015/10/13 0013.
  */
 public class ContentCache
@@ -130,7 +130,6 @@ public class ContentCache
         }
         catch (Exception e) {
             e.printStackTrace();
-            item = null;
         }
         return null;
     }

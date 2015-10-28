@@ -5,9 +5,5 @@ package com.dzy.done.config;
  */
 public class PageConfig {
 
-
-
     static public String[] titles={"文章","图片","东西"};
-
-
 }

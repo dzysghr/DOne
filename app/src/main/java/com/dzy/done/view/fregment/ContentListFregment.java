@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.presenter.ContentPresenter;
+import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.IViewPager;
 import com.dzy.done.view.adapter.ArticleAdapter;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
@@ -40,7 +40,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
 
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<ListItem>();
-    ContentPresenter mPresenter;
+    ListPresenter mPresenter;
     private ArticleAdapter mAdapter;
     private int mPageCount = 1;
     private LinearLayoutManager mLayoutManager;
@@ -79,6 +79,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
                     else
                         mSwipeRefreshLayout.setEnabled(false);
 
+                    //如果recycleview滑到底,加载很多数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size()-1)
                     {
                         if (mRecyclerView.getChildCount() > 0) {
@@ -97,7 +98,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
         });
 
 
-        mPresenter = new ContentPresenter(this, mType);
+        mPresenter = new ListPresenter(this, mType);
         mPresenter.LoadDatas(1);
         Log.i("tag", "mPresenter loaddatas");
 
@@ -112,7 +113,6 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
 
     public static ContentListFregment newInstance(int type)
     {
-
         return new ContentListFregment(type);
     }
 
@@ -148,12 +148,6 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
         Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void networkunavaiable()
-    {
-        mSwipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(getContext(), "无网络连接", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onRefresh()

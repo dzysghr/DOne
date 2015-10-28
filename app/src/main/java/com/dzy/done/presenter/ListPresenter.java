@@ -3,8 +3,8 @@ package com.dzy.done.presenter;
 import android.util.Log;
 
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.model.ContentModel;
-import com.dzy.done.model.IContentModel;
+import com.dzy.done.model.ListModelimpl;
+import com.dzy.done.model.IListModel;
 import com.dzy.done.model.ModelCallback;
 import com.dzy.done.util.NetworkUtils;
 
@@ -13,10 +13,11 @@ import java.util.List;
 /**
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ContentPresenter {
+public class ListPresenter
+{
 
     IViewPager mPager;
-    IContentModel mModel;
+    IListModel mModel;
 
 
 
@@ -38,11 +39,11 @@ public class ContentPresenter {
     };
 
 
-    public ContentPresenter(IViewPager pager,int type)
+    public ListPresenter(IViewPager pager, int type)
     {
         mPager =pager;
         mType = type;
-        mModel = new ContentModel(mType,mCallback);
+        mModel = new ListModelimpl(mType,mCallback);
 
     }
 
@@ -57,9 +58,7 @@ public class ContentPresenter {
          }
          else {
              mModel.LoadDatasFromNetWork(page);
-             //mModel.LoadDatasFromCache(page);
              Log.i("tag", "Load by cache");
-
          }
     }
 

@@ -7,8 +7,7 @@ package com.dzy.done.config;
 public class OneApi
 {
 	public static String One ="http://www.wufafuwu.com";
-	
-	
+
 	public static String OneArticle = "http://www.wufafuwu.com/a/ONE_wenzhang/list_1_%d.html";
 	public static String OneArticleHead = "http://www.wufafuwu.com/a/ONE_wenzhang/";
 	
@@ -18,7 +17,7 @@ public class OneApi
 	public static String OneThingHead="http://www.wufafuwu.com/a/ONE_dongxi/";
 	public static String OneThing="http://www.wufafuwu.com/a/ONE_dongxi/list_10_%d.html";
 
-	public static synchronized String getConnectUrl(int Type,int page)
+	public static  String getConnectUrl(int Type,int page)
     {
         String constr = null;
         if (Type == 1)
