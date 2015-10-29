@@ -13,7 +13,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
 
     public RecyclerViewItemDecoration(Context context) {
-        mDivider = context.getResources().getDrawable(R.drawable.item_divider_black);;
+        mDivider = context.getResources().getDrawable(R.drawable.item_divider_black);
     }
 
     @Override

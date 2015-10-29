@@ -6,8 +6,8 @@ package com.dzy.done.model;
 public interface IListModel
 {
 
-    public void LoadDatasFromNetWork(int page);
-    public void LoadDatasFromCache(int page);
+    void LoadDatasFromNetWork(int page);
+    void LoadDatasFromCache(int page);
 
 
 }

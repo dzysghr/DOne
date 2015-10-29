@@ -7,10 +7,10 @@ import com.dzy.done.bean.PictureItem;
  */
 public interface IPictureDAO {
 
-    public PictureItem select(String num);
-    public boolean insert(PictureItem item);
-    public boolean delete(PictureItem item);
-    public boolean update(PictureItem item);
+    PictureItem select(String num);
+    boolean insert(PictureItem item);
+    boolean delete(PictureItem item);
+    boolean update(PictureItem item);
 
 
 }

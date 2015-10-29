@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface ModelCallback {
 
-    public void onFinish(List<ListItem> items);
+    void onFinish(List<ListItem> items);
 
-    public void OnFalure(String msg);
+    void OnFalure(String msg);
     
 }

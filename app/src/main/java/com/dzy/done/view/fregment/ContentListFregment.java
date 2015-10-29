@@ -121,7 +121,6 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
     {
         if (mPageCount == 1)
             mDatas.clear();
-
         mDatas.addAll(datas);
         mAdapter.notifyDataSetChanged();
     }

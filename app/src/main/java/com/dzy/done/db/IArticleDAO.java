@@ -5,8 +5,8 @@ package com.dzy.done.db;
  */
 public interface IArticleDAO {
 
-    public String select(String title);
-    public boolean insert(String title,String content);
-    public boolean delete(String title);
-    public boolean update(String title);
+    String select(String title);
+    boolean insert(String title, String content);
+    boolean delete(String title);
+    boolean update(String title);
 }

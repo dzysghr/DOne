@@ -49,6 +49,7 @@ public class HtmlLoader
     public static String getStringByUrl(String url,String charset) throws IOException
     {
         Request request = new Request.Builder().url(url).build();
+
         Response response = execute(request);
         if (response.isSuccessful()) {
             String responseUrl = new String(response.body().bytes(),charset==null?"utf-8":charset);

@@ -258,22 +258,22 @@ public class ContentCache
 
     public  interface IGetArticleCallback
     {
-        public void Finish(String content);
+        void Finish(String content);
 
-        public void Falure(String msg);
+        void Falure(String msg);
     }
 
     public  interface IGetPictureCallback
     {
-        public void Finish(PictureItem item);
+        void Finish(PictureItem item);
 
-        public void Falure(String msg);
+        void Falure(String msg);
     }
 
     public  interface IGetThingCallback
     {
-        public void Finish(ThingItem item);
+        void Finish(ThingItem item);
 
-        public void Falure(String msg);
+        void Falure(String msg);
     }
 }
