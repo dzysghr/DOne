@@ -22,14 +22,15 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.mcxiaoke.volley:library:1.0.17'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:palette-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.commit451:PhotoView:1.2.4'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
-
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile files('libs/jsoup-1.8.3.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }

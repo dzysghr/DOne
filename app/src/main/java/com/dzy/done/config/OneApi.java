@@ -31,5 +31,6 @@ public class OneApi
     }
 
 
+    public static String Article= "http://dzyone.applinzi.com/article.php";
 
 }

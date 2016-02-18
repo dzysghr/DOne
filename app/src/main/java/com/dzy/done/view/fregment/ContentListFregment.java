@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.IViewPager;
-import com.dzy.done.view.adapter.ArticleAdapter;
+import com.dzy.done.presenter.ListPresenter;
+import com.dzy.done.view.adapter.MainListAdapter;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<ListItem>();
     ListPresenter mPresenter;
-    private ArticleAdapter mAdapter;
+    private MainListAdapter mAdapter;
     private int mPageCount = 1;
     private LinearLayoutManager mLayoutManager;
 
@@ -56,7 +56,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
 
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new ArticleAdapter(getContext(), mDatas);
+        mAdapter = new MainListAdapter(getContext(), mDatas);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -97,7 +97,6 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
             }
         });
 
-
         mPresenter = new ListPresenter(this, mType);
         mPresenter.LoadDatas(1);
         Log.i("tag", "mPresenter loaddatas");
@@ -115,6 +114,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
     {
         return new ContentListFregment(type);
     }
+
 
     @Override
     public void loadData(List<ListItem> datas)

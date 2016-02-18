@@ -2,6 +2,8 @@ package com.dzy.done.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +25,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
+ *
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyHolder>
+public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHolder>
 {
 
     private List<ListItem> mDatas;
     private Context mContext;
 
-    public ArticleAdapter(Context context,List<ListItem> list)
+    public MainListAdapter(Context context, List<ListItem> list)
     {
         mContext= context;
         mDatas = list;
@@ -95,26 +98,32 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyHolder
         }
         @OnClick(R.id.item_parent)
         public void onClick(View v) {
-            if (mItem.getTYPE()==1) {
+            if (mItem.getTYPE()==ListItem.ARTICLE) {
                 Intent intent = new Intent(mContext, ArticleActiviry.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("date", mItem.getDate());
                 mContext.startActivity(intent);
             }
-            else if (mItem.getTYPE()==2) {
+            else if (mItem.getTYPE()==ListItem.PICTURE) {
                 Intent intent = new Intent(mContext, PictureActivity.class);
                 intent.putExtra("url", mItem.getUrl());
-                intent.putExtra("num",mItem.getTitle().split(" ",2)[0]);
-
+                intent.putExtra("num", mItem.getTitle().split(" ", 2)[0]);
+                if (img.getDrawable() instanceof BitmapDrawable) {
+                    Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                    intent.putExtra("bitmap",bitmap);
+                }
                 intent.putExtra("author", mItem.getTitle().split(" ",2)[1]);
                 mContext.startActivity(intent);
-            } else if (mItem.getTYPE()==3) {
+            } else if (mItem.getTYPE()==ListItem.THING) {
                 Intent intent = new Intent(mContext, ThingActivity.class);
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("url", mItem.getUrl());
+                if (img.getDrawable() instanceof BitmapDrawable) {
+                    Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                    intent.putExtra("bitmap",bitmap);
+                }
                 mContext.startActivity(intent);
-
             }
         }
     }

@@ -2,6 +2,10 @@ package com.dzy.done.bean;
 
 public class ListItem
 {
+	public static int PICTURE = 2;
+    public static int ARTICLE = 1;
+    public static int THING = 3;
+
 	private String Title;
 	private String Content;
 	private String url;

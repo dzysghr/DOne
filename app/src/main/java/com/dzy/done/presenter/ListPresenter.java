@@ -11,6 +11,7 @@ import com.dzy.done.util.NetworkUtils;
 import java.util.List;
 
 /**
+ *
  * Created by dzysg on 2015/10/9 0009.
  */
 public class ListPresenter
@@ -18,7 +19,6 @@ public class ListPresenter
 
     IViewPager mPager;
     IListModel mModel;
-
 
 
     int mType;
@@ -57,11 +57,8 @@ public class ListPresenter
              mModel.LoadDatasFromNetWork(page);
          }
          else {
-             mModel.LoadDatasFromNetWork(page);
+             mModel.LoadDatasFromCache(page);
              Log.i("tag", "Load by cache");
          }
     }
-
-
-
 }

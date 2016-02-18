@@ -5,27 +5,31 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.model.ContentCache;
+import com.dzy.done.model.ContentModel;
+import com.dzy.done.util.MLog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ArticleActiviry extends AppCompatActivity implements ContentCache.IGetArticleCallback{
+public class ArticleActiviry extends AppCompatActivity implements ContentModel.IGetArticleCallback{
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.tv_content)
-    TextView mContent;
+   // @Bind(R.id.tv_content)
+    //TextView mContent;
 
     @Bind(R.id.tv_date)
     TextView mDate;
     @Bind(R.id.tv_title)
     TextView mTitle;
 
+    @Bind(R.id.webview)
+    WebView mWebView;
     String mUrl = "default url";
 
     @Override
@@ -43,8 +47,7 @@ public class ArticleActiviry extends AppCompatActivity implements ContentCache.I
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ContentCache.get().getArticle(mUrl, this);
+        ContentModel.get().getArticle(mUrl, this);
 
 
     }
@@ -53,7 +56,6 @@ public class ArticleActiviry extends AppCompatActivity implements ContentCache.I
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -67,12 +69,16 @@ public class ArticleActiviry extends AppCompatActivity implements ContentCache.I
 
     public void Finish(String content)
     {
-        mContent.setText(content);
+        //mContent.setText(content);
+        MLog.getLogger().d(content);
+        mWebView.getSettings().setDefaultTextEncodingName("GBK");
+        mWebView.loadData(content, "text/html;charset=UTF-8",null);
+
     }
 
 
     public void Falure(String msg)
     {
-        Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
     }
 }

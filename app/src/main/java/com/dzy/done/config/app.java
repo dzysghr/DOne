@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
 
 /**
@@ -20,6 +21,7 @@ public class app extends Application {
         super.onCreate();
         mContext =this;
         mQueue = Volley.newRequestQueue(this);
+        VolleyLog.DEBUG = true;
     }
 
     public static RequestQueue getRequestQueue()
