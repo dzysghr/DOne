@@ -90,8 +90,6 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
                 }
             }
         }
-
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

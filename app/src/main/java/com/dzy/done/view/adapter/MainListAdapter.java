@@ -92,7 +92,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = context;
-
         }
 
         public void setContent(ListItem item)
