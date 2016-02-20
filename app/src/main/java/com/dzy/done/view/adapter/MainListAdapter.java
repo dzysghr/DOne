@@ -1,9 +1,11 @@
 package com.dzy.done.view.adapter;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.view.activity.ArticleActiviry;
+import com.dzy.done.view.activity.MainActivity;
 import com.dzy.done.view.activity.PictureActivity;
 import com.dzy.done.view.activity.ThingActivity;
 import com.squareup.picasso.Picasso;
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- *
+ * 主页list的adapter，三个页面共用
  * Created by dzysg on 2015/10/9 0009.
  */
 public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHolder>
@@ -36,57 +39,62 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
     public MainListAdapter(Context context, List<ListItem> list)
     {
-        mContext= context;
+        mContext = context;
         mDatas = list;
     }
 
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item,parent,false);
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
 
-        MyHolder holder = new MyHolder(view,mContext);
+        //点击自定义的红色点击波浪反馈
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            view.setBackground(mContext.getResources().getDrawable(R.drawable.ripple, mContext.getTheme()));
+        }
 
-        return holder;
+        return new MyHolder(view, mContext);
 
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mDatas.size();
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(MyHolder holder, int position)
+    {
 
         ListItem item = mDatas.get(position);
         holder.setContent(item);
 
-        if (item.getTYPE()==2||item.getTYPE()==3)
-        Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
+        if (item.getTYPE() == 2 || item.getTYPE() == 3)
+            Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
+
     }
 
 
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        @Bind(R.id.tv_title)
-        TextView mTitle;
-        @Bind(R.id.tv_date)
-        TextView mdate;
-        @Bind(R.id.tv_content)
-        TextView mContent;
-        @Bind(R.id.img)
-        ImageView img;
+        @Bind(R.id.tv_title) TextView mTitle;
+        @Bind(R.id.tv_date) TextView mdate;
+        @Bind(R.id.tv_content) TextView mContent;
+        @Bind(R.id.img) public ImageView img;
 
 
         Context mContext;
         ListItem mItem;
 
-        public MyHolder(View itemView,Context context) {
+        public MyHolder(View itemView, Context context)
+        {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = context;
 
         }
+
         public void setContent(ListItem item)
         {
 
@@ -94,36 +102,54 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
             mdate.setText(item.getDate());
             mContent.setText(item.getContent());
             mItem = item;
-
         }
+
         @OnClick(R.id.item_parent)
-        public void onClick(View v) {
-            if (mItem.getTYPE()==ListItem.ARTICLE) {
+        public void onClick(View v)
+        {
+            if (mItem.getTYPE() == ListItem.ARTICLE) {
                 Intent intent = new Intent(mContext, ArticleActiviry.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("date", mItem.getDate());
+
                 mContext.startActivity(intent);
-            }
-            else if (mItem.getTYPE()==ListItem.PICTURE) {
+
+            } else if (mItem.getTYPE() == ListItem.PICTURE) {
                 Intent intent = new Intent(mContext, PictureActivity.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("num", mItem.getTitle().split(" ", 2)[0]);
                 if (img.getDrawable() instanceof BitmapDrawable) {
                     Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                    intent.putExtra("bitmap",bitmap);
+                    intent.putExtra("bitmap", bitmap);
                 }
-                intent.putExtra("author", mItem.getTitle().split(" ",2)[1]);
-                mContext.startActivity(intent);
-            } else if (mItem.getTYPE()==ListItem.THING) {
+                intent.putExtra("author", mItem.getTitle().split(" ", 2)[1]);
+
+                if (Build.VERSION.SDK_INT >= 21) {
+
+                    img.setTransitionName(mItem.getUrl());
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((MainActivity) (mContext),img, mItem.getUrl());
+                    mContext.startActivity(intent, options.toBundle());
+                } else {
+                    mContext.startActivity(intent);
+                }
+            } else if (mItem.getTYPE() == ListItem.THING) {
                 Intent intent = new Intent(mContext, ThingActivity.class);
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("url", mItem.getUrl());
                 if (img.getDrawable() instanceof BitmapDrawable) {
                     Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                    intent.putExtra("bitmap",bitmap);
+                    intent.putExtra("bitmap", bitmap);
                 }
-                mContext.startActivity(intent);
+
+                if (Build.VERSION.SDK_INT >= 21) {
+
+                    img.setTransitionName(mItem.getUrl());
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
+                    mContext.startActivity(intent, options.toBundle());
+                } else {
+                    mContext.startActivity(intent);
+                }
             }
         }
     }

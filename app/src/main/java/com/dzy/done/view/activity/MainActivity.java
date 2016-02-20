@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.view.adapter.MainPageAdapter;
-import com.dzy.done.view.fregment.ContentListFregment;
+import com.dzy.done.view.fregment.ContentListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             ContentListFregment fregment = (ContentListFregment) mAdapter.getItem(mTabs.getSelectedTabPosition());
+             ContentListFragment fregment = (ContentListFragment) mAdapter.getItem(mTabs.getSelectedTabPosition());
                 fregment.scrollToTop();
             }
         });

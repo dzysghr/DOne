@@ -26,20 +26,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 主页Viewpager的三个Fragment
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ContentListFregment extends Fragment implements IViewPager, SwipeRefreshLayout.OnRefreshListener
+public class ContentListFragment extends Fragment implements IViewPager, SwipeRefreshLayout.OnRefreshListener
 {
 
-    @Bind(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
 
-    @Bind(R.id.swrfresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.swrfresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     int mType = 1;
-    List<ListItem> mDatas = new ArrayList<ListItem>();
+    List<ListItem> mDatas = new ArrayList<>();
     ListPresenter mPresenter;
     private MainListAdapter mAdapter;
     private int mPageCount = 1;
@@ -56,7 +55,7 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
 
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new MainListAdapter(getContext(), mDatas);
+        mAdapter = new MainListAdapter(getActivity(), mDatas);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -73,15 +72,13 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 
-                    if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0
-                            || mRecyclerView.getChildCount() == 0)
+                    if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0 || mRecyclerView.getChildCount() == 0)
                         mSwipeRefreshLayout.setEnabled(true);
                     else
                         mSwipeRefreshLayout.setEnabled(false);
 
                     //如果recycleview滑到底,加载很多数据
-                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size()-1)
-                    {
+                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
                         if (mRecyclerView.getChildCount() > 0) {
                             mPresenter.LoadDatas(++mPageCount);
                             Log.i("tag", "load more");
@@ -101,18 +98,17 @@ public class ContentListFregment extends Fragment implements IViewPager, SwipeRe
         mPresenter.LoadDatas(1);
         Log.i("tag", "mPresenter loaddatas");
 
-
         return view;
     }
 
-    public ContentListFregment(int type)
+    public ContentListFragment(int type)
     {
         mType = type;
     }
 
-    public static ContentListFregment newInstance(int type)
+    public static ContentListFragment newInstance(int type)
     {
-        return new ContentListFregment(type);
+        return new ContentListFragment(type);
     }
 
 

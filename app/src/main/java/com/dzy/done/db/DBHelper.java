@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.dzy.done.config.app;
 
 /**
+ * 数据库，已淘汰
  * Created by Troy on 2015/9/23.
  */
 public class DBHelper extends SQLiteOpenHelper {

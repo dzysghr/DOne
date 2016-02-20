@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.dzy.done"
@@ -32,5 +32,4 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile files('libs/jsoup-1.8.3.jar')
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
-    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }

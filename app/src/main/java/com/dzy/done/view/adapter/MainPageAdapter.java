@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.view.fregment.ContentListFregment;
+import com.dzy.done.view.fregment.ContentListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,9 @@ public class MainPageAdapter extends FragmentPagerAdapter {
         super(fm);
         mFragments = new ArrayList<Fragment>();
 
-        mFragments.add(ContentListFregment.newInstance(1));
-        mFragments.add(ContentListFregment.newInstance(2));
-        mFragments.add(ContentListFregment.newInstance(3));
+        mFragments.add(ContentListFragment.newInstance(1));
+        mFragments.add(ContentListFragment.newInstance(2));
+        mFragments.add(ContentListFragment.newInstance(3));
 
     }
 

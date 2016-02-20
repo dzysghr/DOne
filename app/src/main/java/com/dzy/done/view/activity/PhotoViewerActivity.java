@@ -103,6 +103,19 @@ public class PhotoViewerActivity extends Activity {
 
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        Picasso.with(this).cancelRequest(mIv);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+    }
 
     @OnClick(R.id.iv)
     public void onclick() {

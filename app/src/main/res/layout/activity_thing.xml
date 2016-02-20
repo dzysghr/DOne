@@ -16,13 +16,24 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/pb"
+                android:visibility="gone"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
             <ImageView
                 android:id="@+id/iv"
                 android:layout_width="match_parent"
                 android:layout_height="270dp"
                 android:layout_margin="16dp"
                 android:scaleType="fitStart"/>
+        </FrameLayout>
+
             <TextView
                 android:id="@+id/tv_title"
                 tools:text="open toys"

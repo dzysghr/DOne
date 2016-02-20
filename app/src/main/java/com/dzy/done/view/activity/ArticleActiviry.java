@@ -39,13 +39,20 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        mUrl = intent.getStringExtra("url");
 
-        mTitle.setText(intent.getStringExtra("title"));
+
+
+
+        String title = intent.getStringExtra("title");
+        mUrl = intent.getStringExtra("url");
+        mTitle.setText(title);
         mDate.setText(intent.getStringExtra("date"));
 
 
+
+
         setSupportActionBar(mToolbar);
+        assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ContentModel.get().getArticle(mUrl, this);
 
