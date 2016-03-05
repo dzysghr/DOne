@@ -6,6 +6,7 @@ import com.dzy.done.Api.ApiServer;
 import com.dzy.done.bean.PictureItem;
 import com.dzy.done.bean.ThingItem;
 import com.dzy.done.config.app;
+import com.dzy.done.util.MLog;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +60,7 @@ public class ContentModel
             public void onFailure(Call<String> call, Throwable t)
             {
                 callback.Falure(t.getMessage());
+                MLog.getLogger().e(t.getMessage());
             }
         });
     }
@@ -78,6 +80,7 @@ public class ContentModel
             @Override
             public void onFailure(Call<PictureItem> call, Throwable t)
             {
+                MLog.getLogger().e(t.getMessage());
                 callback.Falure(t.getMessage());
             }
         });
@@ -85,6 +88,8 @@ public class ContentModel
 
     public void getThing(final String url, final IGetThingCallback callback)
     {
+        //new Picasso.Builder()
+        //Picasso.with(app.getContext()).load("").into();
         Call<ThingItem> call = mApiServer.getThing(url);
         mCall = call;
         call.enqueue(new Callback<ThingItem>()
@@ -99,6 +104,8 @@ public class ContentModel
             public void onFailure(Call<ThingItem> call, Throwable t)
             {
                 callback.Falure(t.getMessage());
+                MLog.getLogger().e(t.getMessage());
+
             }
         });
     }

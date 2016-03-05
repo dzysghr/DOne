@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
+import com.dzy.done.util.NetworkUtils;
 import com.dzy.done.view.activity.ArticleActiviry;
 import com.dzy.done.view.activity.MainActivity;
 import com.dzy.done.view.activity.PictureActivity;
 import com.dzy.done.view.activity.ThingActivity;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -72,7 +74,17 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
         holder.setContent(item);
 
         if (item.getType() == 2 || item.getType() == 3)
-            Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
+        {
+            if (NetworkUtils.isNetworkConnected())
+            {
+                Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
+            }
+            else
+            {
+                Picasso.with(mContext).load(item.getImg()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.img);
+            }
+        }
+
     }
 
 

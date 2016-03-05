@@ -3,11 +3,12 @@ package com.dzy.done.config;
 import android.app.Application;
 import android.content.Context;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.Volley;
 import com.dzy.done.Api.ApiServer;
 
+import java.io.File;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -18,7 +19,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class app extends Application
 {
 
-    public static RequestQueue mQueue = null;
     public static Context mContext;
     public static ApiServer mApi;
 
@@ -27,22 +27,29 @@ public class app extends Application
     {
         super.onCreate();
         mContext = this;
-        mQueue = Volley.newRequestQueue(this);
-        VolleyLog.DEBUG = true;
+
+
+        File file = new File(this.getCacheDir(),"okhttp");
+        OkHttpClient client =new OkHttpClient
+                .Builder()
+                .addNetworkInterceptor(new MInterceptor())
+                .cache(new Cache(file, 1024 * 1024 * 100)).build();
+
+        //client.interceptors().add(LoggingInterceptor);
+        //client.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+        //client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
 
         Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
                 //.baseUrl("http://dzyone.applinzi.com")
                 .baseUrl("http://192.168.199.234")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         mApi = retrofit.create(ApiServer.class);
+
     }
 
-    public static RequestQueue getRequestQueue()
-    {
-        return mQueue;
-    }
 
     public static Context getContext()
     {
@@ -52,16 +59,6 @@ public class app extends Application
 
     public static ApiServer getApiServer()
     {
-        if (mApi == null)
-        {
-            Retrofit retrofit = new Retrofit.Builder()
-                    //.baseUrl("http://dzyone.applinzi.com")
-                    .baseUrl("http://192.168.199.234")
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(JacksonConverterFactory.create())
-                    .build();
-            mApi = retrofit.create(ApiServer.class);
-        }
         return mApi;
     }
 }

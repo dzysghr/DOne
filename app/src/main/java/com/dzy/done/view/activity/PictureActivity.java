@@ -39,7 +39,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
 
 
     String mImgurl;
-
+    boolean mIsFinish = false;
 
 
     @Override
@@ -55,27 +55,30 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
 
         //解析图片主题色
         Bitmap bitmap = intent.getParcelableExtra("bitmap");
-        if (bitmap != null) {
+        if (bitmap != null)
+        {
             mIv.setImageBitmap(bitmap);
             Palette p = Palette.from(bitmap).generate();
-                        Palette.Swatch swatch = p.getVibrantSwatch();
-                        if (swatch == null) {
-                            swatch = p.getMutedSwatch();
-                        }
-                        if (swatch != null) {
-                            mToolbar.setTitleTextColor(swatch.getTitleTextColor());
-                            mToolbar.setBackgroundColor(swatch.getRgb());
-                            if (android.os.Build.VERSION.SDK_INT >= 21) {
-                                Window window = getWindow();
-                                window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                                window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                            }
-                        }
-                    }
+            Palette.Swatch swatch = p.getVibrantSwatch();
+            if (swatch == null)
+            {
+                swatch = p.getMutedSwatch();
+            }
+            if (swatch != null)
+            {
+                mToolbar.setTitleTextColor(swatch.getTitleTextColor());
+                mToolbar.setBackgroundColor(swatch.getRgb());
+                if (android.os.Build.VERSION.SDK_INT >= 21)
+                {
+                    Window window = getWindow();
+                    window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                }
+            }
+        }
         //设置作者等信息
         mTvNum.setText(intent.getStringExtra("num"));
         mTvAuthor.setText(intent.getStringExtra("author"));
-
 
 
         WindowManager wm = this.getWindowManager();
@@ -85,7 +88,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         //设置actionbar
 
         setSupportActionBar(mToolbar);
-        assert getSupportActionBar()!=null;
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //加载大图和图片信息
@@ -94,18 +97,21 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
 
 
     @Override
-    protected void onStop()
+    protected void onDestroy()
     {
-        super.onStop();
+        super.onDestroy();
         Picasso.with(this).cancelRequest(mIv);
         ContentModel.get().cancel();
     }
 
-
     @OnClick(R.id.iv)
     public void ImageOnClick()
     {
-        if (mIv.getDrawable() != null) {
+        if (!mIsFinish)
+            return;
+
+        if (mIv.getDrawable() != null)
+        {
             Intent intent = new Intent(this, PhotoViewerActivity.class);
             intent.putExtra("url", mImgurl);
             startActivity(intent);
@@ -123,6 +129,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     @Override
     public void Finish(PictureItem item)
     {
+        mIsFinish = true;
         MLog.getLogger().d("load image " + item.getImg());
         Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv);
 
