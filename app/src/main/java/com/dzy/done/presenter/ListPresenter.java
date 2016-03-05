@@ -19,46 +19,42 @@ public class ListPresenter
 
     IViewPager mPager;
     IListModel mModel;
-
-
     int mType;
+
     ModelCallback mCallback = new ModelCallback() {
         @Override
         public void onFinish(List<ListItem> items) {
 
-            mPager.loadData(items);
+            mPager.showDatas(items);
             mPager.hideProgress();
             Log.i("tag", "presenter onFinish    items:"+items.size()+"");
         }
 
         @Override
         public void OnFalure(String msg) {
-            Log.i("tag","onFalure    "+msg);
+            Log.e("tag","onFalure    "+msg);
             mPager.failload();
         }
     };
-
 
     public ListPresenter(IViewPager pager, int type)
     {
         mPager =pager;
         mType = type;
         mModel = new ListModelimpl(mType,mCallback);
-
     }
 
 
+    /** 加载数据
+     * @param page 页数
+     */
     public void LoadDatas(int page)
     {
         Log.i("tag", "Contentpresenter check network");
          mPager.showProgress();
+         //检查网络
          if (NetworkUtils.isNetworkConnected()) {
-             Log.i("tag", "Load by network");
-             mModel.LoadDatasFromNetWork(page);
-         }
-         else {
-             mModel.LoadDatasFromCache(page);
-             Log.i("tag", "Load by cache");
+            mModel.LoadDatas(page);
          }
     }
 }

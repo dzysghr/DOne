@@ -1,9 +1,9 @@
 package com.dzy.done.config;
 
 
-
-
-
+/**
+ *  过期
+ */
 public class OneApi
 {
 	public static String One ="http://www.wufafuwu.com";
@@ -33,4 +33,9 @@ public class OneApi
 
     public static String Article= "http://dzyone.applinzi.com/article.php";
 
+
+    public static String getArticleRequestString(String url)
+    {
+        return Article + "?url=" + url;
+    }
 }

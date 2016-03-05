@@ -32,7 +32,6 @@ public class NetworkUtils {
         return false;
     }
 
-
     /**
      *是否连上wifi
      * @param context

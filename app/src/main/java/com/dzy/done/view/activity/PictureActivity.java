@@ -74,27 +74,31 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
                     }
         //设置作者等信息
         mTvNum.setText(intent.getStringExtra("num"));
-        String[] strs = intent.getStringExtra("author").split("&");
-        if (strs.length > 1) {
-            mToolbar.setTitle(strs[0]);
-            mTvAuthor.setText(strs[1].replace("amp;", ""));
-        } else {
-            mTvAuthor.setText(intent.getStringExtra("author"));
-        }
+        mTvAuthor.setText(intent.getStringExtra("author"));
+
 
 
         WindowManager wm = this.getWindowManager();
-
-
         int height = wm.getDefaultDisplay().getHeight();
         mIv.getLayoutParams().height = height / 2;
 
         //设置actionbar
+
         setSupportActionBar(mToolbar);
+        assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //加载大图和图片信息
         ContentModel.get().getPicture(url, this);
+    }
+
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        Picasso.with(this).cancelRequest(mIv);
+        ContentModel.get().cancel();
     }
 
 

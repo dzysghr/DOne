@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IViewPager {
 
-    void loadData(List<ListItem> dailies);
+    void showDatas(List<ListItem> dailies);
 
     void showProgress();
 

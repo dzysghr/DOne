@@ -10,7 +10,7 @@ import com.dzy.done.view.fregment.ContentListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/** 主界面PageView 的adapter
  * Created by dzysg on 2015/10/9 0009.
  */
 public class MainPageAdapter extends FragmentPagerAdapter {
@@ -21,7 +21,7 @@ public class MainPageAdapter extends FragmentPagerAdapter {
 
     public MainPageAdapter(FragmentManager fm) {
         super(fm);
-        mFragments = new ArrayList<Fragment>();
+        mFragments = new ArrayList<>();
 
         mFragments.add(ContentListFragment.newInstance(1));
         mFragments.add(ContentListFragment.newInstance(2));

@@ -5,7 +5,7 @@ public class PictureItem
 	private String img;
 	private String day;
 	private String year;
-	private String Content;
+	private String content;
 	private String num;
 	private String author;
 	
@@ -41,12 +41,12 @@ public class PictureItem
 
 	public String getContent()
 	{
-		return Content;
+		return content;
 	}
 
 	public void setContent(String content)
 	{
-		Content = content;
+		this.content = content;
 	}
 
 	public String getNum()

@@ -20,8 +20,6 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-   // @Bind(R.id.tv_content)
-    //TextView mContent;
 
     @Bind(R.id.tv_date)
     TextView mDate;
@@ -40,23 +38,18 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
 
         Intent intent = getIntent();
 
-
-
-
+        //设置标题、日期
         String title = intent.getStringExtra("title");
         mUrl = intent.getStringExtra("url");
         mTitle.setText(title);
         mDate.setText(intent.getStringExtra("date"));
 
-
-
-
+        //设置toolbar
         setSupportActionBar(mToolbar);
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ContentModel.get().getArticle(mUrl, this);
-
-
     }
 
 
@@ -78,7 +71,8 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
     {
         //mContent.setText(content);
         MLog.getLogger().d(content);
-        mWebView.getSettings().setDefaultTextEncodingName("GBK");
+        mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+        mWebView.getSettings().setTextZoom(120);
         mWebView.loadData(content, "text/html;charset=UTF-8",null);
 
     }

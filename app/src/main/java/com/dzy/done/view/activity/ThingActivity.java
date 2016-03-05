@@ -90,9 +90,10 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
                 }
             }
         }
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        mPb.setVisibility(View.VISIBLE);
         ContentModel.get().getThing(url,this);
     }
 
@@ -102,6 +103,7 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     {
         super.onStop();
         Picasso.with(this).cancelRequest(mIv);
+        ContentModel.get().cancel();
     }
 
     @Override
@@ -114,12 +116,11 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     @Override
     public void Finish(ThingItem item)
     {
-        mPb.setVisibility(View.VISIBLE);
         if (item==null)
             MLog.getLogger().d("thing item is null");
         else {
-            MLog.getLogger().d("load Thing image " + item.getSrc());
-            Picasso.with(this).load(item.getSrc()).fit().noPlaceholder().into(mIv, new Callback() {
+            MLog.getLogger().d("load Thing image " + item.getImg());
+            Picasso.with(this).load(item.getImg()).fit().noPlaceholder().into(mIv, new Callback() {
                 @Override
                 public void onSuccess()
                 {
@@ -132,6 +133,7 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
                     mPb.setVisibility(View.GONE);
                 }
             });
+
             if (TextUtils.isEmpty(item.getName()))
                 mTvTitle.setVisibility(View.GONE);
             else
@@ -146,4 +148,5 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         mPb.setVisibility(View.GONE);
         Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT).show();
     }
+
 }

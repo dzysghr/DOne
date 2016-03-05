@@ -95,9 +95,9 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
         });
 
         mPresenter = new ListPresenter(this, mType);
+        //加载第一页
         mPresenter.LoadDatas(1);
         Log.i("tag", "mPresenter loaddatas");
-
         return view;
     }
 
@@ -113,7 +113,7 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
 
 
     @Override
-    public void loadData(List<ListItem> datas)
+    public void showDatas(List<ListItem> datas)
     {
         if (mPageCount == 1)
             mDatas.clear();

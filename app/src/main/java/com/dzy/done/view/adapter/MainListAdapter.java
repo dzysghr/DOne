@@ -1,11 +1,12 @@
 package com.dzy.done.view.adapter;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,8 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
         ListItem item = mDatas.get(position);
         holder.setContent(item);
 
-        if (item.getTYPE() == 2 || item.getTYPE() == 3)
+        if (item.getType() == 2 || item.getType() == 3)
             Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
-
     }
 
 
@@ -106,7 +106,9 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
         @OnClick(R.id.item_parent)
         public void onClick(View v)
         {
-            if (mItem.getTYPE() == ListItem.ARTICLE) {
+
+            //如果是文章
+            if (mItem.getType() == ListItem.ARTICLE) {
                 Intent intent = new Intent(mContext, ArticleActiviry.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("title", mItem.getTitle());
@@ -114,7 +116,9 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
                 mContext.startActivity(intent);
 
-            } else if (mItem.getTYPE() == ListItem.PICTURE) {
+            }
+            //如果是图片
+            else if (mItem.getType() == ListItem.PICTURE) {
                 Intent intent = new Intent(mContext, PictureActivity.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("num", mItem.getTitle().split(" ", 2)[0]);
@@ -125,14 +129,16 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
                 intent.putExtra("author", mItem.getTitle().split(" ", 2)[1]);
 
                 if (Build.VERSION.SDK_INT >= 21) {
+                    ViewCompat.setTransitionName(img,mItem.getUrl());
 
-                    img.setTransitionName(mItem.getUrl());
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((MainActivity) (mContext),img, mItem.getUrl());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
                     mContext.startActivity(intent, options.toBundle());
                 } else {
                     mContext.startActivity(intent);
                 }
-            } else if (mItem.getTYPE() == ListItem.THING) {
+            }
+            //如果是 东西
+            else if (mItem.getType() == ListItem.THING) {
                 Intent intent = new Intent(mContext, ThingActivity.class);
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("url", mItem.getUrl());
@@ -141,10 +147,10 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
                     intent.putExtra("bitmap", bitmap);
                 }
 
-                if (Build.VERSION.SDK_INT >= 21) {
+                if (Build.VERSION.SDK_INT >= 16) {
+                    ViewCompat.setTransitionName(img,mItem.getUrl());
 
-                    img.setTransitionName(mItem.getUrl());
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
                     mContext.startActivity(intent, options.toBundle());
                 } else {
                     mContext.startActivity(intent);

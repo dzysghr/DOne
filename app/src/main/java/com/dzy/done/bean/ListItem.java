@@ -6,28 +6,29 @@ public class ListItem
     public static int ARTICLE = 1;
     public static int THING = 3;
 
-	private String Title;
-	private String Content;
+
+	private String title;
+	private String content;
 	private String url;
-	private String Date;
+	private String date;
 	private String img;
-	private int TYPE = 1;
+	private int type = 1;
 
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 	public String getContent() {
-		return Content;
+		return content;
 	}
 
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 
 	public String getUrl() {
@@ -39,11 +40,11 @@ public class ListItem
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 
 	public String getImg() {
@@ -54,12 +55,12 @@ public class ListItem
 		this.img = img;
 	}
 
-	public int getTYPE() {
-		return TYPE;
+	public int getType() {
+		return type;
 	}
 
-	public void setTYPE(int TYPE) {
-		this.TYPE = TYPE;
+	public void setType(int type) {
+		this.type = type;
 	}
 
 

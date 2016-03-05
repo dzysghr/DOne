@@ -2,7 +2,11 @@ package com.dzy.done.bean;
 
 public class ThingItem
 {
+
 	private String name;
+	private String img;
+	private String content;
+
 	public String getName()
 	{
 		return name;
@@ -11,13 +15,13 @@ public class ThingItem
 	{
 		this.name = name;
 	}
-	public String getSrc()
+	public String getImg()
 	{
-		return src;
+		return img;
 	}
-	public void setSrc(String src)
+	public void setImg(String img)
 	{
-		this.src = src;
+		this.img = img;
 	}
 	public String getContent()
 	{
@@ -27,6 +31,14 @@ public class ThingItem
 	{
 		this.content = content;
 	}
-	private String src;
-	private String content;
+
+    @Override
+    public String toString()
+    {
+        return "ThingItem{" +
+                "name='" + name + '\'' +
+                ", img='" + img + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
