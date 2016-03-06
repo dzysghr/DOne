@@ -3,6 +3,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="clearCache">"清理缓存"</string>
+    <string name="clearSucceed">"清理完成"</string>
+    <string name="ExitTips">"再按一次退出"</string>
 </resources>

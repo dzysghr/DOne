@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.asynctask.ClearCacheTask;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.view.adapter.MainPageAdapter;
 import com.dzy.done.view.fregment.ContentListFragment;
@@ -54,9 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         mTabs.setupWithViewPager(mViewPager);
         mTabs.setTabsFromPagerAdapter(mAdapter);
-
-        
-        mToast = Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,16 +82,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id==R.id.clearCache)
+        {
+            new ClearCacheTask().execute();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

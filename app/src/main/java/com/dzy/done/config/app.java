@@ -14,6 +14,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
+ *
  * Created by dzysg on 2015/10/9 0009.
  */
 public class app extends Application
@@ -49,7 +50,6 @@ public class app extends Application
         mApi = retrofit.create(ApiServer.class);
 
     }
-
 
     public static Context getContext()
     {
