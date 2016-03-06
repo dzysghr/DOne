@@ -81,6 +81,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
             }
             else
             {
+
                 Picasso.with(mContext).load(item.getImg()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.img);
             }
         }

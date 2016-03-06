@@ -19,6 +19,7 @@ import com.dzy.done.view.fregment.ContentListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setupView();
 
+
     }
 
     public void setupView() {
@@ -52,20 +54,18 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new MainPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(PageConfig.titles.length);
-
         mTabs.setupWithViewPager(mViewPager);
         mTabs.setTabsFromPagerAdapter(mAdapter);
         mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             ContentListFragment fregment = (ContentListFragment) mAdapter.getItem(mTabs.getSelectedTabPosition());
-                fregment.scrollToTop();
-            }
-        });
     }
 
+    @OnClick(R.id.fab)
+    public void onFabClick(View v)
+    {
+        ContentListFragment fregment = (ContentListFragment) mAdapter.getItem(mTabs.getSelectedTabPosition());
+        fregment.scrollToTop();
+    }
     @Override
     public void onBackPressed() {
          if (mToast.getView().getParent() == null)

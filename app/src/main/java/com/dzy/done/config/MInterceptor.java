@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- *
+ * okhttp拦截器
  * Created by dzysg on 2016/3/5 0005.
  */
 public class MInterceptor implements Interceptor
@@ -26,6 +26,7 @@ public class MInterceptor implements Interceptor
                     .build();
             MLog.getLogger().d("no network");
         }
+
         Response originalResponse = chain.proceed(request);
         if(NetworkUtils.isNetworkConnected()){
             //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置

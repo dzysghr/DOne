@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.dzy.done.Api.ApiServer;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -29,16 +30,14 @@ public class app extends Application
         super.onCreate();
         mContext = this;
 
-
         File file = new File(this.getCacheDir(),"okhttp");
         OkHttpClient client =new OkHttpClient
                 .Builder()
                 .addNetworkInterceptor(new MInterceptor())
                 .cache(new Cache(file, 1024 * 1024 * 100)).build();
 
-        //client.interceptors().add(LoggingInterceptor);
-        //client.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
-        //client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+        Picasso picasso = new Picasso.Builder(this).downloader(new OkHttpDownLoader(client)).build();
+        Picasso.setSingletonInstance(picasso);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
