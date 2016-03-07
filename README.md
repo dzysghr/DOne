@@ -3,6 +3,10 @@ One一个 第三方客户端，后台数据来自http://www.wufafuwu.com/
 
 ## 近期更新
 
+v1.3
+* 增加内存和本地缓存，picasso+okhttp3
+* 增加清理缓存功能
+
 v1.2
  * 数据接口改为纯json后台，网络请求使用retrofit
  * 简化大量代码，暂时取消二级缓存
