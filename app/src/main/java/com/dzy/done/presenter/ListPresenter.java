@@ -3,6 +3,7 @@ package com.dzy.done.presenter;
 import android.util.Log;
 
 import com.dzy.done.bean.ListItem;
+import com.dzy.done.config.app;
 import com.dzy.done.model.IListModel;
 import com.dzy.done.model.ListModelimpl;
 import com.dzy.done.model.ModelCallback;
@@ -10,6 +11,7 @@ import com.dzy.done.model.ModelCallback;
 import java.util.List;
 
 /**
+ *
  * Created by dzysg on 2015/10/9 0009.
  */
 public class ListPresenter
@@ -19,7 +21,7 @@ public class ListPresenter
     IListModel mModel;
     int mType;
 
-    ModelCallback mCallback = new ModelCallback()
+    private ModelCallback mCallback = new ModelCallback()
     {
         @Override
         public void onFinish(List<ListItem> items)
@@ -42,7 +44,7 @@ public class ListPresenter
     {
         mPager = pager;
         mType = type;
-        mModel = new ListModelimpl(mType, mCallback);
+        mModel = new ListModelimpl(mType, mCallback, app.getApiServer());
     }
 
 
@@ -53,7 +55,6 @@ public class ListPresenter
      */
     public void LoadDatas(int page)
     {
-
         mPager.showProgress();
         mModel.LoadDatas(page);
     }

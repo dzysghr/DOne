@@ -3,7 +3,9 @@ package com.dzy.done.config;
 import android.app.Application;
 import android.content.Context;
 
-import com.dzy.done.Api.ApiServer;
+import com.dzy.done.network.ApiServer;
+import com.dzy.done.network.MInterceptor;
+import com.dzy.done.network.OkHttpDownLoader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -36,8 +38,12 @@ public class app extends Application
                 .addNetworkInterceptor(new MInterceptor())
                 .cache(new Cache(file, 1024 * 1024 * 100)).build();
 
-        Picasso picasso = new Picasso.Builder(this).downloader(new OkHttpDownLoader(client)).build();
+        Picasso picasso = new Picasso.Builder(this)
+                .downloader(new OkHttpDownLoader(client))
+                .build();
         Picasso.setSingletonInstance(picasso);
+
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)

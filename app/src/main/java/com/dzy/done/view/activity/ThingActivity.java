@@ -28,6 +28,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 
 public class ThingActivity extends AppCompatActivity implements ContentModel.IGetThingCallback
@@ -41,6 +42,9 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     TextView mTvTitle;
     @Bind(R.id.tv_content)
     TextView mTvContent;
+
+    @BindString(R.string.FailLoad)
+    String mTips;
 
     @Bind(R.id.pb)
     ProgressBar mPb;
@@ -92,6 +96,7 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         }
 
         setSupportActionBar(mToolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPb.setVisibility(View.VISIBLE);
         ContentModel.get().getThing(url,this);
@@ -119,8 +124,16 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         if (item==null)
             MLog.getLogger().d("thing item is null");
         else {
+
+            if (TextUtils.isEmpty(item.getName()))
+                mTvTitle.setVisibility(View.GONE);
+            else
+                mTvTitle.setText(item.getName());
+            mTvContent.setText(item.getContent());
+
             MLog.getLogger().d("load Thing image " + item.getImg());
-            Picasso.with(this).load(item.getImg()).fit().noPlaceholder().into(mIv, new Callback() {
+            Picasso.with(this).load(item.getImg()).fit().noPlaceholder().into(mIv, new Callback()
+            {
                 @Override
                 public void onSuccess()
                 {
@@ -133,12 +146,6 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
                     mPb.setVisibility(View.GONE);
                 }
             });
-
-            if (TextUtils.isEmpty(item.getName()))
-                mTvTitle.setVisibility(View.GONE);
-            else
-                mTvTitle.setText(item.getName());
-            mTvContent.setText(item.getContent());
         }
     }
 
@@ -146,7 +153,7 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     public void Falure(String msg)
     {
         mPb.setVisibility(View.GONE);
-        Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,mTips, Toast.LENGTH_SHORT).show();
     }
 
 }

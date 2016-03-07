@@ -74,7 +74,6 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         mWebView.getSettings().setTextZoom(120);
         mWebView.loadData(content, "text/html;charset=UTF-8",null);
-
     }
 
 

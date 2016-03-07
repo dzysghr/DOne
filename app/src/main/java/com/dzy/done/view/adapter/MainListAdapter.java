@@ -16,12 +16,10 @@ import android.widget.TextView;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.util.NetworkUtils;
 import com.dzy.done.view.activity.ArticleActiviry;
 import com.dzy.done.view.activity.MainActivity;
 import com.dzy.done.view.activity.PictureActivity;
 import com.dzy.done.view.activity.ThingActivity;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -75,17 +73,8 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
         if (item.getType() == 2 || item.getType() == 3)
         {
-            if (NetworkUtils.isNetworkConnected())
-            {
-                Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
-            }
-            else
-            {
-
-                Picasso.with(mContext).load(item.getImg()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.img);
-            }
+            Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
         }
-
     }
 
 
@@ -95,7 +84,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
         @Bind(R.id.tv_date) TextView mdate;
         @Bind(R.id.tv_content) TextView mContent;
         @Bind(R.id.img) public ImageView img;
-
 
         Context mContext;
         ListItem mItem;
@@ -162,7 +150,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
                 if (Build.VERSION.SDK_INT >= 16) {
                     ViewCompat.setTransitionName(img,mItem.getUrl());
-
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
                     mContext.startActivity(intent, options.toBundle());
                 } else {

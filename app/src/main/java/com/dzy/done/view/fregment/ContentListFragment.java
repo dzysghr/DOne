@@ -111,7 +111,6 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
         return new ContentListFragment(type);
     }
 
-
     @Override
     public void showDatas(List<ListItem> datas)
     {
@@ -142,8 +141,6 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
         mSwipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
     }
-
-
     @Override
     public void onRefresh()
     {

@@ -1,8 +1,7 @@
 package com.dzy.done.model;
 
-import com.dzy.done.Api.ApiServer;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.config.app;
+import com.dzy.done.network.ApiServer;
 
 import java.util.List;
 
@@ -22,11 +21,11 @@ public class ListModelimpl implements IListModel
     private ApiServer mApiServer;
 
 
-    public ListModelimpl(int type, ModelCallback callback)
+    public ListModelimpl(int type,ModelCallback callback,ApiServer api)
     {
         mType = type;
         mCallback = callback;
-        mApiServer = app.getApiServer();
+        mApiServer = api;
     }
 
     @Override

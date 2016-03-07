@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
         setupView();
 
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         mTabs.setupWithViewPager(mViewPager);
         mTabs.setTabsFromPagerAdapter(mAdapter);
         mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
-
     }
 
     @OnClick(R.id.fab)

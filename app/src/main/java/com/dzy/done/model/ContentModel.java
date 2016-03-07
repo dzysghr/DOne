@@ -2,12 +2,11 @@ package com.dzy.done.model;
 
 import android.support.v4.util.LruCache;
 
-import com.dzy.done.Api.ApiServer;
+import com.dzy.done.network.ApiServer;
 import com.dzy.done.bean.PictureItem;
 import com.dzy.done.bean.ThingItem;
 import com.dzy.done.config.app;
 import com.dzy.done.util.MLog;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +45,14 @@ public class ContentModel
 
     public void getArticle(final String url, final IGetArticleCallback callback)
     {
+        String cache = mArticleCache.get(url);
+        if (cache!=null)
+        {
+            callback.Finish(cache);
+            return;
+        }
+
+
         Call<String> call = mApiServer.getArticle(url);
         mCall = call;
         call.enqueue(new Callback<String>()
@@ -53,13 +60,17 @@ public class ContentModel
             @Override
             public void onResponse(Call<String> call, Response<String> response)
             {
+                mArticleCache.put(url, response.body());
                 callback.Finish(response.body());
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t)
             {
-                callback.Falure(t.getMessage());
+                if (!call.isCanceled())
+                {
+                    callback.Falure(t.getMessage());
+                }
                 MLog.getLogger().e(t.getMessage());
             }
         });
@@ -67,6 +78,14 @@ public class ContentModel
 
     public void getPicture(final String url, final IGetPictureCallback callback)
     {
+        PictureItem cache = mPictureCache.get(url);
+        if (cache!=null)
+        {
+            callback.Finish(cache);
+            return;
+        }
+
+
         Call<PictureItem> call = mApiServer.getPicture(url);
         mCall = call;
         call.enqueue(new Callback<PictureItem>()
@@ -74,22 +93,32 @@ public class ContentModel
             @Override
             public void onResponse(Call<PictureItem> call, Response<PictureItem> response)
             {
+                mPictureCache.put(url, response.body());
                 callback.Finish(response.body());
             }
 
             @Override
             public void onFailure(Call<PictureItem> call, Throwable t)
             {
+                if (!call.isCanceled())
+                {
+                    callback.Falure(t.getMessage());
+                }
                 MLog.getLogger().e(t.getMessage());
-                callback.Falure(t.getMessage());
             }
         });
     }
 
     public void getThing(final String url, final IGetThingCallback callback)
     {
-        //new Picasso.Builder()
-        //Picasso.with(app.getContext()).load("").into();
+
+        ThingItem cache = mThingCache.get(url);
+        if (cache!=null)
+        {
+            callback.Finish(cache);
+            return;
+        }
+
         Call<ThingItem> call = mApiServer.getThing(url);
         mCall = call;
         call.enqueue(new Callback<ThingItem>()
@@ -97,13 +126,17 @@ public class ContentModel
             @Override
             public void onResponse(Call<ThingItem> call, Response<ThingItem> response)
             {
+                mThingCache.put(url, response.body());
                 callback.Finish(response.body());
             }
 
             @Override
             public void onFailure(Call<ThingItem> call, Throwable t)
             {
-                callback.Falure(t.getMessage());
+                if (!call.isCanceled())
+                {
+                    callback.Falure(t.getMessage());
+                }
                 MLog.getLogger().e(t.getMessage());
 
             }

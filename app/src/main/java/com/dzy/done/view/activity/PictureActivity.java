@@ -76,6 +76,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
                 }
             }
         }
+
         //设置作者等信息
         mTvNum.setText(intent.getStringExtra("num"));
         mTvAuthor.setText(intent.getStringExtra("author"));

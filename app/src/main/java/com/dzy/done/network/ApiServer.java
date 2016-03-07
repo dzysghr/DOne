@@ -1,4 +1,4 @@
-package com.dzy.done.Api;
+package com.dzy.done.network;
 
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
@@ -12,7 +12,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 /**
- * 后台接口，json
+ * 后台接口，json,列表一个小时过期，详情一个月过期
  * Created by dzysg on 2016/3/4 0004.
  */
 public interface ApiServer
@@ -22,7 +22,7 @@ public interface ApiServer
     @GET("/articlelist.php")
     Call<List<ListItem>> getArticles(@Query("page") int page);
 
-    @Headers("Cache-Control: public, max-age=3600")
+    @Headers("Cache-Control: public, max-age=2678400")
     @GET("/article.php")
     Call<String> getArticle(@Query("url") String url);
 
@@ -31,7 +31,7 @@ public interface ApiServer
     Call<List<ListItem>> getThings(@Query("page") int page);
 
 
-    @Headers("Cache-Control: public, max-age=3600")
+    @Headers("Cache-Control: public, max-age=2678400")
     @GET("/thing.php")
     Call<ThingItem> getThing(@Query("url") String url);
 
@@ -39,7 +39,7 @@ public interface ApiServer
     @GET("/picturelist.php")
     Call<List<ListItem>> getPictures(@Query("page") int page);
 
-    @Headers("Cache-Control: public, max-age=3600")
+    @Headers("Cache-Control: public, max-age=2678400")
     @GET("/picture.php")
     Call<PictureItem> getPicture(@Query("url") String url);
 
