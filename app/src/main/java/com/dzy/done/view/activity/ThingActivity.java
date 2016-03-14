@@ -2,7 +2,6 @@ package com.dzy.done.view.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -13,7 +12,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,10 +58,6 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         mPb .getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
 
 
-        WindowManager wm = this.getWindowManager();
-        Point point = new Point();
-        wm.getDefaultDisplay().getSize(point);
-        mIv.getLayoutParams().height = point.y/2;
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");

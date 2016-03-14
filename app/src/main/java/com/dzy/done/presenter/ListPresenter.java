@@ -1,61 +1,11 @@
 package com.dzy.done.presenter;
 
-import android.util.Log;
-
-import com.dzy.done.bean.ListItem;
-import com.dzy.done.config.app;
-import com.dzy.done.model.IListModel;
-import com.dzy.done.model.ListModelimpl;
-import com.dzy.done.model.ModelCallback;
-
-import java.util.List;
-
 /**
  *
- * Created by dzysg on 2015/10/9 0009.
+ * Created by dzysg on 2016/3/10 0010.
  */
-public class ListPresenter
+public interface ListPresenter
 {
+    void LoadListDates(int page);
 
-    IViewPager mPager;
-    IListModel mModel;
-    int mType;
-
-    private ModelCallback mCallback = new ModelCallback()
-    {
-        @Override
-        public void onFinish(List<ListItem> items)
-        {
-
-            mPager.showDatas(items);
-            mPager.hideProgress();
-            Log.i("tag", "presenter onFinish    items:" + items.size() + "");
-        }
-
-        @Override
-        public void OnFalure(String msg)
-        {
-            Log.e("tag", "onFalure    " + msg);
-            mPager.failload();
-        }
-    };
-
-    public ListPresenter(IViewPager pager, int type)
-    {
-        mPager = pager;
-        mType = type;
-        mModel = new ListModelimpl(mType, mCallback, app.getApiServer());
-    }
-
-
-    /**
-     * 加载数据
-     *
-     * @param page 页数
-     */
-    public void LoadDatas(int page)
-    {
-        mPager.showProgress();
-        mModel.LoadDatas(page);
-    }
 }

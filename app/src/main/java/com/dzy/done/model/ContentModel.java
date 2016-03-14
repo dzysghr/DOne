@@ -85,7 +85,6 @@ public class ContentModel
             return;
         }
 
-
         Call<PictureItem> call = mApiServer.getPicture(url);
         mCall = call;
         call.enqueue(new Callback<PictureItem>()

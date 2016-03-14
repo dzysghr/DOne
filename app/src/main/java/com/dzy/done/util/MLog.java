@@ -1,5 +1,6 @@
 package com.dzy.done.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -9,7 +10,6 @@ import android.util.Log;
 public class MLog
 {
     static private MLog mMLog = null;
-
 
     public void setTag(String tag)
     {
@@ -28,16 +28,22 @@ public class MLog
 
     public void d(String m)
     {
+        if (m==null|| TextUtils.isEmpty(m))
+            return;
         Log.d(tag, m);
     }
 
     public void i(String m)
     {
+        if (m==null|| TextUtils.isEmpty(m))
+            return;
         Log.i(tag, m);
     }
 
     public void e(String m)
     {
+        if (m==null|| TextUtils.isEmpty(m))
+            return;
         Log.e(tag, m);
     }
 }

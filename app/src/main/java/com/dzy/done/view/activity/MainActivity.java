@@ -1,5 +1,6 @@
 package com.dzy.done.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.asynctask.ClearCacheTask;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.view.adapter.MainPageAdapter;
 import com.dzy.done.view.fregment.ContentListFragment;
@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setupView();
-
-
     }
 
     public void setupView() {
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(PageConfig.titles.length);
         mTabs.setupWithViewPager(mViewPager);
-        mTabs.setTabsFromPagerAdapter(mAdapter);
+        //mTabs.setTabsFromPagerAdapter(mAdapter);
         mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
     }
 
@@ -84,13 +82,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }else if (id==R.id.clearCache)
-        {
-            new ClearCacheTask().execute();
+            startActivity(new Intent(this,SettingActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

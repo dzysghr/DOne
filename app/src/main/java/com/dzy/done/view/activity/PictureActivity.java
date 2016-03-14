@@ -2,15 +2,17 @@ package com.dzy.done.view.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.dzy.done.bean.PictureItem;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -36,7 +39,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     @Bind(R.id.tv_content) TextView mTvContent;
     @Bind(R.id.tv_day) TextView mTvDay;
     @Bind(R.id.tv_mm_yy) TextView mTvMonth;
-
+    @Bind(R.id.pb) ProgressBar mPb;
 
     String mImgurl;
     boolean mIsFinish = false;
@@ -50,7 +53,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         ButterKnife.bind(this);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-
+        Log.d("tag",url);
         ViewCompat.setTransitionName(mIv, url);
 
         //解析图片主题色
@@ -80,21 +83,26 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         //设置作者等信息
         mTvNum.setText(intent.getStringExtra("num"));
         mTvAuthor.setText(intent.getStringExtra("author"));
-
-
-        WindowManager wm = this.getWindowManager();
-        int height = wm.getDefaultDisplay().getHeight();
-        mIv.getLayoutParams().height = height / 2;
+        
 
         //设置actionbar
-
         setSupportActionBar(mToolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        //设置progressbar颜色
+        mPb.bringToFront();
+        mPb .getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
+        mPb.setVisibility(View.VISIBLE);
+
+
         //加载大图和图片信息
         ContentModel.get().getPicture(url, this);
     }
+
+
+
 
 
     @Override
@@ -119,20 +127,29 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (item.getItemId() == android.R.id.home)
-            supportFinishAfterTransition();
-        return true;
-    }
+
+
 
     @Override
     public void Finish(PictureItem item)
     {
-        mIsFinish = true;
+
         MLog.getLogger().d("load image " + item.getImg());
-        Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv);
+        Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv, new Callback()
+        {
+            @Override
+            public void onSuccess()
+            {
+                mIsFinish = true;
+                mPb.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError()
+            {
+                mPb.setVisibility(View.GONE);
+            }
+        });
 
         mTvContent.setText(item.getContent());
         mTvDay.setText(item.getDay());

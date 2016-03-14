@@ -49,11 +49,10 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
     {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
 
-        //点击自定义的红色点击波浪反馈
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            view.setBackground(mContext.getResources().getDrawable(R.drawable.ripple, mContext.getTheme()));
-        }
-
+//        //点击自定义的红色点击波浪反馈
+//        if (android.os.Build.VERSION.SDK_INT >= 21) {
+//            view.setBackground(mContext.getResources().getDrawable(R.drawable.ripple, mContext.getTheme()));
+//        }
         return new MyHolder(view, mContext);
 
     }
@@ -70,8 +69,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
         ListItem item = mDatas.get(position);
         holder.setContent(item);
-
-        if (item.getType() == 2 || item.getType() == 3)
+        if (item.getType()>1)
         {
             Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
         }

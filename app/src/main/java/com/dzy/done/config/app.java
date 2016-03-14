@@ -32,6 +32,8 @@ public class app extends Application
         super.onCreate();
         mContext = this;
 
+        AppSetting.initSetting(this);
+
         File file = new File(this.getCacheDir(),"okhttp");
         OkHttpClient client =new OkHttpClient
                 .Builder()
@@ -47,8 +49,8 @@ public class app extends Application
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
-                //.baseUrl("http://dzyone.applinzi.com")
-                .baseUrl("http://192.168.199.234")
+                .baseUrl("http://dzyone.applinzi.com")
+                //.baseUrl("http://192.168.199.234")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();

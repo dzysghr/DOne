@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:summary="清理应用缓存(收藏除外)"
+        android:key="clearCache"
+        android:title="@string/clearCache"
+        />
+    <ListPreference
+        android:defaultValue="120"
+        android:dialogTitle="字体"
+        android:entries="@array/FontSize"
+        android:entryValues="@array/FontSizeValue"
+        android:key="FontSize"
+        android:title="文章字体大小"
+        />
+</PreferenceScreen>

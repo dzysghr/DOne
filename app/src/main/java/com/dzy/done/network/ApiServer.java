@@ -42,5 +42,4 @@ public interface ApiServer
     @Headers("Cache-Control: public, max-age=2678400")
     @GET("/picture.php")
     Call<PictureItem> getPicture(@Query("url") String url);
-
 }

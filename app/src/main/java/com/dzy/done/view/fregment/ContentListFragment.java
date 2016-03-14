@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.presenter.IViewPager;
-import com.dzy.done.presenter.ListPresenter;
+import com.dzy.done.presenter.ListPresenterimpl;
 import com.dzy.done.view.adapter.MainListAdapter;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
 
@@ -39,7 +39,7 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
 
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<>();
-    ListPresenter mPresenter;
+    ListPresenterimpl mPresenter;
     private MainListAdapter mAdapter;
     private int mPageCount = 1;
     private LinearLayoutManager mLayoutManager;
@@ -77,10 +77,11 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
                     else
                         mSwipeRefreshLayout.setEnabled(false);
 
+
                     //如果recycleview滑到底,加载很多数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
                         if (mRecyclerView.getChildCount() > 0) {
-                            mPresenter.LoadDatas(++mPageCount);
+                            mPresenter.LoadListDates(++mPageCount);
                             Log.i("tag", "load more");
                         }
                     }
@@ -94,9 +95,9 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
             }
         });
 
-        mPresenter = new ListPresenter(this, mType);
+        mPresenter = new ListPresenterimpl(this, mType);
         //加载第一页
-        mPresenter.LoadDatas(1);
+        mPresenter.LoadListDates(1);
         Log.i("tag", "mPresenter loaddatas");
         return view;
     }
@@ -145,7 +146,7 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
     public void onRefresh()
     {
         Log.i("tag", "on Refresh");
-        mPresenter.LoadDatas(1);
+        mPresenter.LoadListDates(1);
         mPageCount = 1;
     }
 
