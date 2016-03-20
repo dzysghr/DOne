@@ -17,11 +17,11 @@ public class ListModelimpl implements IListModel
 {
 
     int mType = 1;
-    ModelCallback mCallback;
+    ListModelCallback mCallback;
     private ApiServer mApiServer;
 
 
-    public ListModelimpl(int type,ModelCallback callback,ApiServer api)
+    public ListModelimpl(int type,ListModelCallback callback,ApiServer api)
     {
         mType = type;
         mCallback = callback;
@@ -33,11 +33,14 @@ public class ListModelimpl implements IListModel
     {
         Call<List<ListItem>> call;
         if (mType == ListItem.ARTICLE)
-            call = mApiServer.getArticles(page);
+            call = mApiServer.getArticleList(page);
         else if (mType == ListItem.PICTURE)
-            call = mApiServer.getPictures(page);
+            call = mApiServer.getPictureList(page);
+        else if(mType==ListItem.THING)
+            call = mApiServer.getThingList(page);
         else
-            call = mApiServer.getThings(page);
+            call = mApiServer.getQAList(page);
+
 
         call.enqueue(new Callback<List<ListItem>>()
         {

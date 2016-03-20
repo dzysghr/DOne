@@ -1,4 +1,4 @@
-package com.dzy.done.view.adapter;
+package com.dzy.done.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dzy.done.R;
+import com.dzy.done.activity.ArticleActivity;
+import com.dzy.done.activity.MainActivity;
+import com.dzy.done.activity.PictureActivity;
+import com.dzy.done.activity.QAActivity;
+import com.dzy.done.activity.ThingActivity;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.view.activity.ArticleActiviry;
-import com.dzy.done.view.activity.MainActivity;
-import com.dzy.done.view.activity.PictureActivity;
-import com.dzy.done.view.activity.ThingActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -108,11 +109,21 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
             //如果是文章
             if (mItem.getType() == ListItem.ARTICLE) {
-                Intent intent = new Intent(mContext, ArticleActiviry.class);
+                Intent intent = new Intent(mContext, ArticleActivity.class);
                 intent.putExtra("url", mItem.getUrl());
                 intent.putExtra("title", mItem.getTitle());
                 intent.putExtra("date", mItem.getDate());
 
+                mContext.startActivity(intent);
+
+            }
+            //问答
+            else if (mItem.getType() == ListItem.QA)
+            {
+                Intent intent = new Intent(mContext, QAActivity.class);
+                intent.putExtra("url", mItem.getUrl());
+                intent.putExtra("title", mItem.getTitle());
+                intent.putExtra("date", mItem.getDate());
                 mContext.startActivity(intent);
 
             }

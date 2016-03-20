@@ -1,4 +1,4 @@
-package com.dzy.done.view.activity;
+package com.dzy.done.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,19 +19,20 @@ import com.dzy.done.util.MLog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ArticleActiviry extends AppCompatActivity implements ContentModel.IGetArticleCallback{
+public abstract class WebViewActiviry extends AppCompatActivity implements ContentModel.IGetStringCallback
+{
 
     @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+    protected Toolbar mToolbar;
 
     @Bind(R.id.tv_date)
-    TextView mDate;
+    protected TextView mDate;
     @Bind(R.id.tv_title)
-    TextView mTitle;
+    protected TextView mTitle;
 
     @Bind(R.id.webview)
-    WebView mWebView;
-    String mUrl = "default url";
+    protected WebView mWebView;
+    protected String mUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +53,15 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ContentModel.get().getArticle(mUrl, this);
+        attachToModel();
     }
 
+    public abstract void attachToModel();
 
     @Override
     protected void onPause() {
         super.onPause();
     }
-
 
 
     @Override
@@ -79,11 +80,14 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
         mWebView.destroy();
+        ContentModel.get().cancel();
     }
 
     public void Finish(String content)
@@ -97,7 +101,7 @@ public class ArticleActiviry extends AppCompatActivity implements ContentModel.I
         mWebView.getSettings().setTextZoom(AppSetting.getSetting().getFontSize());
         mWebView.setBackgroundColor(Color.TRANSPARENT);
         mWebView.loadData(content, "text/html;charset=UTF-8", null);
-
+        //mWebView.loadData(content, "text/htmlK","GBK");
     }
 
 

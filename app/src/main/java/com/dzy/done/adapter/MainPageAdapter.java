@@ -1,11 +1,12 @@
-package com.dzy.done.view.adapter;
+package com.dzy.done.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.view.fregment.ContentListFragment;
+import com.dzy.done.fregment.ContentListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,11 @@ public class MainPageAdapter extends FragmentPagerAdapter {
         super(fm);
         mFragments = new ArrayList<>();
 
-        mFragments.add(ContentListFragment.newInstance(1));
-        mFragments.add(ContentListFragment.newInstance(2));
-        mFragments.add(ContentListFragment.newInstance(3));
 
+        mFragments.add(ContentListFragment.newInstance(ListItem.ARTICLE));
+        mFragments.add(ContentListFragment.newInstance(ListItem.PICTURE));
+        mFragments.add(ContentListFragment.newInstance(ListItem.THING));
+        mFragments.add(ContentListFragment.newInstance(ListItem.QA));
     }
 
     @Override

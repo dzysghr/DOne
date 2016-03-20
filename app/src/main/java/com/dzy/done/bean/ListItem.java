@@ -2,10 +2,10 @@ package com.dzy.done.bean;
 
 public class ListItem
 {
-	public static int PICTURE = 2;
-    public static int ARTICLE = 1;
-    public static int THING = 3;
-
+	public static int PICTURE = 2; //图片
+    public static int ARTICLE = 1; //文章
+    public static int THING = 3;  //东西
+	public static int QA = 4;  //问答
 
 	private String title;
 	private String content;

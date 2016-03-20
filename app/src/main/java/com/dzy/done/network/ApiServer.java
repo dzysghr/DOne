@@ -20,7 +20,7 @@ public interface ApiServer
 
     @Headers("Cache-Control: public, max-age=3600")
     @GET("/articlelist.php")
-    Call<List<ListItem>> getArticles(@Query("page") int page);
+    Call<List<ListItem>> getArticleList(@Query("page") int page);
 
     @Headers("Cache-Control: public, max-age=2678400")
     @GET("/article.php")
@@ -28,7 +28,7 @@ public interface ApiServer
 
     @Headers("Cache-Control: public, max-age=3600")
     @GET("/thinglist.php")
-    Call<List<ListItem>> getThings(@Query("page") int page);
+    Call<List<ListItem>> getThingList(@Query("page") int page);
 
 
     @Headers("Cache-Control: public, max-age=2678400")
@@ -37,9 +37,17 @@ public interface ApiServer
 
     @Headers("Cache-Control: public, max-age=3600")
     @GET("/picturelist.php")
-    Call<List<ListItem>> getPictures(@Query("page") int page);
+    Call<List<ListItem>> getPictureList(@Query("page") int page);
 
     @Headers("Cache-Control: public, max-age=2678400")
     @GET("/picture.php")
     Call<PictureItem> getPicture(@Query("url") String url);
+
+    @Headers("Cache-Control: public, max-age=3600")
+    @GET("/QAlist.php")
+    Call<List<ListItem>> getQAList(@Query("page") int page);
+
+    @Headers("Cache-Control: public, max-age=2678400")
+    @GET("/QA.php")
+    Call<String> getQA(@Query("url") String url);
 }

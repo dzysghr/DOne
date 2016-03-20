@@ -1,4 +1,4 @@
-package com.dzy.done.view.activity;
+package com.dzy.done.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.dzy.done.R;
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.view.adapter.MainPageAdapter;
-import com.dzy.done.view.fregment.ContentListFragment;
+import com.dzy.done.adapter.MainPageAdapter;
+import com.dzy.done.fregment.ContentListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

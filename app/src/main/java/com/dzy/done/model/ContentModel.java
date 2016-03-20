@@ -21,9 +21,9 @@ public class ContentModel
     private static ContentModel Model = null;
     private ApiServer mApiServer;
 
-    private LruCache<String, String> mArticleCache = new LruCache<String, String>(100);
-    private LruCache<String, PictureItem> mPictureCache = new LruCache<String, PictureItem>(100);
-    private LruCache<String, ThingItem> mThingCache = new LruCache<String, ThingItem>(100);
+    private LruCache<String, String> mStringLruCache = new LruCache<>(16);
+    private LruCache<String, PictureItem> mPictureCache = new LruCache<>(16);
+    private LruCache<String, ThingItem> mThingCache = new LruCache<>(16);
     private Call mCall = null;
 
     public ContentModel()
@@ -43,9 +43,10 @@ public class ContentModel
         mCall.cancel();
     }
 
-    public void getArticle(final String url, final IGetArticleCallback callback)
+    public void getArticle(final String url, final IGetStringCallback callback)
     {
-        String cache = mArticleCache.get(url);
+        MLog.getLogger().d("start getArticle " + url);
+        String cache = mStringLruCache.get(url);
         if (cache!=null)
         {
             callback.Finish(cache);
@@ -60,7 +61,7 @@ public class ContentModel
             @Override
             public void onResponse(Call<String> call, Response<String> response)
             {
-                mArticleCache.put(url, response.body());
+                mStringLruCache.put(url, response.body());
                 callback.Finish(response.body());
             }
 
@@ -78,6 +79,8 @@ public class ContentModel
 
     public void getPicture(final String url, final IGetPictureCallback callback)
     {
+        MLog.getLogger().d("start picture "+url);
+
         PictureItem cache = mPictureCache.get(url);
         if (cache!=null)
         {
@@ -110,7 +113,7 @@ public class ContentModel
 
     public void getThing(final String url, final IGetThingCallback callback)
     {
-
+        MLog.getLogger().d("start getThing "+url);
         ThingItem cache = mThingCache.get(url);
         if (cache!=null)
         {
@@ -143,7 +146,42 @@ public class ContentModel
     }
 
 
-    public interface IGetArticleCallback
+    public void getQA(final String url, final IGetStringCallback callback)
+    {
+        MLog.getLogger().d("start QA " + url);
+        String cache = mStringLruCache.get(url);
+        if (cache!=null)
+        {
+            callback.Finish(cache);
+            return;
+        }
+
+        Call<String> call = mApiServer.getQA(url);
+        mCall = call;
+        call.enqueue(new Callback<String>()
+        {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response)
+            {
+                mStringLruCache.put(url, response.body());
+                callback.Finish(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t)
+            {
+                if (!call.isCanceled())
+                {
+                    callback.Falure(t.getMessage());
+                }
+                MLog.getLogger().e(t.getMessage());
+            }
+        });
+    }
+
+
+
+    public interface IGetStringCallback
     {
         void Finish(String content);
 

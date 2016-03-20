@@ -6,7 +6,8 @@ import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.app;
 import com.dzy.done.model.IListModel;
 import com.dzy.done.model.ListModelimpl;
-import com.dzy.done.model.ModelCallback;
+import com.dzy.done.model.ListModelCallback;
+import com.dzy.done.view.IViewPager;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ListPresenterimpl implements ListPresenter
     IListModel mModel;
     int mType;
     boolean isLoading = false;
-    private ModelCallback mCallback = new ModelCallback()
+    private ListModelCallback mCallback = new ListModelCallback()
     {
         @Override
         public void onFinish(List<ListItem> items)

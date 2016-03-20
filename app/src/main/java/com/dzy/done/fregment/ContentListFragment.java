@@ -1,4 +1,4 @@
-package com.dzy.done.view.fregment;
+package com.dzy.done.fregment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.adapter.MainListAdapter;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.presenter.IViewPager;
 import com.dzy.done.presenter.ListPresenterimpl;
-import com.dzy.done.view.adapter.MainListAdapter;
+import com.dzy.done.view.IViewPager;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
                         mSwipeRefreshLayout.setEnabled(false);
 
 
-                    //如果recycleview滑到底,加载很多数据
+                    //如果recycleview滑到底,加载数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
                         if (mRecyclerView.getChildCount() > 0) {
                             mPresenter.LoadListDates(++mPageCount);
@@ -107,6 +107,12 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
         mType = type;
     }
 
+
+    /**
+     *
+     * @param type 页面类型，图片、文章、东西 ,比如 {@link com.dzy.done.bean.ListItem#ARTICLE}
+     * @return  实例
+     */
     public static ContentListFragment newInstance(int type)
     {
         return new ContentListFragment(type);

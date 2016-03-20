@@ -1,4 +1,4 @@
-package com.dzy.done.view.activity;
+package com.dzy.done.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -53,7 +52,6 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         ButterKnife.bind(this);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        Log.d("tag",url);
         ViewCompat.setTransitionName(mIv, url);
 
         //解析图片主题色
@@ -154,8 +152,8 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         mTvContent.setText(item.getContent());
         mTvDay.setText(item.getDay());
         mTvMonth.setText(item.getYear());
-        //mTvAuthor.setText(item.getAuthor());
-        //mTvNum.setText(item.getNum());
+        mTvAuthor.setText(item.getAuthor());
+        mTvNum.setText(item.getNum());
         mImgurl = item.getImg();
     }
 
