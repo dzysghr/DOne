@@ -4,6 +4,7 @@ package com.dzy.done.config;
 /**
  *  过期
  */
+@Deprecated
 public class OneApi
 {
 	public static String One ="http://www.wufafuwu.com";

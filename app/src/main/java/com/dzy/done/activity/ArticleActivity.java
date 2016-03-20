@@ -20,6 +20,6 @@ public class ArticleActivity extends WebViewActiviry
     @Override
     public void attachToModel()
     {
-        ContentModel.get().getQA(mUrl,this);
+        ContentModel.get().getArticle(mUrl,this);
     }
 }

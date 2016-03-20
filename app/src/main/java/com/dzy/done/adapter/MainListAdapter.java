@@ -70,7 +70,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MyHold
 
         ListItem item = mDatas.get(position);
         holder.setContent(item);
-        if (item.getType()>1)
+        if (item.getType()==ListItem.PICTURE||item.getType()==ListItem.THING)
         {
             Picasso.with(mContext).load(item.getImg()).fit().into(holder.img);
         }
