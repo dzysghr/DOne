@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/setting"/>
+        <item
+            android:id="@+id/menu_favority"
+            android:icon="@drawable/ic_favorite_black_48dp"
+            android:title="@string/favorite"/>
+    </group>
+</menu>

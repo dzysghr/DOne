@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- *
+ *  存放着一些设置参数
  * Created by dzysg on 2016/3/14 0014.
  */
 public class AppSetting

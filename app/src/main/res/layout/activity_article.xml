@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:scrollbars="vertical"
     android:fadingEdge="none"
+    android:fitsSystemWindows="true"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="小庄与阿妆 作者/青谙安"
+            tools:text="小庄与阿妆 作者/青谙安"
             android:textColor="#c7000000"
             android:textSize="24sp"/>
 
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="发布时间：2015-10-10 02:55"
+            tools:text="发布时间：2015-10-10 02:55"
             android:textColor="#c7000000"
             android:textSize="15sp"/>
 

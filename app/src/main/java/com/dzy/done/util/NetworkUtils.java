@@ -18,7 +18,6 @@ public class NetworkUtils
 
     /**
      * 是否有网络
-     *
      * @return
      */
     public static boolean isNetworkConnected()
@@ -55,8 +54,8 @@ public class NetworkUtils
     /**
      * 是否有数据网络
      *
-     * @param context
-     * @return
+     * @param context 上下文
+     * @return 是否
      */
     static public boolean isMobileConnected(Context context)
     {

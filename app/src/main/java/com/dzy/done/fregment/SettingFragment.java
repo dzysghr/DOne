@@ -24,9 +24,7 @@ public class SettingFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
 
         getPreferenceManager().setSharedPreferencesName("setting");
-
         addPreferencesFromResource(R.xml.setting);
-
 
         getPreferenceScreen().findPreference("FontSize").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

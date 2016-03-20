@@ -34,7 +34,6 @@
 
     <android.support.design.widget.FloatingActionButton
         app:fabSize="mini"
-
         android:id="@+id/fab"
         android:src="@drawable/up"
         android:layout_width="wrap_content"

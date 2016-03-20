@@ -3,7 +3,7 @@ package com.dzy.done.util;
 import android.graphics.Color;
 
 /**
- *
+ *  使颜色加深，代码来自网络
  * Created by dzysg on 2016/2/18 0018.
  */
 public class colorUtil
