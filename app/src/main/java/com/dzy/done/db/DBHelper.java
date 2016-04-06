@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static String DATABASE_NAME = "One.db";
 
-    public static String CREATE_ARTICLE_TABLE = "CREATE TABLE if not exists article("
+    public static String CREATE_ARTICLE_TABLE = "CREATE TABLE if not exists webview_activity("
             + "id INTEGER PRIMARY KEY autoincrement,"
             + "title TEXT NOT NULL,"
             + "content TEXT NOT NULL)";

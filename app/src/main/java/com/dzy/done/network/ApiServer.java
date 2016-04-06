@@ -12,7 +12,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 /**
- * 后台接口，json,列表一个小时过期，详情一个月过期
+ * retrofit实现，网络数据接口，json,列表一个小时过期，详情一个月过期
  * Created by dzysg on 2016/3/4 0004.
  */
 public interface ApiServer

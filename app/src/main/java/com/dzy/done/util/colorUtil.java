@@ -1,6 +1,8 @@
 package com.dzy.done.util;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.v7.graphics.Palette;
 
 /**
  *  使颜色加深，代码来自网络
@@ -19,4 +21,15 @@ public class colorUtil
         return Color.rgb(red, green, blue);
     }
 
+
+    public static Palette.Swatch getSwatch(Bitmap bitmap)
+    {
+        Palette p = Palette.from(bitmap).generate();
+        Palette.Swatch swatch = p.getVibrantSwatch();
+        if (swatch == null)
+        {
+            swatch = p.getMutedSwatch();
+        }
+        return swatch;
+    }
 }

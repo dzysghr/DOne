@@ -36,6 +36,8 @@ public class SettingFragment extends PreferenceFragment
         });
     }
 
+
+
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
     {

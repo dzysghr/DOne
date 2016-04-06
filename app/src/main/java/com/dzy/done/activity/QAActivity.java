@@ -1,16 +1,32 @@
 package com.dzy.done.activity;
 
-import com.dzy.done.model.ContentModel;
+import android.os.Bundle;
+
+import com.dzy.done.presenter.ContentPresenterImpl;
+import com.dzy.done.presenter.StringContentPresenter;
 
 /**
  *  问答activity
  * Created by dzysg on 2016/3/20 0020.
  */
-public class QAActivity extends WebViewActiviry
+public class QAActivity extends WebViewActivity
 {
+    StringContentPresenter mPresenter;
+
     @Override
-    public void attachToModel()
+    protected void onCreate(Bundle savedInstanceState)
     {
-        ContentModel.get().getQA(mUrl,this);
+        super.onCreate(savedInstanceState);
+        mPresenter = new ContentPresenterImpl();
+        mPresenter.onAttach(this);
+        mPresenter.LoadQAContent(mUrl);
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        mPresenter.onDetach();
+    }
+
 }

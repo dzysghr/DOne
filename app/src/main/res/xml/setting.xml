@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+<PreferenceCategory android:title="设置">
     <Preference
         android:summary="清理应用缓存(收藏除外)"
         android:key="clearCache"
@@ -15,4 +15,9 @@
         android:key="FontSize"
         android:title="文章字体大小"
         />
+</PreferenceCategory>
+
+
+
+
 </PreferenceScreen>

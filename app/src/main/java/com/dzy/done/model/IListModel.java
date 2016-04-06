@@ -6,6 +6,5 @@ package com.dzy.done.model;
  */
 public interface IListModel
 {
-
     void LoadDatas(int page);
 }

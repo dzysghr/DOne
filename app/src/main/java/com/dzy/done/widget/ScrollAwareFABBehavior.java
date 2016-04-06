@@ -14,6 +14,10 @@ import android.view.animation.AnimationUtils;
 
 import com.dzy.done.R;
 
+
+/**
+ *  FAB的behavior，使FAB随着reycleivew的滚动的出现和消失
+ */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
  
     private static final android.view.animation.Interpolator INTERPOLATOR = 
@@ -46,8 +50,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     }
 
 
-    // Same animation that FloatingActionButton.Behavior uses to 
-    // hide the FAB when the AppBarLayout exits
+    //消失动画
     private void animateOut(final FloatingActionButton button) {
         if (Build.VERSION.SDK_INT >= 14) {
            ViewCompat.animate(button).scaleX(0.0F).scaleY(0.0F).alpha(0.0F)
@@ -87,9 +90,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
             button.startAnimation(anim);
         }
     }
- 
-    // Same animation that FloatingActionButton.Behavior 
-    // uses to show the FAB when the AppBarLayout enters
+    //进入动画
     private void animateIn(FloatingActionButton button) {
         button.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= 14) {

@@ -65,32 +65,29 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         mToolbar.setTitle(title);
 
         ViewCompat.setTransitionName(mIv,url);
+
+        //设置主题色
         Bitmap bitmap = intent.getParcelableExtra("bitmap");
         if (bitmap!=null) {
             mIv.setImageBitmap(bitmap);
 
-            Palette p = Palette.from(bitmap).generate();
-            Palette.Swatch swatch = p.getVibrantSwatch();
-            if (swatch==null)
-            {
-                swatch = p.getMutedSwatch();
-            }
+            mIv.setImageBitmap(bitmap);
+            Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
             if (swatch!=null)
             {
                 mToolbar.setTitleTextColor(swatch.getTitleTextColor());
                 mToolbar.setBackgroundColor(swatch.getRgb());
-
                 if (android.os.Build.VERSION.SDK_INT >= 21) {
                     Window window = getWindow();
 
                     window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                    window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    //window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
                 }
             }
         }
 
         setSupportActionBar(mToolbar);
-
+        assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPb.setVisibility(View.VISIBLE);
         ContentModel.get().getThing(url,this);
@@ -101,6 +98,7 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     protected void onStop()
     {
         super.onStop();
+        //取消请求
         Picasso.with(this).cancelRequest(mIv);
         ContentModel.get().cancel();
     }

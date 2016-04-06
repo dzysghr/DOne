@@ -11,12 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.MainPageAdapter;
+import com.dzy.done.presenter.adapter.MainPageAdapter;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.fregment.ContentListFragment;
 
@@ -24,7 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
     @Bind(R.id.toolbar)
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setupView();
     }
-
     public void setupView() {
         setSupportActionBar(mToolbar);
 
@@ -68,22 +68,11 @@ public class MainActivity extends AppCompatActivity
         mTabs.setupWithViewPager(mViewPager);
         mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
 
-        //创建返回键，并实现打开关/闭监听
+        //创建侧栏，并实现打开关/闭监听
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        mMenuView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item)
-            {
-                if (item.getItemId()==R.id.menu_setting)
-                {
-                    startActivity(new Intent(MainActivity.this,SettingActivity.class));
-                }
-                return false;
-            }
-        });
+        mMenuView.setNavigationItemSelectedListener(this);
 
         assert  getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,12 +96,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-         if (mToast.getView().getParent() == null)
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
+            mDrawerLayout.closeDrawers();
+        else if (mToast.getView().getParent() == null)
             mToast.show();
         else
             super.onBackPressed();
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -122,11 +112,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
+        if (item.getItemId()==R.id.menu_setting)
+        {
+            startActivity(new Intent(MainActivity.this,SettingActivity.class));
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

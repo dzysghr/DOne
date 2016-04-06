@@ -1,6 +1,7 @@
 package com.dzy.done.network;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.NetworkPolicy;
@@ -12,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 /**
- * 用于picasso的DownLoader
+ * picasso的DownLoader，基于OKHTTP3.0
  * Created by dzysg on 2016/3/6 0006.
  */
 public class OkHttpDownLoader implements Downloader
@@ -43,11 +44,12 @@ public class OkHttpDownLoader implements Downloader
                 .url(uri.toString())
                 .build();
         okhttp3.Response response = mClient.newCall(request).execute();
-        return new Response(response.body().byteStream(),false,response.body().contentLength());
+        return new Response(response.body().byteStream(),response.cacheResponse()!=null,response.body().contentLength());
     }
 
     @Override
     public void shutdown()
     {
+        Log.e("tag", "picasso downloader shutdown");
     }
 }

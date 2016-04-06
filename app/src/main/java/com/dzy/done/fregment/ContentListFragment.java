@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.MainListAdapter;
+import com.dzy.done.presenter.adapter.MainListAdapter;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.presenter.ListPresenterimpl;
-import com.dzy.done.view.IViewPager;
+import com.dzy.done.presenter.ListPresenter;
+import com.dzy.done.presenter.MainListPresenter;
+import com.dzy.done.view.ContentListView;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
  * 主页Viewpager的三个Fragment
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ContentListFragment extends Fragment implements IViewPager, SwipeRefreshLayout.OnRefreshListener
+public class ContentListFragment extends Fragment implements ContentListView, SwipeRefreshLayout.OnRefreshListener
 {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
@@ -39,7 +40,7 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
 
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<>();
-    ListPresenterimpl mPresenter;
+    ListPresenter mPresenter;
     private MainListAdapter mAdapter;
     private int mPageCount = 1;
     private LinearLayoutManager mLayoutManager;
@@ -50,20 +51,19 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fregment_article, container, false);
         ButterKnife.bind(this, view);
 
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new MainListAdapter(getActivity(), mDatas);
+        mAdapter = new MainListAdapter(getActivity(), mDatas,MainListAdapter.MainViewType);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setVerticalScrollBarEnabled(true);
-
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
@@ -95,14 +95,15 @@ public class ContentListFragment extends Fragment implements IViewPager, SwipeRe
             }
         });
 
-        mPresenter = new ListPresenterimpl(this, mType);
+
+        mPresenter = new MainListPresenter(this, mType);
         //加载第一页
         mPresenter.LoadListDates(1);
         Log.i("tag", "mPresenter loaddatas");
         return view;
     }
 
-    public ContentListFragment(int type)
+    private ContentListFragment(int type)
     {
         mType = type;
     }

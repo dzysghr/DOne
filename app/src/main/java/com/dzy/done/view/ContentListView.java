@@ -4,7 +4,8 @@ import com.dzy.done.bean.ListItem;
 
 import java.util.List;
 
-public interface IViewPager {
+public interface ContentListView
+{
 
     void showDatas(List<ListItem> dailies);
 

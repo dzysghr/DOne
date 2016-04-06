@@ -14,12 +14,16 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.config.AppSetting;
 import com.dzy.done.model.ContentModel;
-import com.dzy.done.util.MLog;
+import com.dzy.done.view.StringContentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public abstract class WebViewActiviry extends AppCompatActivity implements ContentModel.IGetStringCallback
+
+/**
+ *  问答和文章共用这个activity基类
+ */
+public  class WebViewActivity extends AppCompatActivity implements StringContentView
 {
 
     @Bind(R.id.toolbar)
@@ -32,6 +36,7 @@ public abstract class WebViewActiviry extends AppCompatActivity implements Conte
 
     @Bind(R.id.webview)
     protected WebView mWebView;
+
     protected String mUrl = "";
 
     @Override
@@ -52,23 +57,15 @@ public abstract class WebViewActiviry extends AppCompatActivity implements Conte
         setSupportActionBar(mToolbar);
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        attachToModel();
-    }
-
-    public abstract void attachToModel();
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.article, menu);
-        return true;
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.webview_activity, menu);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
 
@@ -80,8 +77,6 @@ public abstract class WebViewActiviry extends AppCompatActivity implements Conte
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     protected void onDestroy()
     {
@@ -90,23 +85,25 @@ public abstract class WebViewActiviry extends AppCompatActivity implements Conte
         ContentModel.get().cancel();
     }
 
-    public void Finish(String content)
-    {
 
-        //mContent.setText(content);
-        //WebSettings.LayoutAlgorithm layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING;
-        //mWebView.getSettings().setLayoutAlgorithm(layoutAlgorithm);
-        MLog.getLogger().d(content);
+    @Override
+    public void showContent(String content)
+    {
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         mWebView.getSettings().setTextZoom(AppSetting.getSetting().getFontSize());
         mWebView.setBackgroundColor(Color.TRANSPARENT);
         mWebView.loadData(content, "text/html;charset=UTF-8", null);
-        //mWebView.loadData(content, "text/htmlK","GBK");
     }
 
-
-    public void Falure(String msg)
+    @Override
+    public void failure(String error)
     {
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loading()
+    {
+
     }
 }

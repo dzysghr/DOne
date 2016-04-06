@@ -1,4 +1,4 @@
-package com.dzy.done.adapter;
+package com.dzy.done.presenter.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,14 +16,11 @@ import java.util.List;
  */
 public class MainPageAdapter extends FragmentPagerAdapter {
 
-
     List<Fragment> mFragments;
-
 
     public MainPageAdapter(FragmentManager fm) {
         super(fm);
         mFragments = new ArrayList<>();
-
 
         mFragments.add(ContentListFragment.newInstance(ListItem.ARTICLE));
         mFragments.add(ContentListFragment.newInstance(ListItem.PICTURE));

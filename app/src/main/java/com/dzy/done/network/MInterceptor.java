@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * okhttp拦截器
+ * okhttp拦截器，为了改Cache-Control从而实现缓存功能
  * Created by dzysg on 2016/3/5 0005.
  */
 public class MInterceptor implements Interceptor

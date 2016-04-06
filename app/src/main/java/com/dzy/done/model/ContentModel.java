@@ -12,7 +12,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 数据获取，单例
+ * 数据获取Model，单例
  * Created by dzysg on 2015/10/13 0013.
  */
 public class ContentModel
@@ -40,19 +40,26 @@ public class ContentModel
 
     public void cancel()
     {
-        mCall.cancel();
+        if (mCall!=null)
+        {
+            mCall.cancel();
+            mCall = null;
+        }
+
     }
 
     public void getArticle(final String url, final IGetStringCallback callback)
     {
         MLog.getLogger().d("start getArticle " + url);
+        if (url==null)
+            return;
+
         String cache = mStringLruCache.get(url);
         if (cache!=null)
         {
             callback.Finish(cache);
             return;
         }
-
 
         Call<String> call = mApiServer.getArticle(url);
         mCall = call;
@@ -61,8 +68,12 @@ public class ContentModel
             @Override
             public void onResponse(Call<String> call, Response<String> response)
             {
-                mStringLruCache.put(url, response.body());
-                callback.Finish(response.body());
+                if (!call.isCanceled())
+                {
+                    mStringLruCache.put(url, response.body());
+                    callback.Finish(response.body());
+                }
+
             }
 
             @Override
@@ -95,6 +106,8 @@ public class ContentModel
             @Override
             public void onResponse(Call<PictureItem> call, Response<PictureItem> response)
             {
+                if (call.isCanceled())
+                    return;
                 mPictureCache.put(url, response.body());
                 callback.Finish(response.body());
             }
@@ -128,6 +141,8 @@ public class ContentModel
             @Override
             public void onResponse(Call<ThingItem> call, Response<ThingItem> response)
             {
+                if (call.isCanceled())
+                    return;
                 mThingCache.put(url, response.body());
                 callback.Finish(response.body());
             }
@@ -163,6 +178,8 @@ public class ContentModel
             @Override
             public void onResponse(Call<String> call, Response<String> response)
             {
+                if (call.isCanceled())
+                return;
                 mStringLruCache.put(url, response.body());
                 callback.Finish(response.body());
             }

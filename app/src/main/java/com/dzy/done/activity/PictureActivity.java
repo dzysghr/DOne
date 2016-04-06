@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -59,12 +60,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         if (bitmap != null)
         {
             mIv.setImageBitmap(bitmap);
-            Palette p = Palette.from(bitmap).generate();
-            Palette.Swatch swatch = p.getVibrantSwatch();
-            if (swatch == null)
-            {
-                swatch = p.getMutedSwatch();
-            }
+            Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
             if (swatch != null)
             {
                 mToolbar.setTitleTextColor(swatch.getTitleTextColor());
@@ -73,7 +69,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
                 {
                     Window window = getWindow();
                     window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                    window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    //window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
                 }
             }
         }
@@ -126,7 +122,15 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     }
 
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId()==android.R.id.home)
+        {
+            supportFinishAfterTransition();
+        }
+        return true;
+    }
 
     @Override
     public void Finish(PictureItem item)

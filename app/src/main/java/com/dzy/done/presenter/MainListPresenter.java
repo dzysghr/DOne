@@ -7,18 +7,18 @@ import com.dzy.done.config.app;
 import com.dzy.done.model.IListModel;
 import com.dzy.done.model.ListModelimpl;
 import com.dzy.done.model.ListModelCallback;
-import com.dzy.done.view.IViewPager;
+import com.dzy.done.view.ContentListView;
 
 import java.util.List;
 
 /**
- *
+ *  主界面list的presenter
  * Created by dzysg on 2015/10/9 0009.
  */
-public class ListPresenterimpl implements ListPresenter
+public class MainListPresenter implements ListPresenter
 {
 
-    IViewPager mPager;
+    ContentListView mPager;
     IListModel mModel;
     int mType;
     boolean isLoading = false;
@@ -43,7 +43,7 @@ public class ListPresenterimpl implements ListPresenter
         }
     };
 
-    public ListPresenterimpl(IViewPager pager, int type)
+    public MainListPresenter(ContentListView pager, int type)
     {
         mPager = pager;
         mType = type;
