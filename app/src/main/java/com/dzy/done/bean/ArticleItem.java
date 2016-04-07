@@ -1,24 +1,19 @@
 package com.dzy.done.bean;
 
 /**
- *
+ * 为了方便，文章和问答共用一个实体类
  * Created by dzysg on 2016/3/21 0021.
  */
 public class ArticleItem
 {
-    private String title;
+
     private String url;
     private String Content;
-    private String date;
 
-    public String getTitle()
+    public ArticleItem(String url, String content)
     {
-        return title;
-    }
-
-    public void setTitle(String title)
-    {
-        this.title = title;
+        this.url = url;
+        Content = content;
     }
 
     public String getUrl()
@@ -39,15 +34,5 @@ public class ArticleItem
     public void setContent(String content)
     {
         Content = content;
-    }
-
-    public String getDate()
-    {
-        return date;
-    }
-
-    public void setDate(String date)
-    {
-        this.date = date;
     }
 }

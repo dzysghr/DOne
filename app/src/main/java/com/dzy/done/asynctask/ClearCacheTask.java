@@ -9,7 +9,7 @@ import com.dzy.done.config.app;
 import java.io.File;
 
 /**
- *
+ *  清除缓存
  * Created by dzysg on 2016/3/6 0006.
  */
 public class ClearCacheTask extends AsyncTask<Void, Object, Boolean>

@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.dzy.done.R;
-import com.dzy.done.fregment.ContentListFragment;
 
 /**
  *  没写完，ContentListFragment结构要改
@@ -28,9 +27,11 @@ public class FavoriteActivity extends AppCompatActivity
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, ContentListFragment.newInstance(0))
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.container, ContentListFragment.newInstance(0))
+//                .commit();
+
+
 
     }
 }

@@ -1,4 +1,4 @@
-package com.dzy.done.view.Holder;
+package com.dzy.done.adapter.Holder;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dzy.done.R;
-import com.dzy.done.activity.ArticleActivity;
 import com.dzy.done.activity.MainActivity;
 import com.dzy.done.activity.PictureActivity;
-import com.dzy.done.activity.QAActivity;
 import com.dzy.done.activity.ThingActivity;
+import com.dzy.done.activity.WebViewActivity;
 import com.dzy.done.bean.ListItem;
 import com.squareup.picasso.Picasso;
 
@@ -61,63 +60,36 @@ public class MainListHolder extends BaseHolder<ListItem>
     public void onClick(View v)
     {
 
-        //如果是文章
-        if (mItem.getType() == ListItem.ARTICLE) {
-            Intent intent = new Intent(mContext, ArticleActivity.class);
-            intent.putExtra("url", mItem.getUrl());
-            intent.putExtra("title", mItem.getTitle());
-            intent.putExtra("date", mItem.getDate());
-
+        //如果是文章或问答
+        if (mItem.getType() == ListItem.ARTICLE||mItem.getType()== ListItem.QA) {
+            Intent intent = new Intent(mContext,WebViewActivity.class);
+            intent.putExtra("item",mItem);
             mContext.startActivity(intent);
-
         }
-        //问答
-        else if (mItem.getType() == ListItem.QA)
+        //如果是图片或者东西
+        else
         {
-            Intent intent = new Intent(mContext, QAActivity.class);
-            intent.putExtra("url", mItem.getUrl());
-            intent.putExtra("title", mItem.getTitle());
-            intent.putExtra("date", mItem.getDate());
-            mContext.startActivity(intent);
+            Intent intent = null;
+            if(mItem.getType() == ListItem.PICTURE)
+             intent  = new Intent(mContext, PictureActivity.class);
+            else
+                intent = new Intent(mContext,ThingActivity.class);
 
-        }
-        //如果是图片
-        else if (mItem.getType() == ListItem.PICTURE) {
-            Intent intent = new Intent(mContext, PictureActivity.class);
-            intent.putExtra("url", mItem.getUrl());
-            intent.putExtra("num", mItem.getTitle().split(" ", 2)[0]);
+            intent.putExtra("item",mItem);
             if (img.getDrawable() instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
                 intent.putExtra("bitmap", bitmap);
             }
-            intent.putExtra("author", mItem.getTitle().split(" ", 2)[1]);
 
+            //设置共享元素效果
             if (Build.VERSION.SDK_INT >= 21) {
                 ViewCompat.setTransitionName(img, mItem.getUrl());
-
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
                 mContext.startActivity(intent, options.toBundle());
             } else {
                 mContext.startActivity(intent);
             }
         }
-        //如果是 东西
-        else if (mItem.getType() == ListItem.THING) {
-            Intent intent = new Intent(mContext, ThingActivity.class);
-            intent.putExtra("title", mItem.getTitle());
-            intent.putExtra("url", mItem.getUrl());
-            if (img.getDrawable() instanceof BitmapDrawable) {
-                Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                intent.putExtra("bitmap", bitmap);
-            }
 
-            if (Build.VERSION.SDK_INT >= 16) {
-                ViewCompat.setTransitionName(img,mItem.getUrl());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
-                mContext.startActivity(intent, options.toBundle());
-            } else {
-                mContext.startActivity(intent);
-            }
-        }
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.ThingItem;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.util.MLog;
@@ -47,24 +49,28 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
     @Bind(R.id.pb)
     ProgressBar mPb;
 
+    ListItem mItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thing);
         ButterKnife.bind(this);
 
+        initView();
+        ContentModel.get().getThing(mItem.getUrl(),this);
+    }
+
+    private void initView()
+    {
         //设置progressbar颜色
         mPb.bringToFront();
         mPb .getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
 
 
-
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        String title = intent.getStringExtra("title");
-        mToolbar.setTitle(title);
-
-        ViewCompat.setTransitionName(mIv,url);
+        mItem = (ListItem) intent.getSerializableExtra("item");
+        mToolbar.setTitle(mItem.getTitle());
+        ViewCompat.setTransitionName(mIv,mItem.getUrl());
 
         //设置主题色
         Bitmap bitmap = intent.getParcelableExtra("bitmap");
@@ -85,12 +91,10 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
                 }
             }
         }
-
         setSupportActionBar(mToolbar);
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPb.setVisibility(View.VISIBLE);
-        ContentModel.get().getThing(url,this);
     }
 
 
@@ -101,6 +105,14 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         //取消请求
         Picasso.with(this).cancelRequest(mIv);
         ContentModel.get().cancel();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.webview_activity, menu);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

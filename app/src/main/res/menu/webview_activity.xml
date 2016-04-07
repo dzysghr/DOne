@@ -10,8 +10,11 @@
               android:orderInCategory="100"
               app:showAsAction="always"/>
         <item android:id="@+id/action_favorite"
+              android:checked="true"
+              android:checkable="true"
               android:title="@string/favorite"
               android:orderInCategory="100"
               app:showAsAction="ifRoom"/>
+
     </group>
 </menu>

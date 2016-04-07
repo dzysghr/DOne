@@ -3,9 +3,7 @@ package com.dzy.done.presenter;
 import android.util.Log;
 
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.config.app;
-import com.dzy.done.model.IListModel;
-import com.dzy.done.model.ListModelimpl;
+import com.dzy.done.model.ListModel;
 import com.dzy.done.model.ListModelCallback;
 import com.dzy.done.view.ContentListView;
 
@@ -18,8 +16,8 @@ import java.util.List;
 public class MainListPresenter implements ListPresenter
 {
 
-    ContentListView mPager;
-    IListModel mModel;
+    ContentListView mView;
+    ListModel mModel;
     int mType;
     boolean isLoading = false;
     private ListModelCallback mCallback = new ListModelCallback()
@@ -27,9 +25,10 @@ public class MainListPresenter implements ListPresenter
         @Override
         public void onFinish(List<ListItem> items)
         {
-
-            mPager.showDatas(items);
-            mPager.hideProgress();
+            if (mView==null)
+                return;
+            mView.showDatas(items);
+            mView.hideProgress();
             isLoading = false;
             Log.i("tag", "presenter onFinish    items:" + items.size() + "");
         }
@@ -37,32 +36,47 @@ public class MainListPresenter implements ListPresenter
         @Override
         public void OnFalure(String msg)
         {
+            if (mView==null)
+                return;
+
             isLoading = false;
             Log.e("tag", "onFalure    " + msg);
-            mPager.failload();
+            mView.failload();
         }
     };
 
-    public MainListPresenter(ContentListView pager, int type)
+    public MainListPresenter(int type)
     {
-        mPager = pager;
         mType = type;
-        mModel = new ListModelimpl(mType, mCallback, app.getApiServer());
+        mModel = ListModel.getInstant();
     }
-
 
     /**
      * 加载数据
-     *
      * @param page 页数
      */
-    public void LoadListDates(int page)
+    @Override
+    public void loadListDates(int page)
     {
         if (isLoading)
             return;
 
         isLoading = true;
-        mPager.showProgress();
-        mModel.LoadDatas(page);
+        mView.showProgress();
+        mModel.LoadDatas(page,mType,mCallback);
     }
+
+    @Override
+    public void attachView(ContentListView view)
+    {
+        mView = view;
+    }
+
+    @Override
+    public void detach()
+    {
+        mView = null;
+    }
+
+
 }

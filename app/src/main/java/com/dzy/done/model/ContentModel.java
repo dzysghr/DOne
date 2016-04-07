@@ -2,6 +2,7 @@ package com.dzy.done.model;
 
 import android.support.v4.util.LruCache;
 
+import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.network.ApiServer;
 import com.dzy.done.bean.PictureItem;
 import com.dzy.done.bean.ThingItem;
@@ -21,7 +22,7 @@ public class ContentModel
     private static ContentModel Model = null;
     private ApiServer mApiServer;
 
-    private LruCache<String, String> mStringLruCache = new LruCache<>(16);
+    private LruCache<String, ArticleItem> mStringLruCache = new LruCache<>(16);
     private LruCache<String, PictureItem> mPictureCache = new LruCache<>(16);
     private LruCache<String, ThingItem> mThingCache = new LruCache<>(16);
     private Call mCall = null;
@@ -54,7 +55,7 @@ public class ContentModel
         if (url==null)
             return;
 
-        String cache = mStringLruCache.get(url);
+        ArticleItem cache = mStringLruCache.get(url);
         if (cache!=null)
         {
             callback.Finish(cache);
@@ -70,8 +71,9 @@ public class ContentModel
             {
                 if (!call.isCanceled())
                 {
-                    mStringLruCache.put(url, response.body());
-                    callback.Finish(response.body());
+                    ArticleItem item = new ArticleItem(url,response.body());
+                    mStringLruCache.put(url,item);
+                    callback.Finish(item);
                 }
 
             }
@@ -164,7 +166,7 @@ public class ContentModel
     public void getQA(final String url, final IGetStringCallback callback)
     {
         MLog.getLogger().d("start QA " + url);
-        String cache = mStringLruCache.get(url);
+        ArticleItem cache = mStringLruCache.get(url);
         if (cache!=null)
         {
             callback.Finish(cache);
@@ -180,8 +182,9 @@ public class ContentModel
             {
                 if (call.isCanceled())
                 return;
-                mStringLruCache.put(url, response.body());
-                callback.Finish(response.body());
+                ArticleItem item = new ArticleItem(url,response.body());
+                mStringLruCache.put(url,item);
+                callback.Finish(new ArticleItem(url,response.body()));
             }
 
             @Override
@@ -196,11 +199,9 @@ public class ContentModel
         });
     }
 
-
-
     public interface IGetStringCallback
     {
-        void Finish(String content);
+        void Finish(ArticleItem content);
 
         void Falure(String msg);
     }
@@ -208,14 +209,12 @@ public class ContentModel
     public interface IGetPictureCallback
     {
         void Finish(PictureItem item);
-
         void Falure(String msg);
     }
 
     public interface IGetThingCallback
     {
         void Finish(ThingItem item);
-
         void Falure(String msg);
     }
 }

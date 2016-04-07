@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.util.MLog;
@@ -43,7 +45,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
 
     String mImgurl;
     boolean mIsFinish = false;
-
+    ListItem mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,12 +53,21 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
         ButterKnife.bind(this);
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        ViewCompat.setTransitionName(mIv, url);
 
+
+        Intent intent = getIntent();
+        mItem = (ListItem) intent.getSerializableExtra("item");
+        ViewCompat.setTransitionName(mIv, mItem.getUrl());
+
+        initView();
+        initData();
+
+    }
+
+    public void initView()
+    {
         //解析图片主题色
-        Bitmap bitmap = intent.getParcelableExtra("bitmap");
+        Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
         if (bitmap != null)
         {
             mIv.setImageBitmap(bitmap);
@@ -74,11 +85,6 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
             }
         }
 
-        //设置作者等信息
-        mTvNum.setText(intent.getStringExtra("num"));
-        mTvAuthor.setText(intent.getStringExtra("author"));
-        
-
         //设置actionbar
         setSupportActionBar(mToolbar);
         assert getSupportActionBar() != null;
@@ -90,14 +96,17 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         mPb .getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
         mPb.setVisibility(View.VISIBLE);
 
-
-        //加载大图和图片信息
-        ContentModel.get().getPicture(url, this);
+        //加载大图和文字
+        ContentModel.get().getPicture(mItem.getUrl(), this);
     }
 
 
-
-
+    public void initData()
+    {
+        //设置作者等信息，这两项数据可以在请求成功回调finish方法获取和设置，这里提前设置让体验好一丢丢
+        mTvNum.setText(mItem.getTitle().split(" ", 2)[0]);
+        mTvAuthor.setText(mItem.getTitle().split(" ", 2)[1]);
+    }
 
     @Override
     protected void onDestroy()
@@ -119,6 +128,14 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
             intent.putExtra("url", mImgurl);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.webview_activity, menu);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
 

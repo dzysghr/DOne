@@ -1,4 +1,4 @@
-package com.dzy.done.presenter.adapter;
+package com.dzy.done.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.view.Holder.BaseHolder;
-import com.dzy.done.view.Holder.FavoriteListHolder;
-import com.dzy.done.view.Holder.MainListHolder;
+import com.dzy.done.adapter.Holder.BaseHolder;
+import com.dzy.done.adapter.Holder.MainListHolder;
 
 import java.util.List;
 
@@ -20,39 +19,24 @@ import java.util.List;
  */
 public class MainListAdapter extends RecyclerView.Adapter<BaseHolder<ListItem>>
 {
-    /**
-     * 表明这是用于主页的list
-     */
-    public static int MainViewType = 1;
 
-    /**
-     * 表明这是用于收藏夹的list
-     */
-    public static int FavoriteViewType = 2;
 
     private List<ListItem> mDatas;
     private Context mContext;
-    private int mType = 1;
 
 
-
-    public MainListAdapter(Context context, List<ListItem> list,int type)
+    public MainListAdapter(Context context, List<ListItem> list)
     {
         mContext = context;
         mDatas = list;
-        mType = type;
     }
 
     @Override
     public BaseHolder<ListItem> onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
-        if (mType==MainViewType)
             return new MainListHolder(view, mContext);
-        else if (mType==FavoriteViewType)
-            return new  FavoriteListHolder(view,mContext);
-        else
-            throw new IllegalArgumentException("illegal MainListAdapter type "+mType);
+
     }
 
     @Override
@@ -64,7 +48,6 @@ public class MainListAdapter extends RecyclerView.Adapter<BaseHolder<ListItem>>
     @Override
     public void onBindViewHolder(BaseHolder<ListItem> holder, int position)
     {
-
         ListItem item = mDatas.get(position);
         holder.setData(item);
 

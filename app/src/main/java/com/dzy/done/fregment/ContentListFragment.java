@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.presenter.adapter.MainListAdapter;
+import com.dzy.done.adapter.MainListAdapter;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.MainListPresenter;
@@ -33,9 +33,11 @@ import butterknife.ButterKnife;
 public class ContentListFragment extends Fragment implements ContentListView, SwipeRefreshLayout.OnRefreshListener
 {
 
-    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerview)
+    RecyclerView mRecyclerView;
 
-    @Bind(R.id.swrfresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.swrfresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     int mType = 1;
@@ -54,10 +56,20 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fregment_article, container, false);
         ButterKnife.bind(this, view);
-
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new MainListAdapter(getActivity(), mDatas,MainListAdapter.MainViewType);
+        initRecycleView();
+
+        mPresenter = new MainListPresenter(mType);
+        mPresenter.attachView(this);
+        //加载第一页
+        mPresenter.loadListDates(1);
+        Log.i("tag", "mPresenter loaddatas");
+        return view;
+    }
+
+    private  void initRecycleView()
+    {
+        mAdapter = new MainListAdapter(getActivity(), mDatas);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -81,7 +93,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
                     //如果recycleview滑到底,加载数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
                         if (mRecyclerView.getChildCount() > 0) {
-                            mPresenter.LoadListDates(++mPageCount);
+                            mPresenter.loadListDates(++mPageCount);
                             Log.i("tag", "load more");
                         }
                     }
@@ -94,20 +106,14 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-
-
-        mPresenter = new MainListPresenter(this, mType);
-        //加载第一页
-        mPresenter.LoadListDates(1);
-        Log.i("tag", "mPresenter loaddatas");
-        return view;
     }
+
+
 
     private ContentListFragment(int type)
     {
         mType = type;
     }
-
 
     /**
      *
@@ -153,7 +159,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     public void onRefresh()
     {
         Log.i("tag", "on Refresh");
-        mPresenter.LoadListDates(1);
+        mPresenter.loadListDates(1);
         mPageCount = 1;
     }
 

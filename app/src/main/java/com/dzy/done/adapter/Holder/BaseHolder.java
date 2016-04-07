@@ -1,4 +1,4 @@
-package com.dzy.done.view.Holder;
+package com.dzy.done.adapter.Holder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -26,19 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.QAActivity">
-        </activity>
         <activity android:name=".activity.PictureActivity">
         </activity>
         <activity android:name=".activity.ThingActivity">
         </activity>
         <activity android:name=".activity.PhotoViewerActivity">
         </activity>
+        <activity android:name=".activity.WebViewActivity">
+        </activity>
 
         <activity android:name=".TestActivity"
             android:configChanges="orientation|screenSize"
             >
-            <intent-filter >
+            <intent-filter>
 
                 <action android:name="com.dzy.done.Test"/>
             </intent-filter>
@@ -50,8 +50,6 @@
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".activity.ArticleActivity">
         </activity>
         <activity android:name=".activity.FavoriteActivity">
         </activity>

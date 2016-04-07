@@ -1,11 +1,18 @@
 package com.dzy.done.bean;
 
-public class ListItem
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
+
+public class ListItem implements Serializable
 {
 	public static int PICTURE = 2; //图片
     public static int ARTICLE = 1; //文章
     public static int THING = 3;  //东西
 	public static int QA = 4;  //问答
+
+    @JsonIgnore
+    private int id=0;
 
 	private String title;
 	private String content;
@@ -13,6 +20,7 @@ public class ListItem
 	private String date;
 	private String img;
 	private int type = 1;
+
 
 
 	public String getTitle() {

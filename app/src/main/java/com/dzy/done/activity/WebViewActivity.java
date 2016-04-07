@@ -12,8 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.bean.ArticleItem;
+import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.AppSetting;
-import com.dzy.done.model.ContentModel;
+import com.dzy.done.presenter.ContentPresenterImpl;
+import com.dzy.done.presenter.StringContentPresenter;
+import com.dzy.done.util.MLog;
 import com.dzy.done.view.StringContentView;
 
 import butterknife.Bind;
@@ -21,60 +25,106 @@ import butterknife.ButterKnife;
 
 
 /**
- *  问答和文章共用这个activity基类
+ * 问答和文章页面共用这个activity
  */
-public  class WebViewActivity extends AppCompatActivity implements StringContentView
+public class WebViewActivity extends AppCompatActivity implements StringContentView
 {
 
-    @Bind(R.id.toolbar)
-    protected Toolbar mToolbar;
+    @Bind(R.id.toolbar) protected Toolbar mToolbar;
 
-    @Bind(R.id.tv_date)
-    protected TextView mDate;
-    @Bind(R.id.tv_title)
-    protected TextView mTitle;
+    @Bind(R.id.tv_date) protected TextView mDate;
+    @Bind(R.id.tv_title) protected TextView mTitle;
+    @Bind(R.id.webview) protected WebView mWebView;
 
-    @Bind(R.id.webview)
-    protected WebView mWebView;
+    boolean haveSaved = false;
+    boolean isFinish = false;
 
-    protected String mUrl = "";
+    protected ListItem mItem;
+    StringContentPresenter mPresenter;
+    ArticleItem mContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
+        mItem = (ListItem) intent.getSerializableExtra("item");
 
-        //设置标题、日期
-        String title = intent.getStringExtra("title");
-        mUrl = intent.getStringExtra("url");
-        mTitle.setText(title);
-        mDate.setText(intent.getStringExtra("date"));
+        initPresenter();
+        initData();
 
         //设置toolbar
         setSupportActionBar(mToolbar);
-        assert getSupportActionBar()!=null;
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void initPresenter()
+    {
+        mPresenter = new ContentPresenterImpl();
+        mPresenter.onAttach(this);
+    }
+
+    public void initData()
+    {
+        //设置标题、日期
+        mTitle.setText(mItem.getTitle());
+        mDate.setText(mItem.getDate());
+
+        //根据不同的情况加载不同的数据
+        if (mItem.getType() == ListItem.ARTICLE)
+            mPresenter.LoadArticleContent(mItem.getUrl());
+        else
+            mPresenter.LoadQAContent(mItem.getUrl());
+        mPresenter.ExistfromFavorite(mItem);
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.webview_activity, menu);
-
-        return super.onPrepareOptionsMenu(menu);
+        MLog.getLogger().d("onPrepare");
+        //内容加载完才显示菜单
+        return isFinish;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MLog.getLogger().d("onCreateOptionsMenu");
+        getMenuInflater().inflate(R.menu.webview_activity, menu);
+
+        if(haveSaved)
+            menu.findItem(R.id.action_favorite).setTitle("已收藏");
+        return true;
+    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         if (item.getItemId() == android.R.id.home)
+        {
             onBackPressed();
+            return true;
+        }else if (item.getItemId() == R.id.action_favorite)
+        {
+            if (!haveSaved)
+            {
+                mPresenter.saveToFavorite(mItem,mContent);
+                item.setTitle("已收藏");
+                haveSaved = true;
+            }
+            else
+            {
+                haveSaved = false;
+                item.setTitle("收藏");
+                mPresenter.deleteFromFavorite(mItem);
+            }
 
-        return super.onOptionsItemSelected(item);
+        }
+        return false;
     }
 
     @Override
@@ -82,28 +132,39 @@ public  class WebViewActivity extends AppCompatActivity implements StringContent
     {
         super.onDestroy();
         mWebView.destroy();
-        ContentModel.get().cancel();
+        mPresenter.onDetach();
     }
 
-
     @Override
-    public void showContent(String content)
+    public void showContent(ArticleItem content)
     {
+        isFinish = true;
+        invalidateOptionsMenu();
+
+        mContent = content;
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         mWebView.getSettings().setTextZoom(AppSetting.getSetting().getFontSize());
         mWebView.setBackgroundColor(Color.TRANSPARENT);
-        mWebView.loadData(content, "text/html;charset=UTF-8", null);
+        mWebView.loadData(mContent.getContent(), "text/html;charset=UTF-8", null);
     }
 
     @Override
-    public void failure(String error)
+    public void showToast(String error)
     {
-        Toast.makeText(this,error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void loading()
     {
 
+    }
+
+    @Override
+    public void setFavoriteMenuState(boolean b)
+    {
+        //b 为true表示收藏已经存在，不可收藏
+        //haveSaved = b;
+        //invalidateOptionsMenu();
     }
 }

@@ -1,5 +1,7 @@
 package com.dzy.done.presenter;
 
+import com.dzy.done.bean.ArticleItem;
+import com.dzy.done.bean.ListItem;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.StringContentView;
 
@@ -13,7 +15,7 @@ public class ContentPresenterImpl implements StringContentPresenter
     ContentModel mModel;
     ContentModel.IGetStringCallback mCallback = new ContentModel.IGetStringCallback() {
         @Override
-        public void Finish(String content)
+        public void Finish(ArticleItem content)
         {
             if (mView!=null)
                 mView.showContent(content);
@@ -23,7 +25,7 @@ public class ContentPresenterImpl implements StringContentPresenter
         public void Falure(String msg)
         {
             if (mView!=null)
-                mView.failure(msg);
+                mView.showToast(msg);
         }
     };
 
@@ -55,5 +57,23 @@ public class ContentPresenterImpl implements StringContentPresenter
     public void LoadQAContent(String url)
     {
         mModel.getQA(url,mCallback);
+    }
+
+    @Override
+    public void saveToFavorite(ListItem item, String content)
+    {
+
+    }
+
+    @Override
+    public void ExistfromFavorite(ListItem url)
+    {
+        mView.setFavoriteMenuState(true);
+    }
+
+    @Override
+    public void deleteFromFavorite(ListItem url)
+    {
+
     }
 }
