@@ -21,7 +21,6 @@ public class ContentModel
 
     private static ContentModel Model = null;
     private ApiServer mApiServer;
-
     private LruCache<String, ArticleItem> mStringLruCache = new LruCache<>(16);
     private LruCache<String, PictureItem> mPictureCache = new LruCache<>(16);
     private LruCache<String, ThingItem> mThingCache = new LruCache<>(16);

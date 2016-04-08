@@ -6,6 +6,7 @@ import android.content.Context;
 import com.dzy.done.network.ApiServer;
 import com.dzy.done.network.MInterceptor;
 import com.dzy.done.network.OkHttpDownLoader;
+import com.dzy.easydao.dborm.orm.EasyDAO;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class app extends Application
     {
         super.onCreate();
         mContext = this;
-
+        EasyDAO.attachContext(this);
         AppSetting.initSetting(this);
 
         File file = new File(this.getCacheDir(),"okhttp");

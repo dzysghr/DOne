@@ -1,10 +1,20 @@
 package com.dzy.done.bean;
 
+import com.dzy.easydao.dborm.annotation.Column;
+import com.dzy.easydao.dborm.annotation.ID;
+import com.dzy.easydao.dborm.annotation.Table;
+
+@Table
 public class ThingItem
 {
+	@ID
+	private long id;
 
+	@Column
 	private String name;
+    @Column
 	private String img;
+    @Column
 	private String content;
 
 	public String getName()

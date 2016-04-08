@@ -15,10 +15,10 @@ import com.dzy.done.R;
 import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.AppSetting;
-import com.dzy.done.presenter.ContentPresenterImpl;
-import com.dzy.done.presenter.StringContentPresenter;
+import com.dzy.done.presenter.ArticlePresenterImpl;
+import com.dzy.done.presenter.ArticleContentPresenter;
 import com.dzy.done.util.MLog;
-import com.dzy.done.view.StringContentView;
+import com.dzy.done.view.ArticleContentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * 问答和文章页面共用这个activity
  */
-public class WebViewActivity extends AppCompatActivity implements StringContentView
+public class WebViewActivity extends AppCompatActivity implements ArticleContentView
 {
 
     @Bind(R.id.toolbar) protected Toolbar mToolbar;
@@ -40,7 +40,7 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
     boolean isFinish = false;
 
     protected ListItem mItem;
-    StringContentPresenter mPresenter;
+    ArticleContentPresenter mPresenter;
     ArticleItem mContent;
 
     @Override
@@ -64,7 +64,7 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
 
     private void initPresenter()
     {
-        mPresenter = new ContentPresenterImpl();
+        mPresenter = new ArticlePresenterImpl();
         mPresenter.onAttach(this);
     }
 
@@ -79,6 +79,7 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
             mPresenter.LoadArticleContent(mItem.getUrl());
         else
             mPresenter.LoadQAContent(mItem.getUrl());
+
         mPresenter.ExistfromFavorite(mItem);
     }
 
@@ -130,9 +131,9 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
     @Override
     protected void onDestroy()
     {
-        super.onDestroy();
         mWebView.destroy();
         mPresenter.onDetach();
+        super.onDestroy();
     }
 
     @Override
@@ -140,7 +141,6 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
     {
         isFinish = true;
         invalidateOptionsMenu();
-
         mContent = content;
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         mWebView.getSettings().setTextZoom(AppSetting.getSetting().getFontSize());
@@ -164,7 +164,7 @@ public class WebViewActivity extends AppCompatActivity implements StringContentV
     public void setFavoriteMenuState(boolean b)
     {
         //b 为true表示收藏已经存在，不可收藏
-        //haveSaved = b;
-        //invalidateOptionsMenu();
+        haveSaved = b;
+        invalidateOptionsMenu();
     }
 }

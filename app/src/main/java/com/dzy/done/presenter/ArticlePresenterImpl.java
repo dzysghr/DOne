@@ -2,17 +2,20 @@ package com.dzy.done.presenter;
 
 import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
+import com.dzy.done.db.DBManager;
 import com.dzy.done.model.ContentModel;
-import com.dzy.done.view.StringContentView;
+import com.dzy.done.view.ArticleContentView;
 
 /**
  *
  * Created by dzysg on 2016/4/6 0006.
  */
-public class ContentPresenterImpl implements StringContentPresenter
+public class ArticlePresenterImpl implements ArticleContentPresenter
 {
-    StringContentView mView;
+    ArticleContentView mView;
     ContentModel mModel;
+    DBManager mDB;
+
     ContentModel.IGetStringCallback mCallback = new ContentModel.IGetStringCallback() {
         @Override
         public void Finish(ArticleItem content)
@@ -29,13 +32,14 @@ public class ContentPresenterImpl implements StringContentPresenter
         }
     };
 
-    public ContentPresenterImpl()
+    public ArticlePresenterImpl()
     {
         mModel = ContentModel.get();
+        mDB = DBManager.getInstance();
     }
 
     @Override
-    public void onAttach(StringContentView view)
+    public void onAttach(ArticleContentView view)
     {
         mView = view;
     }
@@ -50,7 +54,7 @@ public class ContentPresenterImpl implements StringContentPresenter
     @Override
     public void LoadArticleContent(String url)
     {
-        mModel.getArticle(url,mCallback);
+        mModel.getArticle(url, mCallback);
     }
 
     @Override
@@ -60,20 +64,20 @@ public class ContentPresenterImpl implements StringContentPresenter
     }
 
     @Override
-    public void saveToFavorite(ListItem item, String content)
+    public void saveToFavorite(ListItem item, ArticleItem content)
     {
-
+        mDB.insertArticle(item,content);
     }
 
     @Override
-    public void ExistfromFavorite(ListItem url)
+    public void ExistfromFavorite(ListItem item)
     {
-        mView.setFavoriteMenuState(true);
+        mView.setFavoriteMenuState(mDB.exist(item));
     }
 
     @Override
     public void deleteFromFavorite(ListItem url)
     {
-
+        mDB.deleteArticle(url);
     }
 }

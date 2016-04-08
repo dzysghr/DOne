@@ -1,9 +1,14 @@
 package com.dzy.done.bean;
 
+import com.dzy.easydao.dborm.annotation.Column;
+import com.dzy.easydao.dborm.annotation.ID;
+import com.dzy.easydao.dborm.annotation.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
+
+@Table
 public class ListItem implements Serializable
 {
 	public static int PICTURE = 2; //图片
@@ -11,15 +16,22 @@ public class ListItem implements Serializable
     public static int THING = 3;  //东西
 	public static int QA = 4;  //问答
 
+    @ID
     @JsonIgnore
-    private int id=0;
+    private long id=0;
 
+    @Column
 	private String title;
-	private String content;
-	private String url;
-	private String date;
-	private String img;
-	private int type = 1;
+    @Column
+    private String content;
+    @Column
+    private String url;
+    @Column
+    private String date;
+    @Column
+    private String img;
+    @Column
+    private int type = 1;
 
 
 
