@@ -20,9 +20,10 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
-import com.dzy.done.model.ContentModel;
+import com.dzy.done.presenter.PicturePresenter;
 import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
+import com.dzy.done.view.PictureView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +31,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PictureActivity extends AppCompatActivity implements ContentModel.IGetPictureCallback
+public class PictureActivity extends AppCompatActivity implements PictureView
 {
 
 
@@ -46,6 +47,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     String mImgurl;
     boolean mIsFinish = false;
     ListItem mItem;
+    PicturePresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -97,7 +99,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         mPb.setVisibility(View.VISIBLE);
 
         //加载大图和文字
-        ContentModel.get().getPicture(mItem.getUrl(), this);
+        //ContentModel.get().getPicture(mItem.getUrl(), this);
     }
 
 
@@ -106,6 +108,8 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         //设置作者等信息，这两项数据可以在请求成功回调finish方法获取和设置，这里提前设置让体验好一丢丢
         mTvNum.setText(mItem.getTitle().split(" ", 2)[0]);
         mTvAuthor.setText(mItem.getTitle().split(" ", 2)[1]);
+        mPresenter = new PicturePresenter();
+        mPresenter.loadPicture(mItem.getUrl());
     }
 
     @Override
@@ -113,7 +117,7 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     {
         super.onDestroy();
         Picasso.with(this).cancelRequest(mIv);
-        ContentModel.get().cancel();
+
     }
 
     @OnClick(R.id.iv)
@@ -149,10 +153,10 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
         return true;
     }
 
-    @Override
-    public void Finish(PictureItem item)
-    {
 
+    @Override
+    public void showPictureInfo(PictureItem item)
+    {
         MLog.getLogger().d("load image " + item.getImg());
         Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv, new Callback()
         {
@@ -179,8 +183,14 @@ public class PictureActivity extends AppCompatActivity implements ContentModel.I
     }
 
     @Override
-    public void Falure(String msg)
+    public void showMsg(String msg)
     {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setFavoriteMenuState(boolean b)
+    {
+
     }
 }

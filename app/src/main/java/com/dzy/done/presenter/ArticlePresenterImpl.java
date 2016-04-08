@@ -51,33 +51,51 @@ public class ArticlePresenterImpl implements ArticleContentPresenter
         mModel.cancel();
     }
 
+    /** 加载文章
+     * @param url 地址
+     */
     @Override
     public void LoadArticleContent(String url)
     {
         mModel.getArticle(url, mCallback);
     }
 
+    /** 加载问答
+     * @param url 地址
+     */
     @Override
     public void LoadQAContent(String url)
     {
         mModel.getQA(url,mCallback);
     }
 
+    /** 将当前内容保存在数据库中，供收藏夹用
+     * @param item 列表的item
+     * @param content 文章的内容
+     */
     @Override
     public void saveToFavorite(ListItem item, ArticleItem content)
     {
-        mDB.insertArticle(item,content);
+        mDB.insertArticle(item, content);
+        mView.setFavoriteMenuState(true);
     }
 
+    /** 检查当前的item是否在数据库中
+     * @param item 检查的对象
+     */
     @Override
     public void ExistfromFavorite(ListItem item)
     {
         mView.setFavoriteMenuState(mDB.exist(item));
     }
 
+    /** 从数据库中删除当前item
+     * @param item 要删除的对象
+     */
     @Override
-    public void deleteFromFavorite(ListItem url)
+    public void deleteFromFavorite(ListItem item)
     {
-        mDB.deleteArticle(url);
+        mDB.deleteArticle(item);
+        mView.setFavoriteMenuState(false);
     }
 }

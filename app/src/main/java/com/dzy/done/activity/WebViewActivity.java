@@ -15,8 +15,8 @@ import com.dzy.done.R;
 import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.AppSetting;
-import com.dzy.done.presenter.ArticlePresenterImpl;
 import com.dzy.done.presenter.ArticleContentPresenter;
+import com.dzy.done.presenter.ArticlePresenterImpl;
 import com.dzy.done.util.MLog;
 import com.dzy.done.view.ArticleContentView;
 
@@ -99,6 +99,8 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
 
         if(haveSaved)
             menu.findItem(R.id.action_favorite).setTitle("已收藏");
+        else
+            menu.findItem(R.id.action_favorite).setTitle("收藏");
         return true;
     }
 
@@ -114,13 +116,9 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
             if (!haveSaved)
             {
                 mPresenter.saveToFavorite(mItem,mContent);
-                item.setTitle("已收藏");
-                haveSaved = true;
             }
             else
             {
-                haveSaved = false;
-                item.setTitle("收藏");
                 mPresenter.deleteFromFavorite(mItem);
             }
 
@@ -157,7 +155,7 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
     @Override
     public void loading()
     {
-
+        Object o = new Object();
     }
 
     @Override

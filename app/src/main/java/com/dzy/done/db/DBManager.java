@@ -7,7 +7,9 @@ import com.dzy.done.bean.ThingItem;
 import com.dzy.easydao.dborm.orm.EasyDAO;
 
 /**
- *
+ * 数据库访问层，主要用于收藏夹数据的读写，由于数据库读写数据量少，故没做异步
+ * 所有的读写逻辑由一个自己写的orm库EasyDAO完成
+ * 相关链接：https://github.com/dzysghr/EasyDao
  * Created by dzysg on 2016/4/7 0007.
  */
 public class DBManager
@@ -34,6 +36,7 @@ public class DBManager
         mArticleItemDAO = EasyDAO.getInstance(ArticleItem.class);
         mPictureItemDAO = EasyDAO.getInstance(PictureItem.class);
         mThingItemDAO = EasyDAO.getInstance(ThingItem.class);
+
     }
 
 
@@ -56,9 +59,6 @@ public class DBManager
 
     public boolean exist(ListItem item)
     {
-//        if (mListItemDAO==null)
-//            Log.i("tag","null !!!!!!!!!!!!!!!!!!!!!!");
-//        return true;
         return mListItemDAO.queryWhere("url=?",item.getUrl()).size()>0;
     }
 

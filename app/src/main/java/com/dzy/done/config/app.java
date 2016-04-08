@@ -47,8 +47,6 @@ public class app extends Application
                 .build();
         Picasso.setSingletonInstance(picasso);
 
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl("http://dzyone.applinzi.com")
@@ -57,8 +55,8 @@ public class app extends Application
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         mApi = retrofit.create(ApiServer.class);
-
     }
+
 
     public static Context getContext()
     {
