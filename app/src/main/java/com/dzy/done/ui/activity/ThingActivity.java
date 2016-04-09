@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

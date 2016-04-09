@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -87,22 +87,19 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
     public boolean onPrepareOptionsMenu(Menu menu)
     {
         MLog.getLogger().d("onPrepare");
-        //内容加载完才显示菜单
-        return isFinish;
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MLog.getLogger().d("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.webview_activity, menu);
 
         if(haveSaved)
             menu.findItem(R.id.action_favorite).setTitle("已收藏");
         else
             menu.findItem(R.id.action_favorite).setTitle("收藏");
-        return true;
+
+        //内容加载完才显示菜单
+        return isFinish;
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -114,14 +111,9 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
         }else if (item.getItemId() == R.id.action_favorite)
         {
             if (!haveSaved)
-            {
-                mPresenter.saveToFavorite(mItem,mContent);
-            }
+                mPresenter.saveToFavorite(mItem);
             else
-            {
                 mPresenter.deleteFromFavorite(mItem);
-            }
-
         }
         return false;
     }

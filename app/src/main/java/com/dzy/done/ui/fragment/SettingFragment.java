@@ -1,4 +1,4 @@
-package com.dzy.done.fregment;
+package com.dzy.done.ui.fragment;
 
 import android.os.Bundle;
 import android.preference.Preference;

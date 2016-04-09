@@ -76,4 +76,6 @@
     <string name="setting">设置</string>
     <string name="favorite">收藏</string>
     <string name="share">分享</string>
+    <string name="havesave">已收藏</string>
+    <string name="save">收藏</string>
 </resources>

@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.fregment.ContentListFragment;
+import com.dzy.done.ui.fragment.ContentListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

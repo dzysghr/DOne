@@ -41,7 +41,8 @@ public class MainListPresenter implements ListPresenter
 
             isLoading = false;
             Log.e("tag", "onFalure    " + msg);
-            mView.failload();
+            mView.showMsg(msg);
+            mView.hideProgress();
         }
     };
 
@@ -53,13 +54,19 @@ public class MainListPresenter implements ListPresenter
 
     /**
      * 加载数据
-     * @param page 页数
+     * @param page 页数，从1开始
      */
     @Override
     public void loadListDates(int page)
     {
         if (isLoading)
             return;
+        if (page<1)
+        {
+            Log.e("tag","page error :"+page);
+            return;
+        }
+
 
         isLoading = true;
         mView.showProgress();

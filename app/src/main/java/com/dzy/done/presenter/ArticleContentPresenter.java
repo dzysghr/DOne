@@ -1,6 +1,5 @@
 package com.dzy.done.presenter;
 
-import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.view.ArticleContentView;
 
@@ -14,7 +13,7 @@ public interface ArticleContentPresenter
     void onDetach();
     void LoadArticleContent(String url);
     void LoadQAContent(String url);
-    void saveToFavorite(ListItem item,ArticleItem content);
+    void saveToFavorite(ListItem item);
     void ExistfromFavorite(ListItem url);
     void deleteFromFavorite(ListItem url);
 

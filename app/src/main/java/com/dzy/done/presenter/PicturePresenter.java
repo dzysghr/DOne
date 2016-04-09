@@ -2,7 +2,7 @@ package com.dzy.done.presenter;
 
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
-import com.dzy.done.db.DBManager;
+import com.dzy.done.model.DBModel;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.PictureView;
 
@@ -13,34 +13,33 @@ import com.dzy.done.view.PictureView;
 public class PicturePresenter
 {
 
-    PictureView mPictureView;
+    PictureView mView;
     ContentModel mModel;
-    DBManager mDB;
+    DBModel mDB;
     ContentModel.IGetPictureCallback mCallback = new ContentModel.IGetPictureCallback() {
         @Override
         public void Finish(PictureItem item)
         {
-            if (mPictureView!=null)
+            if (mView !=null)
             {
-                mPictureView.showPictureInfo(item);
+                mView.showPictureInfo(item);
             }
         }
 
         @Override
         public void Falure(String msg)
         {
-            if (mPictureView!=null)
+            if (mView !=null)
             {
-                mPictureView.showMsg(msg);
+                mView.showMsg(msg);
             }
         }
     };
 
-
     public PicturePresenter()
     {
         mModel = ContentModel.get();
-        mDB = DBManager.getInstance();
+        mDB = DBModel.getInstance();
     }
 
 
@@ -51,29 +50,39 @@ public class PicturePresenter
 
     public   void onAttach(PictureView view)
     {
-        mPictureView = view;
+        mView = view;
     }
 
     public  void onDetach()
     {
-        mPictureView = null;
+        mView = null;
         mModel.cancel();
     }
 
-    public  void saveToFavorite(ListItem item, PictureItem pitem)
+    /** 将当前内容保存在数据库中，供收藏夹用
+     * @param item 列表的item
+     */
+    public void saveToFavorite(ListItem item)
     {
-
+        mDB.insert(item);
+        mView.setFavoriteMenuState(true);
     }
 
-    public   void checkfromFavorite(ListItem url)
+    /** 检查当前的item是否在数据库中
+     * @param item 检查的对象
+     */
+    public void checkFromFavorite(ListItem item)
     {
-
+        mView.setFavoriteMenuState(mDB.exist(item));
     }
 
-    public  void deleteFromFavorite(ListItem url)
+    /** 从数据库中删除当前item
+     * @param item 要删除的对象
+     */
+    public void deleteFromFavorite(ListItem item)
     {
-
+        mDB.delete(item);
+        mView.setFavoriteMenuState(false);
     }
-
 
 }

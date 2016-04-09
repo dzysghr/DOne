@@ -7,12 +7,17 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
+    <!--
+    这里设置会让appbar隐藏失效,navigetionbar透明生效
+    android:fitsSystemWindows="true" -->
 
     <android.support.design.widget.AppBarLayout
+
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.v7.widget.Toolbar
+
             android:id="@+id/toolbar"
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"

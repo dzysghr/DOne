@@ -15,6 +15,9 @@ public class ListItem implements Serializable
     public static int ARTICLE = 1; //文章
     public static int THING = 3;  //东西
 	public static int QA = 4;  //问答
+	public static int Common = 5;
+
+
 
     @ID
     @JsonIgnore

@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.adapter.MainPageAdapter;
 import com.dzy.done.config.PageConfig;
-import com.dzy.done.fregment.ContentListFragment;
+import com.dzy.done.model.DBModel;
+import com.dzy.done.ui.fragment.ContentListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @OnClick(R.id.fab)
     public void onFabClick(View v)
     {
+        //回到顶部
         ContentListFragment fregment = (ContentListFragment) mAdapter.getItem(mTabs.getSelectedTabPosition());
         fregment.scrollToTop();
     }
@@ -123,7 +125,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId()==R.id.menu_setting)
         {
             startActivity(new Intent(MainActivity.this,SettingActivity.class));
+        }else if (item.getItemId()==R.id.menu_favority)
+        {
+            startActivity(new Intent(MainActivity.this,FavoriteActivity.class));
         }
-        return false;
+        return true;
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        DBModel.getInstance().Close();
     }
 }

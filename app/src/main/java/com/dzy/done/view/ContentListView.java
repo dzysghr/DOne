@@ -13,6 +13,6 @@ public interface ContentListView
 
     void hideProgress();
 
-    void failload();
+    void showMsg(String msg);
 
 }

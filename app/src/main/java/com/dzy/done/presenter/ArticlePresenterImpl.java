@@ -2,7 +2,7 @@ package com.dzy.done.presenter;
 
 import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
-import com.dzy.done.db.DBManager;
+import com.dzy.done.model.DBModel;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.ArticleContentView;
 
@@ -14,7 +14,7 @@ public class ArticlePresenterImpl implements ArticleContentPresenter
 {
     ArticleContentView mView;
     ContentModel mModel;
-    DBManager mDB;
+    DBModel mDB;
 
     ContentModel.IGetStringCallback mCallback = new ContentModel.IGetStringCallback() {
         @Override
@@ -35,7 +35,7 @@ public class ArticlePresenterImpl implements ArticleContentPresenter
     public ArticlePresenterImpl()
     {
         mModel = ContentModel.get();
-        mDB = DBManager.getInstance();
+        mDB = DBModel.getInstance();
     }
 
     @Override
@@ -71,12 +71,11 @@ public class ArticlePresenterImpl implements ArticleContentPresenter
 
     /** 将当前内容保存在数据库中，供收藏夹用
      * @param item 列表的item
-     * @param content 文章的内容
      */
     @Override
-    public void saveToFavorite(ListItem item, ArticleItem content)
+    public void saveToFavorite(ListItem item)
     {
-        mDB.insertArticle(item, content);
+        mDB.insert(item);
         mView.setFavoriteMenuState(true);
     }
 
@@ -95,7 +94,7 @@ public class ArticlePresenterImpl implements ArticleContentPresenter
     @Override
     public void deleteFromFavorite(ListItem item)
     {
-        mDB.deleteArticle(item);
+        mDB.delete(item);
         mView.setFavoriteMenuState(false);
     }
 }

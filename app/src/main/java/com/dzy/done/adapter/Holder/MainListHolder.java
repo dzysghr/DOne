@@ -1,5 +1,6 @@
 package com.dzy.done.adapter.Holder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dzy.done.R;
-import com.dzy.done.activity.MainActivity;
-import com.dzy.done.activity.PictureActivity;
-import com.dzy.done.activity.ThingActivity;
-import com.dzy.done.activity.WebViewActivity;
 import com.dzy.done.bean.ListItem;
+import com.dzy.done.ui.activity.PictureActivity;
+import com.dzy.done.ui.activity.ThingActivity;
+import com.dzy.done.ui.activity.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -84,7 +84,7 @@ public class MainListHolder extends BaseHolder<ListItem>
             //设置共享元素效果
             if (Build.VERSION.SDK_INT >= 21) {
                 ViewCompat.setTransitionName(img, mItem.getUrl());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) (mContext), img, mItem.getUrl());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)(mContext), img, mItem.getUrl());
                 mContext.startActivity(intent, options.toBundle());
             } else {
                 mContext.startActivity(intent);

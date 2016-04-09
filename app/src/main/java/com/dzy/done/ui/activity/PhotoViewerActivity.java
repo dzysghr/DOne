@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -46,8 +46,11 @@ public class PictureActivity extends AppCompatActivity implements PictureView
 
     String mImgurl;
     boolean mIsFinish = false;
+    boolean haveSave = true;
     ListItem mItem;
     PicturePresenter mPresenter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -109,7 +112,9 @@ public class PictureActivity extends AppCompatActivity implements PictureView
         mTvNum.setText(mItem.getTitle().split(" ", 2)[0]);
         mTvAuthor.setText(mItem.getTitle().split(" ", 2)[1]);
         mPresenter = new PicturePresenter();
+        mPresenter.onAttach(this);
         mPresenter.loadPicture(mItem.getUrl());
+        mPresenter.checkFromFavorite(mItem);
     }
 
     @Override
@@ -138,8 +143,11 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     public boolean onPrepareOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.webview_activity, menu);
-
-        return super.onPrepareOptionsMenu(menu);
+        if (haveSave)
+            menu.findItem(R.id.action_favorite).setTitle(R.string.havesave);
+        else
+            menu.findItem(R.id.action_favorite).setTitle(R.string.save);
+        return mIsFinish;
     }
 
 
@@ -150,9 +158,15 @@ public class PictureActivity extends AppCompatActivity implements PictureView
         {
             supportFinishAfterTransition();
         }
+        else if (item.getItemId()==R.id.action_favorite)
+        {
+            if (haveSave)
+                mPresenter.deleteFromFavorite(mItem);
+            else
+                mPresenter.saveToFavorite(mItem);
+        }
         return true;
     }
-
 
     @Override
     public void showPictureInfo(PictureItem item)
@@ -164,6 +178,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView
             public void onSuccess()
             {
                 mIsFinish = true;
+                invalidateOptionsMenu();
                 mPb.setVisibility(View.GONE);
             }
 
@@ -191,6 +206,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     @Override
     public void setFavoriteMenuState(boolean b)
     {
-
+        haveSave = b;
+        invalidateOptionsMenu();
     }
 }

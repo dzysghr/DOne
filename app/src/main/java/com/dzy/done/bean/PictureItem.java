@@ -1,26 +1,15 @@
 package com.dzy.done.bean;
 
-import com.dzy.easydao.dborm.annotation.Column;
-import com.dzy.easydao.dborm.annotation.ID;
-import com.dzy.easydao.dborm.annotation.Table;
-
-@Table
 public class PictureItem
 {
-	@ID
+
 	private long id;
 
-    @Column
 	private String img;
-    @Column
 	private String day;
-    @Column
 	private String year;
-    @Column
 	private String content;
-    @Column
 	private String num;
-    @Column
 	private String author;
 	
 	public String getImg()

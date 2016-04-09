@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".activity.PictureActivity">
+    tools:context=".ui.activity.PictureActivity">
 
     <include layout="@layout/toolbar"/>
 

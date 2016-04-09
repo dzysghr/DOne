@@ -1,4 +1,4 @@
-package com.dzy.done.fregment;
+package com.dzy.done.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.adapter.MainListAdapter;
 import com.dzy.done.bean.ListItem;
+import com.dzy.done.presenter.FavoritePresenter;
 import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.MainListPresenter;
 import com.dzy.done.view.ContentListView;
@@ -33,11 +34,9 @@ import butterknife.ButterKnife;
 public class ContentListFragment extends Fragment implements ContentListView, SwipeRefreshLayout.OnRefreshListener
 {
 
-    @Bind(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
 
-    @Bind(R.id.swrfresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.swrfresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     int mType = 1;
@@ -46,7 +45,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     private MainListAdapter mAdapter;
     private int mPageCount = 1;
     private LinearLayoutManager mLayoutManager;
-
 
     @Nullable
     @Override
@@ -58,16 +56,32 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         ButterKnife.bind(this, view);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         initRecycleView();
+        initPresenter();
 
-        mPresenter = new MainListPresenter(mType);
-        mPresenter.attachView(this);
-        //加载第一页
-        mPresenter.loadListDates(1);
-        Log.i("tag", "mPresenter loaddatas");
         return view;
     }
 
-    private  void initRecycleView()
+
+    /**
+     *
+     */
+    private void initPresenter()
+    {
+        if (mType == ListItem.Common)
+            mPresenter = new FavoritePresenter();
+        else
+            mPresenter = new MainListPresenter(mType);
+
+        mPresenter.attachView(this);
+        //加载第一页
+        mPresenter.loadListDates(1);
+
+
+        Log.i("tag", "mPresenter loaddatas");
+    }
+
+
+    private void initRecycleView()
     {
         mAdapter = new MainListAdapter(getActivity(), mDatas);
 
@@ -82,7 +96,8 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                {
 
                     if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0 || mRecyclerView.getChildCount() == 0)
                         mSwipeRefreshLayout.setEnabled(true);
@@ -91,9 +106,11 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
 
 
                     //如果recycleview滑到底,加载数据
-                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1) {
-                        if (mRecyclerView.getChildCount() > 0) {
-                            mPresenter.loadListDates(++mPageCount);
+                    if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1&&mLayoutManager.findFirstCompletelyVisibleItemPosition()!=0)
+                    {
+                        if (mRecyclerView.getChildCount() > 0)
+                        {
+                            mPresenter.loadListDates(mPageCount);
                             Log.i("tag", "load more");
                         }
                     }
@@ -109,6 +126,13 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     }
 
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        mPresenter.detach();
+
+    }
 
     private ContentListFragment(int type)
     {
@@ -116,9 +140,8 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     }
 
     /**
-     *
      * @param type 页面类型，图片、文章、东西 ,比如 {@link com.dzy.done.bean.ListItem#ARTICLE}
-     * @return  实例
+     * @return 实例
      */
     public static ContentListFragment newInstance(int type)
     {
@@ -130,6 +153,8 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     {
         if (mPageCount == 1)
             mDatas.clear();
+
+        mPageCount++;
         mDatas.addAll(datas);
         mAdapter.notifyDataSetChanged();
     }
@@ -150,11 +175,11 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     }
 
     @Override
-    public void failload()
+    public void showMsg(String msg)
     {
-        mSwipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onRefresh()
     {

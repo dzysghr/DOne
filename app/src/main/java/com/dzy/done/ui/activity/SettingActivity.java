@@ -1,4 +1,4 @@
-package com.dzy.done.activity;
+package com.dzy.done.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.dzy.done.R;
-import com.dzy.done.fregment.SettingFragment;
+import com.dzy.done.ui.fragment.SettingFragment;
 
 public class SettingActivity extends AppCompatActivity
 {
