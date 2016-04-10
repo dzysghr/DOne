@@ -7,6 +7,7 @@ import com.dzy.done.model.ListModel;
 import com.dzy.done.model.ListModelCallback;
 import com.dzy.done.view.ContentListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ public class MainListPresenter implements ListPresenter
     ListModel mModel;
     int mType;
     boolean isLoading = false;
+    int page = 1;
+    List<ListItem> mDatas = new ArrayList<>();
+
     private ListModelCallback mCallback = new ListModelCallback()
     {
         @Override
@@ -27,9 +31,12 @@ public class MainListPresenter implements ListPresenter
         {
             if (mView==null)
                 return;
-            mView.showDatas(items);
+
+            mDatas.addAll(items);
+            mView.showDatas(mDatas);
             mView.hideProgress();
             isLoading = false;
+            page++;
             Log.i("tag", "presenter onFinish    items:" + items.size() + "");
         }
 
@@ -54,18 +61,26 @@ public class MainListPresenter implements ListPresenter
 
     /**
      * 加载数据
-     * @param page 页数，从1开始
      */
     @Override
-    public void loadListDates(int page)
+    public void loadListDates()
     {
         if (isLoading)
             return;
-        if (page<1)
-        {
-            Log.e("tag","page error :"+page);
+
+        page=1;
+        isLoading = true;
+        mDatas.clear();
+        mView.showProgress();
+        mModel.LoadDatas(page,mType,mCallback);
+    }
+
+
+    @Override
+    public void loadMore()
+    {
+        if (isLoading)
             return;
-        }
 
 
         isLoading = true;

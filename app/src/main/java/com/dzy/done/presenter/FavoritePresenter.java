@@ -4,10 +4,11 @@ import com.dzy.done.bean.ListItem;
 import com.dzy.done.model.DBModel;
 import com.dzy.done.view.ContentListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  收藏界面的p
+ * 收藏界面的p
  * Created by dzysg on 2016/4/9 0009.
  */
 public class FavoritePresenter implements ListPresenter
@@ -16,25 +17,51 @@ public class FavoritePresenter implements ListPresenter
     DBModel mDBModel;
     ContentListView mView;
     boolean loadedAll = false;
+    int page = 1;
+    List<ListItem> mdatas = new ArrayList<>();
+
     public FavoritePresenter()
     {
         mDBModel = DBModel.getInstance();
     }
 
     @Override
-    public void loadListDates(int page)
+    public void loadListDates()
     {
-        if (loadedAll&&page>1)
-            return;
+        mView.showProgress();
+        page = 1;
         List<ListItem> list = mDBModel.loadList(page);
         if (list.isEmpty())
         {
-            loadedAll=true;
-        }
-        else
+            loadedAll = true;
+        } else
         {
-            loadedAll =false;
-            mView.showDatas(list);
+            loadedAll = false;
+            mdatas.clear();
+            mdatas.addAll(list);
+            mView.showDatas(mdatas);
+            page++;
+        }
+        mView.hideProgress();
+    }
+
+    @Override
+    public void loadMore()
+    {
+        mView.showProgress();
+        if (!loadedAll)
+        {
+            List<ListItem> list = mDBModel.loadList(page);
+            if (list.isEmpty())
+            {
+                loadedAll = true;
+            } else
+            {
+                loadedAll = false;
+                mdatas.addAll(list);
+                mView.showDatas(mdatas);
+                page++;
+            }
         }
         mView.hideProgress();
     }

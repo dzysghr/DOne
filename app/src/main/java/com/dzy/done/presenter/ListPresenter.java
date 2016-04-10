@@ -9,10 +9,11 @@ import com.dzy.done.view.ContentListView;
 public interface ListPresenter
 {
     /** 加载第Page页
-     * @param page 页数，从1开始
      */
-    void loadListDates(int page);
+    void loadListDates();
+    void loadMore();
     void attachView(ContentListView view);
     void detach();
+
 
 }

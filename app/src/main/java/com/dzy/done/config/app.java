@@ -32,7 +32,7 @@ public class app extends Application
     {
         super.onCreate();
         mContext = this;
-        EasyDAO.attachContext(this);
+        EasyDAO.init(this,"DONE",1);
         AppSetting.initSetting(this);
 
         File file = new File(this.getCacheDir(),"okhttp");
