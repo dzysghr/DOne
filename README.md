@@ -31,3 +31,24 @@ v1.0
 
 #功能界面
 ![image](https://github.com/dzysghr/DOne/blob/master/demopic/demo.gif)
+
+# 关于后台接口
+本人用php解析http://www.wufafuwu.com 的数据并封装成json返回，版权归原作者所有
+
+
+# License
+=======
+
+    Copyright 2013 Square, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
