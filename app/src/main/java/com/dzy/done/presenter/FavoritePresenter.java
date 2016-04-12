@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 收藏界面的p
+ * 收藏界面的presenter
  * Created by dzysg on 2016/4/9 0009.
  */
 public class FavoritePresenter implements ListPresenter

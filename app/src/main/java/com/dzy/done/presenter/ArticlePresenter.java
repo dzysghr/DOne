@@ -7,7 +7,7 @@ import com.dzy.done.view.ArticleContentView;
  *
  * Created by dzysg on 2016/4/6 0006.
  */
-public interface ArticleContentPresenter
+public interface ArticlePresenter
 {
     void onAttach(ArticleContentView view);
     void onDetach();

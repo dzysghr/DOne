@@ -103,7 +103,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
                     else
                         mSwipeRefreshLayout.setEnabled(false);
 
-
                     //如果recycleview滑到底,加载数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0)
                     {
@@ -173,7 +172,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     @Override
     public void showMsg(String msg)
     {
-        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.load_fail, Toast.LENGTH_SHORT).show();
     }
 
     @Override

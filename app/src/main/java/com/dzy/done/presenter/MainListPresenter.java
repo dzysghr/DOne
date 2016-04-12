@@ -76,6 +76,9 @@ public class MainListPresenter implements ListPresenter
     }
 
 
+    /**
+     * 加载更多，当列表滑底时被调用
+     */
     @Override
     public void loadMore()
     {

@@ -5,10 +5,10 @@
     <group android:id="@+id/group"
         android:visible="true"
         >
-        <item android:id="@+id/action_share"
-              android:title="@string/share"
-              android:orderInCategory="100"
-              app:showAsAction="always"/>
+        <!--<item android:id="@+id/action_share"-->
+              <!--android:title="@string/share"-->
+              <!--android:orderInCategory="100"-->
+              <!--app:showAsAction="always"/>-->
         <item android:id="@+id/action_favorite"
               android:checked="true"
               android:checkable="true"

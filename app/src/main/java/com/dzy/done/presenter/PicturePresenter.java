@@ -7,7 +7,7 @@ import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.PictureView;
 
 /**
- *  p
+ *  图片页面Presenter
  * Created by dzysg on 2016/4/8 0008.
  */
 public class PicturePresenter

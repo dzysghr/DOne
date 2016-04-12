@@ -5,11 +5,15 @@ import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 
 /**
- *  使颜色加深，代码来自网络
+ *  颜色工具类
  * Created by dzysg on 2016/2/18 0018.
  */
 public class colorUtil
 {
+    /** 使颜色加深，代码来自网络
+     * @param RGBValues  颜色rgb值
+     * @return 加深后的rgb
+     */
     public static int colorBurn(int RGBValues) {
         int alpha = RGBValues >> 24;
         int red = RGBValues >> 16 & 0xFF;

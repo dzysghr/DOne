@@ -15,7 +15,6 @@ import com.dzy.done.config.app;
 public class NetworkUtils
 {
 
-
     /**
      * 是否有网络
      * @return

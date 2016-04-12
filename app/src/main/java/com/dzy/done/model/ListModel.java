@@ -72,12 +72,14 @@ public class ListModel
             public void onResponse(Call<List<ListItem>> call, Response<List<ListItem>> response)
             {
                 mCallback.onFinish(response.body());
+                mCall = null;
             }
 
             @Override
             public void onFailure(Call<List<ListItem>> call, Throwable t)
             {
                 mCallback.OnFalure(t.getMessage());
+                mCall = null;
             }
         });
     }

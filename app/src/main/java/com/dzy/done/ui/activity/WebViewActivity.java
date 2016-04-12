@@ -15,7 +15,7 @@ import com.dzy.done.R;
 import com.dzy.done.bean.ArticleItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.config.AppSetting;
-import com.dzy.done.presenter.ArticleContentPresenter;
+import com.dzy.done.presenter.ArticlePresenter;
 import com.dzy.done.presenter.ArticlePresenterImpl;
 import com.dzy.done.util.MLog;
 import com.dzy.done.view.ArticleContentView;
@@ -40,7 +40,7 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
     boolean isFinish = false;
 
     protected ListItem mItem;
-    ArticleContentPresenter mPresenter;
+    ArticlePresenter mPresenter;
     ArticleItem mContent;
 
     @Override

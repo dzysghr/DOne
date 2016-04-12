@@ -6,7 +6,7 @@ import com.dzy.easydao.dborm.orm.EasyDAO;
 import java.util.List;
 
 /**
- * 数据库访问层，主要用于收藏夹数据的读写，由于数据库读写数据量少，故没做异步
+ * 数据库访问层，主要用于收藏夹数据的读写，由于数据库读写数据量少速度快，故没做异步
  * 所有的sql逻辑由一个自己写的orm库EasyDAO完成
  * 相关链接：https://github.com/dzysghr/EasyDao
  * Created by dzysg on 2016/4/7 0007.
