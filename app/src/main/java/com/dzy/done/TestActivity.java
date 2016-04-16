@@ -23,6 +23,7 @@ public class TestActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Log.i("tag", "onCreate");
+
     }
 
 
@@ -30,6 +31,7 @@ public class TestActivity extends AppCompatActivity
 
     public void onclick(View v)
     {
+
 
         if (mMenu==null)
             MLog.getLogger().d("xxxxxxxxxxxxxxxxxxx");

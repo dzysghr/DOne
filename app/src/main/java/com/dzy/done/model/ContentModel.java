@@ -61,6 +61,8 @@ public class ContentModel
             return;
         }
 
+
+
         Call<String> call = mApiServer.getArticle(url);
         mCall = call;
         call.enqueue(new Callback<String>()

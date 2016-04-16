@@ -9,6 +9,9 @@ import com.dzy.done.R;
 import com.dzy.done.asynctask.ClearCacheTask;
 import com.dzy.done.config.AppSetting;
 
+/**
+ *  设置界面
+ */
 public class SettingFragment extends PreferenceFragment
 {
 
@@ -30,6 +33,7 @@ public class SettingFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
+
                 AppSetting.getSetting().setFontSize(Integer.parseInt((String)newValue));
                 return true;
             }
@@ -42,6 +46,7 @@ public class SettingFragment extends PreferenceFragment
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
     {
 
+        //如果选中了清除缓存
         if (preference.getKey().equals("clearCache"))
         {
             new ClearCacheTask().execute();

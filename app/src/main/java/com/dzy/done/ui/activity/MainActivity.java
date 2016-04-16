@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.dzy.done.R;
 import com.dzy.done.adapter.MainPageAdapter;
 import com.dzy.done.config.PageConfig;

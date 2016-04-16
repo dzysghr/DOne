@@ -20,6 +20,7 @@ import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.MainListPresenter;
 import com.dzy.done.view.ContentListView;
 import com.dzy.done.widget.RecyclerViewItemDecoration;
+import com.dzy.done.widget.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
 
-    @Bind(R.id.swrfresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.swrfresh) ScrollChildSwipeRefreshLayout mSwipeRefreshLayout;
 
 
     int mType = 1;
@@ -54,9 +55,9 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         View view = inflater.inflate(R.layout.fregment_article, container, false);
         ButterKnife.bind(this, view);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setScrollUpChild(mRecyclerView);
         initRecycleView();
         initPresenter();
-
         return view;
     }
 
@@ -97,12 +98,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE)
                 {
-
-                    if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0 || mRecyclerView.getChildCount() == 0)
-                        mSwipeRefreshLayout.setEnabled(true);
-                    else
-                        mSwipeRefreshLayout.setEnabled(false);
-
                     //如果recycleview滑到底,加载数据
                     if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mDatas.size() - 1 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0)
                     {
@@ -158,7 +153,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     public void showProgress()
     {
         Log.i("tag", "show progress");
-        mSwipeRefreshLayout.setEnabled(true);
+       // mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
@@ -166,7 +161,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     public void hideProgress()
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeRefreshLayout.setEnabled(false);
+        //mSwipeRefreshLayout.setEnabled(false);
     }
 
     @Override

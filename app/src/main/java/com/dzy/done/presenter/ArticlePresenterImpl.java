@@ -7,7 +7,7 @@ import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.ArticleContentView;
 
 /**
- * 文章和问答共用这一个presenter
+ * 文章和问答只有一个方法不同，所以共用这一个presenter
  * Created by dzysg on 2016/4/6 0006.
  */
 public class ArticlePresenterImpl implements ArticlePresenter
