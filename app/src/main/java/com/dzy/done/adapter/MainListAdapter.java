@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dzy.done.R;
-import com.dzy.done.bean.ListItem;
 import com.dzy.done.adapter.Holder.BaseHolder;
 import com.dzy.done.adapter.Holder.MainListHolder;
+import com.dzy.done.bean.ListItem;
 
 import java.util.List;
 
@@ -32,12 +32,15 @@ public class MainListAdapter extends RecyclerView.Adapter<BaseHolder<ListItem>>
     }
 
     @Override
-    public BaseHolder<ListItem> onCreateViewHolder(ViewGroup parent, int viewType)
+    public  BaseHolder<ListItem> onCreateViewHolder(ViewGroup parent, int viewType)
     {
+
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
             return new MainListHolder(view, mContext);
 
     }
+
+
 
     @Override
     public int getItemCount()
