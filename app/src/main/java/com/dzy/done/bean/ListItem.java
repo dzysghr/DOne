@@ -18,7 +18,6 @@ public class ListItem implements Serializable
 	public static int Common = 5;
 
 
-
     @ID
     @JsonIgnore
     private long id=0;

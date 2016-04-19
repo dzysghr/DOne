@@ -10,7 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dzy.done.TestActivity">
 
-
     <Button
         android:layout_centerInParent="true"
         android:onClick="onclick"

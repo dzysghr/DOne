@@ -41,5 +41,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.android.support:support-v4:23.2.0'
-    compile files('libs/EasyDao.jar')
+    compile files('libs/EasyDao-1.1.jar')
 }
