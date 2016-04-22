@@ -33,15 +33,13 @@ public class FavoritePresenter implements ListPresenter
         List<ListItem> list = mDBModel.loadList(page);
         if (list.isEmpty())
         {
-            loadedAll = true;
-        } else
-        {
             loadedAll = false;
             mdatas.clear();
-            mdatas.addAll(list);
-            mView.showDatas(mdatas);
-            page++;
         }
+        mdatas.addAll(list);
+        mView.showDatas(mdatas);
+        page++;
+
         mView.hideProgress();
     }
 
