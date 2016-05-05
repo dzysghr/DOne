@@ -3,12 +3,13 @@ package com.dzy.done.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,20 +19,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
+import com.dzy.done.adapter.Holder.BottomSheetAdapter;
+import com.dzy.done.asynctask.SavePhotoTask;
+import com.dzy.done.bean.BottomSheetItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
 import com.dzy.done.presenter.PicturePresenter;
 import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
 import com.dzy.done.view.PictureView;
-import com.squareup.picasso.Callback;
+import com.dzy.done.widget.BottomSheet;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PictureActivity extends AppCompatActivity implements PictureView
+public class PictureActivity extends AppCompatActivity implements PictureView, View.OnLongClickListener, BottomSheetAdapter.ItemClickListener
 {
 
 
@@ -44,12 +52,20 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     @Bind(R.id.tv_mm_yy) TextView mTvMonth;
     @Bind(R.id.pb) ProgressBar mPb;
 
-    String mImgurl;
+
+    //已经完成
     boolean mIsFinish = false;
+    //已经收藏
     boolean haveSave = true;
+
+    BottomSheetItem mSaveItem;
     ListItem mItem;
     PicturePresenter mPresenter;
+    List<BottomSheetItem> mBSItems;
+    BottomSheet mBottomSheet;
 
+    //大图
+    Bitmap mBitmap;
 
 
     @Override
@@ -63,9 +79,9 @@ public class PictureActivity extends AppCompatActivity implements PictureView
         Intent intent = getIntent();
         mItem = (ListItem) intent.getSerializableExtra("item");
         ViewCompat.setTransitionName(mIv, mItem.getUrl());
-
         initView();
         initData();
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
 
     }
 
@@ -85,7 +101,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView
                 {
                     Window window = getWindow();
                     window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                    //window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
                 }
             }
         }
@@ -98,19 +114,30 @@ public class PictureActivity extends AppCompatActivity implements PictureView
 
         //设置progressbar颜色
         mPb.bringToFront();
-        mPb .getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
+        mPb.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
         mPb.setVisibility(View.VISIBLE);
 
-        //加载大图和文字
-        //ContentModel.get().getPicture(mItem.getUrl(), this);
+
+        mIv.setOnLongClickListener(this);
+
     }
 
 
     public void initData()
     {
+
+        //初始化BottomSheet选项
+        mBSItems = new ArrayList<>();
+        mBSItems.add(new BottomSheetItem(R.drawable.photo, "保存到相册"));
+        mSaveItem = new BottomSheetItem(R.drawable.star, "收藏");
+        mBSItems.add(mSaveItem);
+        mBSItems.add(new BottomSheetItem(R.drawable.share, "分享"));
+
+
         //设置作者等信息，这两项数据可以在请求成功回调finish方法获取和设置，这里提前设置让体验好一丢丢
         mTvNum.setText(mItem.getTitle().split(" ", 2)[0]);
         mTvAuthor.setText(mItem.getTitle().split(" ", 2)[1]);
+
         mPresenter = new PicturePresenter();
         mPresenter.onAttach(this);
         mPresenter.loadPicture(mItem.getUrl());
@@ -121,8 +148,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     protected void onDestroy()
     {
         super.onDestroy();
-        Picasso.with(this).cancelRequest(mIv);
-
+        Picasso.with(this).cancelTag(mItem.getImg());
     }
 
     @OnClick(R.id.iv)
@@ -134,36 +160,17 @@ public class PictureActivity extends AppCompatActivity implements PictureView
         if (mIv.getDrawable() != null)
         {
             Intent intent = new Intent(this, PhotoViewerActivity.class);
-            intent.putExtra("url", mImgurl);
+            intent.putExtra("url", mItem.getImg());
             startActivity(intent);
         }
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.webview_activity, menu);
-        if (haveSave)
-            menu.findItem(R.id.action_favorite).setTitle(R.string.havesave);
-        else
-            menu.findItem(R.id.action_favorite).setTitle(R.string.save);
-        return mIsFinish;
-    }
-
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if (item.getItemId()==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
         {
             supportFinishAfterTransition();
-        }
-        else if (item.getItemId()==R.id.action_favorite)
-        {
-            if (haveSave)
-                mPresenter.deleteFromFavorite(mItem);
-            else
-                mPresenter.saveToFavorite(mItem);
         }
         return true;
     }
@@ -171,30 +178,41 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     @Override
     public void showPictureInfo(PictureItem item)
     {
+        //数据加载完成
         MLog.getLogger().d("load image " + item.getImg());
-        Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv, new Callback()
-        {
+
+        Picasso.with(this).load(item.getImg()).tag(mItem.getImg()).into(new Target() {
             @Override
-            public void onSuccess()
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from)
             {
+
+                mIv.setImageBitmap(bitmap);
                 mIsFinish = true;
-                invalidateOptionsMenu();
+                mBitmap = bitmap;
                 mPb.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError()
+            public void onBitmapFailed(Drawable errorDrawable)
             {
+                mIsFinish = true;
                 mPb.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable)
+            {
+
+            }
         });
+
+
 
         mTvContent.setText(item.getContent());
         mTvDay.setText(item.getDay());
         mTvMonth.setText(item.getYear());
         mTvAuthor.setText(item.getAuthor());
         mTvNum.setText(item.getNum());
-        mImgurl = item.getImg();
     }
 
     @Override
@@ -204,9 +222,58 @@ public class PictureActivity extends AppCompatActivity implements PictureView
     }
 
     @Override
-    public void setFavoriteMenuState(boolean b)
+    public void setHaveSave(boolean b)
     {
         haveSave = b;
-        invalidateOptionsMenu();
+        if (mSaveItem!=null)
+        {
+            if (haveSave)
+                mSaveItem.setTitle("取消收藏");
+            else
+                mSaveItem.setTitle("收藏");
+        }
     }
+
+    //长按弹出菜单
+    @Override
+    public boolean onLongClick(View v)
+    {
+        if (!mIsFinish)
+            return false;
+        mBottomSheet = new BottomSheet(this, R.style.AppBottomSheetDialogTheme, mBSItems, this);
+        mBottomSheet.show();
+        return true;
+    }
+
+    @Override
+    public void onItemClick(int position)
+    {
+
+        //收藏或者取消收藏
+        if (position == 1)
+        {
+
+            if (haveSave)
+            {
+                mPresenter.deleteFromFavorite(mItem);
+                haveSave = false;
+                mSaveItem.setTitle("收藏");
+
+            } else
+            {
+                mPresenter.saveToFavorite(mItem);
+                haveSave = true;
+                mSaveItem.setTitle("取消收藏");
+            }
+        }
+        // 保存到相册
+        else if (position == 0)
+        {
+            SavePhotoTask task = new SavePhotoTask();
+            task.execute(mBitmap,mItem.getTitle());
+        }
+        mBottomSheet.dismiss();
+    }
+
+
 }

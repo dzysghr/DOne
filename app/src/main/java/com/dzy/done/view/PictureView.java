@@ -10,5 +10,5 @@ public interface PictureView
 {
     void showPictureInfo(PictureItem item);
     void showMsg(String msg);
-    void setFavoriteMenuState(boolean b);
+    void setHaveSave(boolean b);
 }

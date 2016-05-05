@@ -1,7 +1,6 @@
 <resources>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.NoActionBar" parent="AppTheme.Base">
+
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowContentTransitions">true</item>
@@ -23,8 +22,12 @@
             @transition/change_image_transform
         </item>
 
+        <!--<item name="android:windowTranslucentStatus">false</item>-->
+    </style>
+
+
+    <style name="AppTheme.TranslucentNavigation" parent="AppTheme.NoActionBar">
         <!--导航透明-->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>

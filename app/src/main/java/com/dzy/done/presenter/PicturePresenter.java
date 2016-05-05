@@ -65,7 +65,7 @@ public class PicturePresenter
     public void saveToFavorite(ListItem item)
     {
         mDB.insert(item);
-        mView.setFavoriteMenuState(true);
+        mView.setHaveSave(true);
     }
 
     /** 检查当前的item是否在数据库中
@@ -73,7 +73,7 @@ public class PicturePresenter
      */
     public void checkFromFavorite(ListItem item)
     {
-        mView.setFavoriteMenuState(mDB.exist(item));
+        mView.setHaveSave(mDB.exist(item));
     }
 
     /** 从数据库中删除当前item
@@ -82,7 +82,7 @@ public class PicturePresenter
     public void deleteFromFavorite(ListItem item)
     {
         mDB.delete(item);
-        mView.setFavoriteMenuState(false);
+        mView.setHaveSave(false);
     }
 
 }

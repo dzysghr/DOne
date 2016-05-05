@@ -8,8 +8,7 @@
 
 
     <!--<dimen name="statue_bar_top_padding">24dp</dimen>-->
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="bottomsheet_horizontal_margin">16dp</dimen><!--状态栏高度-->
+    <dimen name="fab_margin">16dp</dimen><!--状态栏高度-->
 
-    <!--<dimen name="status_bar_height">0dp</dimen>-->
+
 </resources>
