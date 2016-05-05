@@ -1,6 +1,8 @@
 # DOne
 One一个 第三方客户端，后台数据来自http://www.wufafuwu.com/
 
+### 后台突然无法访问，怀疑被封ip,待修复中
+
 ##TODO
 * 增加主题换色
 * 增加分享
