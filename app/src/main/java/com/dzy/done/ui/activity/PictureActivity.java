@@ -185,7 +185,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         MLog.getLogger().d("load image " + item.getImg());
 
 
-        Picasso.with(this).load(mItem.getImg()).noPlaceholder().into(mIv, new Callback() {
+        Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv, new Callback() {
             @Override
             public void onSuccess()
             {
