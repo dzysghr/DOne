@@ -136,7 +136,6 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
         invalidateOptionsMenu();
         mArticleItem = item;
 
-
         //html 中的字体颜色要通过html的方式改
         String TextColorString = "#"+Integer.toHexString(getResources().getColor(R.color.webViewTextColor)).substring(2);
         Log.d("tag","text color  "+TextColorString);

@@ -68,6 +68,7 @@ public class MainListPresenter implements ListPresenter
         if (isLoading)
             return;
 
+
         page=1;
         isLoading = true;
         mDatas.clear();
@@ -101,6 +102,12 @@ public class MainListPresenter implements ListPresenter
     public void detach()
     {
         mView = null;
+    }
+
+    @Override
+    public void onResume()
+    {
+        mView.showDatas(mDatas);
     }
 
 

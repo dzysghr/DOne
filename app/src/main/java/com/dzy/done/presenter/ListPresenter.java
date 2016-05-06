@@ -14,6 +14,5 @@ public interface ListPresenter
     void loadMore();
     void attachView(ContentListView view);
     void detach();
-
-
+    void onResume();
 }

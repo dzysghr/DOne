@@ -39,7 +39,6 @@ public class FavoritePresenter implements ListPresenter
         mdatas.addAll(list);
         mView.showDatas(mdatas);
         page++;
-
         mView.hideProgress();
     }
 
@@ -74,5 +73,11 @@ public class FavoritePresenter implements ListPresenter
     public void detach()
     {
         mView = null;
+    }
+
+    @Override
+    public void onResume()
+    {
+
     }
 }

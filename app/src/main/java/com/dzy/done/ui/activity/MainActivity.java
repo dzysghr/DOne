@@ -12,10 +12,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import com.dzy.done.R;
 import com.dzy.done.adapter.MainPageAdapter;
 import com.dzy.done.config.AppSetting;
@@ -50,18 +52,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ActionBarDrawerToggle mDrawerToggle;
 
-
     MainPageAdapter mAdapter;
     Toast mToast;
+
+    boolean isNightMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (AppSetting.getSetting().isNightMode())
+
+        if (isNightMode=AppSetting.getSetting().isNightMode())
         {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else
+        {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
@@ -85,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assert  getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
     @OnClick(R.id.fab)
@@ -94,6 +99,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //回到顶部
         ContentListFragment fregment = (ContentListFragment) mAdapter.getItem(mTabs.getSelectedTabPosition());
         fregment.scrollToTop();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (AppSetting.getSetting().isNightMode()!=isNightMode)
+        {
+            recreate();
+            Log.e("tag", "MainActivity recreate");
+        }
     }
 
     @Override
@@ -105,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
+        if (mDrawerLayout.isDrawerOpen(Gravity.START))
             mDrawerLayout.closeDrawers();
         else if (mToast.getView().getParent() == null)
             mToast.show();

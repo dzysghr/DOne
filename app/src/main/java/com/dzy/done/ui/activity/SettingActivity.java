@@ -2,10 +2,12 @@ package com.dzy.done.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.dzy.done.R;
+import com.dzy.done.config.AppSetting;
 import com.dzy.done.ui.fragment.SettingFragment;
 
 public class SettingActivity extends AppCompatActivity
@@ -16,6 +18,14 @@ public class SettingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
 
+        if (AppSetting.getSetting().isNightMode())
+        {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else
+        {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
@@ -25,11 +35,11 @@ public class SettingActivity extends AppCompatActivity
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         getFragmentManager().beginTransaction()
-                .add(R.id.container, SettingFragment.newInstance())
+                .replace(R.id.container, SettingFragment.newInstance())
                 .commit();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

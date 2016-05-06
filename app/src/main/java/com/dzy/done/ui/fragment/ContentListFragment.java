@@ -36,9 +36,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
 {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
-
     @Bind(R.id.swrfresh) ScrollChildSwipeRefreshLayout mSwipeRefreshLayout;
-
 
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<>();
@@ -61,23 +59,30 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         return view;
     }
 
-
     /**
      *
      */
     private void initPresenter()
     {
-        if (mType == ListItem.Common)
-            mPresenter = new FavoritePresenter();
-        else
-            mPresenter = new MainListPresenter(mType);
 
-        mPresenter.attachView(this);
-        //加载第一页
-        mPresenter.loadListDates();
+        if (mPresenter==null)
+        {
+            if (mType == ListItem.Common)
+                mPresenter = new FavoritePresenter();
+            else
+                mPresenter = new MainListPresenter(mType);
 
+            mPresenter.attachView(this);
+            //加载第一页
+            mPresenter.loadListDates();
+            Log.i("tag", "mPresenter loaddatas");
 
-        Log.i("tag", "mPresenter loaddatas");
+        }else
+        {
+            Log.i("tag", "mPresenter onResume");
+            mPresenter.attachView(this);
+            mPresenter.onResume();
+        }
     }
 
 
@@ -118,13 +123,18 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         });
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mPresenter.onResume();
+    }
 
     @Override
     public void onDestroyView()
     {
         super.onDestroyView();
         mPresenter.detach();
-
     }
 
     private ContentListFragment(int type)
@@ -153,7 +163,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     public void showProgress()
     {
         Log.i("tag", "show progress");
-       // mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
@@ -161,7 +170,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     public void hideProgress()
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        //mSwipeRefreshLayout.setEnabled(false);
+
     }
 
     @Override

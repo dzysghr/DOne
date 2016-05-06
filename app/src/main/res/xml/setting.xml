@@ -15,11 +15,12 @@
             android:key="FontSize"
             android:title="文章字体大小"
             />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="NightMode"
             android:title="夜间模式"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
             />
     </PreferenceCategory>
 

@@ -5,8 +5,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.dzy.done.R;
 import com.dzy.done.asynctask.ClearCacheTask;
@@ -59,15 +57,14 @@ public class SettingFragment extends PreferenceFragment
         {
             boolean night =  ((SwitchPreference)preference).isChecked();
             AppSetting.getSetting().setNightMode(night);
-
-            if (night)
-            {
-
-                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }else
-            {
-                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
+            getActivity().recreate();
+//            if (night)
+//            {
+//                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            }else
+//            {
+//                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//            }
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
