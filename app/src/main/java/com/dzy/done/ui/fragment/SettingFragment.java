@@ -40,6 +40,17 @@ public class SettingFragment extends PreferenceFragment
             }
         });
 
+        ((SwitchPreference)getPreferenceScreen().findPreference("NightMode")).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue)
+            {
+                boolean night = (boolean) newValue;
+                AppSetting.getSetting().setNightMode(night);
+                getActivity().recreate();
+                return true;
+            }
+        });
+
     }
 
 
@@ -53,19 +64,7 @@ public class SettingFragment extends PreferenceFragment
             new ClearCacheTask().execute();
             return true;
         }
-        else if (preference.getKey().equals("NightMode"))
-        {
-            boolean night =  ((SwitchPreference)preference).isChecked();
-            AppSetting.getSetting().setNightMode(night);
-            getActivity().recreate();
-//            if (night)
-//            {
-//                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//            }else
-//            {
-//                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//            }
-        }
+
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 

@@ -32,6 +32,10 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
+
+/**
+ *  东西页面，由于“东西”的数据长时间不更新，所以该页面的收藏和保存功能暂不实现，未来可能会取消该页面
+ */
 public class ThingActivity extends AppCompatActivity implements ContentModel.IGetThingCallback
 {
 

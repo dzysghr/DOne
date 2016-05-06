@@ -3,13 +3,14 @@ package com.dzy.done.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -30,8 +31,8 @@ import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
 import com.dzy.done.view.PictureView;
 import com.dzy.done.widget.BottomSheet;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     List<BottomSheetItem> mBSItems;
     BottomSheet mBottomSheet;
 
-    //大图
-    Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -153,7 +152,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     protected void onDestroy()
     {
         super.onDestroy();
-        Picasso.with(this).cancelTag(mItem.getImg());
+        Picasso.with(this).cancelRequest(mIv);
     }
 
     @OnClick(R.id.iv)
@@ -161,7 +160,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     {
         if (!mIsFinish)
             return;
-
         if (mIv.getDrawable() != null)
         {
             Intent intent = new Intent(this, PhotoViewerActivity.class);
@@ -186,31 +184,23 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         //数据加载完成
         MLog.getLogger().d("load image " + item.getImg());
 
-        Picasso.with(this).load(item.getImg()).tag(mItem.getImg()).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from)
-            {
 
-                mIv.setImageBitmap(bitmap);
-                mIsFinish = true;
-                mBitmap = bitmap;
-                mPb.setVisibility(View.GONE);
-            }
-
+        Picasso.with(this).load(mItem.getImg()).noPlaceholder().into(mIv, new Callback() {
             @Override
-            public void onBitmapFailed(Drawable errorDrawable)
+            public void onSuccess()
             {
                 mIsFinish = true;
                 mPb.setVisibility(View.GONE);
+                Log.d("tag", "BitmapLoaded");
             }
 
             @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable)
+            public void onError()
             {
-
+                mIsFinish = true;
+                Log.e("tag", "onBitmapFailed");
             }
         });
-
 
 
         mTvContent.setText(item.getContent());
@@ -253,7 +243,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     @Override
     public void onItemClick(int position)
     {
-
         //收藏或者取消收藏
         if (position == 1)
         {
@@ -275,7 +264,8 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         else if (position == 0)
         {
             SavePhotoTask task = new SavePhotoTask();
-            task.execute(mBitmap,mItem.getTitle());
+
+            task.execute(((BitmapDrawable)mIv.getDrawable()).getBitmap(),mItem.getTitle());
         }
         mBottomSheet.dismiss();
     }

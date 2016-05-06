@@ -30,4 +30,6 @@
         <!--导航透明-->
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
+
+
 </resources>

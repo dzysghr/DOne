@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,29 +26,22 @@ import com.dzy.done.model.DBModel;
 import com.dzy.done.ui.fragment.ContentListFragment;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
-    @Bind(R.id.viewpager_activity_main)
-    ViewPager mViewPager;
+    @Bind(R.id.viewpager_activity_main) ViewPager mViewPager;
 
-    @Bind(R.id.tabs)
-    TabLayout mTabs;
+    @Bind(R.id.tabs) TabLayout mTabs;
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
-    @Bind(R.id.dl_left)
-    DrawerLayout mDrawerLayout;
+    @Bind(R.id.dl_left) DrawerLayout mDrawerLayout;
 
-    @Bind(R.id.nv_main_navigation)
-    NavigationView mMenuView;
+    @Bind(R.id.nv_main_navigation) NavigationView mMenuView;
 
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -58,37 +51,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     boolean isNightMode = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
 
-        if (isNightMode=AppSetting.getSetting().isNightMode())
+        if (isNightMode = AppSetting.getSetting().isNightMode())
         {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else
+        } else
         {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
+        bindView();
         setupView();
     }
-    public void setupView() {
+
+    private void bindView()
+    {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
+
+        mTabs = (TabLayout) findViewById(R.id.tabs);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
+
+       mMenuView = (NavigationView) findViewById(R.id.nv_main_navigation);
+    }
+
+    private void setupView()
+    {
         setSupportActionBar(mToolbar);
 
         mAdapter = new MainPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(PageConfig.titles.length);
         mTabs.setupWithViewPager(mViewPager);
-        mToast = Toast.makeText(this,getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this, getResources().getString(R.string.ExitTips), Toast.LENGTH_SHORT);
 
         //创建侧栏，并实现打开关/闭监听
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,mToolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mMenuView.setNavigationItemSelectedListener(this);
 
-        assert  getSupportActionBar()!=null;
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
@@ -106,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume()
     {
         super.onResume();
-        if (AppSetting.getSetting().isNightMode()!=isNightMode)
+        if (AppSetting.getSetting().isNightMode() != isNightMode)
         {
             recreate();
             Log.e("tag", "MainActivity recreate");
@@ -121,8 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.START))
+    public void onBackPressed()
+    {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
             mDrawerLayout.closeDrawers();
         else if (mToast.getView().getParent() == null)
             mToast.show();
@@ -146,12 +159,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
-        if (item.getItemId()==R.id.menu_setting)
+        if (item.getItemId() == R.id.menu_setting)
         {
-            startActivity(new Intent(MainActivity.this,SettingActivity.class));
-        }else if (item.getItemId()==R.id.menu_favority)
+            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+        } else if (item.getItemId() == R.id.menu_favority)
         {
-            startActivity(new Intent(MainActivity.this,FavoriteActivity.class));
+            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
         }
         return true;
     }
