@@ -10,8 +10,9 @@ import android.content.SharedPreferences;
 public class AppSetting
 {
 
-    public static AppSetting single = null;
+    private static AppSetting single = null;
 
+    private Context mContext;
     public static AppSetting  getSetting()
     {
         return single;
@@ -22,8 +23,10 @@ public class AppSetting
         SharedPreferences p = context.getSharedPreferences("setting", 0);
         single = new AppSetting();
         single.setFontSize(Integer.parseInt(p.getString("FontSize","120")));
+        single.setNightMode(p.getBoolean("NightMode",false));
     }
     private int FontSize = 120;
+    private boolean NightMode = false;
 
 
     public int getFontSize()
@@ -36,7 +39,15 @@ public class AppSetting
         FontSize = fontSize;
     }
 
+    public boolean isNightMode()
+    {
+        return NightMode;
+    }
 
+    public void setNightMode(boolean b)
+    {
+        NightMode = b;
+    }
 
 
 }

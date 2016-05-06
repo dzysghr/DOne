@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.dzy.done.R;
 import com.dzy.done.asynctask.ClearCacheTask;
@@ -14,6 +17,7 @@ import com.dzy.done.config.AppSetting;
  */
 public class SettingFragment extends PreferenceFragment
 {
+
 
 
     public static SettingFragment newInstance()
@@ -33,13 +37,12 @@ public class SettingFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-
                 AppSetting.getSetting().setFontSize(Integer.parseInt((String)newValue));
                 return true;
             }
         });
-    }
 
+    }
 
 
     @Override
@@ -52,8 +55,21 @@ public class SettingFragment extends PreferenceFragment
             new ClearCacheTask().execute();
             return true;
         }
+        else if (preference.getKey().equals("NightMode"))
+        {
+            boolean night =  ((SwitchPreference)preference).isChecked();
+            AppSetting.getSetting().setNightMode(night);
+
+            if (night)
+            {
+
+                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }else
+            {
+                ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
-
 
 }

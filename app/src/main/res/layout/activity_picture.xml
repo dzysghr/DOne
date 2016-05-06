@@ -63,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/num"
                 android:layout_margin="16dp"
-                android:background="#F2F2F2">
+                android:background="@color/pannelColor">
 
                 <LinearLayout
                     android:id="@+id/data"

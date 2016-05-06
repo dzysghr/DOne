@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.ThingItem;
+import com.dzy.done.config.AppSetting;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
@@ -76,20 +77,22 @@ public class ThingActivity extends AppCompatActivity implements ContentModel.IGe
         Bitmap bitmap = intent.getParcelableExtra("bitmap");
         if (bitmap!=null) {
             mIv.setImageBitmap(bitmap);
-
-            mIv.setImageBitmap(bitmap);
-            Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
-            if (swatch!=null)
+            if (!AppSetting.getSetting().isNightMode())
             {
-                mToolbar.setTitleTextColor(swatch.getTitleTextColor());
-                mToolbar.setBackgroundColor(swatch.getRgb());
-                if (android.os.Build.VERSION.SDK_INT >= 21) {
-                    Window window = getWindow();
+                Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
+                if (swatch!=null)
+                {
+                    mToolbar.setTitleTextColor(swatch.getTitleTextColor());
+                    mToolbar.setBackgroundColor(swatch.getRgb());
+                    if (android.os.Build.VERSION.SDK_INT >= 21) {
+                        Window window = getWindow();
 
-                    window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                    //window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                        window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                        window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    }
                 }
             }
+
         }
         setSupportActionBar(mToolbar);
         assert getSupportActionBar()!=null;

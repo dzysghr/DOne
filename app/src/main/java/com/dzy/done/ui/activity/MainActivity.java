@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.adapter.MainPageAdapter;
+import com.dzy.done.config.AppSetting;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.model.DBModel;
 import com.dzy.done.ui.fragment.ContentListFragment;
@@ -54,8 +56,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        if (AppSetting.getSetting().isNightMode())
+        {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         setupView();

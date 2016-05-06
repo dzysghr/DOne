@@ -24,6 +24,7 @@ import com.dzy.done.asynctask.SavePhotoTask;
 import com.dzy.done.bean.BottomSheetItem;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.bean.PictureItem;
+import com.dzy.done.config.AppSetting;
 import com.dzy.done.presenter.PicturePresenter;
 import com.dzy.done.util.MLog;
 import com.dzy.done.util.colorUtil;
@@ -67,14 +68,13 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     //大图
     Bitmap mBitmap;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
         ButterKnife.bind(this);
-
 
         Intent intent = getIntent();
         mItem = (ListItem) intent.getSerializableExtra("item");
@@ -87,23 +87,29 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
 
     public void initView()
     {
+
         //解析图片主题色
         Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
         if (bitmap != null)
         {
             mIv.setImageBitmap(bitmap);
-            Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
-            if (swatch != null)
+
+            if (!AppSetting.getSetting().isNightMode())
             {
-                mToolbar.setTitleTextColor(swatch.getTitleTextColor());
-                mToolbar.setBackgroundColor(swatch.getRgb());
-                if (android.os.Build.VERSION.SDK_INT >= 21)
+                Palette.Swatch swatch = colorUtil.getSwatch(bitmap);
+                if (swatch != null)
                 {
-                    Window window = getWindow();
-                    window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
-                    window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    mToolbar.setTitleTextColor(swatch.getTitleTextColor());
+                    mToolbar.setBackgroundColor(swatch.getRgb());
+                    if (android.os.Build.VERSION.SDK_INT >= 21)
+                    {
+                        Window window = getWindow();
+                        window.setStatusBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                        window.setNavigationBarColor(colorUtil.colorBurn(swatch.getRgb()));
+                    }
                 }
             }
+
         }
 
         //设置actionbar
@@ -116,7 +122,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         mPb.bringToFront();
         mPb.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPb), PorterDuff.Mode.SRC_IN);
         mPb.setVisibility(View.VISIBLE);
-
 
         mIv.setOnLongClickListener(this);
 
