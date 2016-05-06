@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,8 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
 
     protected ListItem mItem;
     ArticlePresenter mPresenter;
-    ArticleItem mContent;
+    ArticleItem mArticleItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -127,15 +130,27 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
     }
 
     @Override
-    public void showContent(ArticleItem content)
+    public void showContent(ArticleItem item)
     {
         isFinish = true;
         invalidateOptionsMenu();
-        mContent = content;
+        mArticleItem = item;
+
+
+        //html 中的字体颜色要通过html的方式改
+        String TextColorString = "#"+Integer.toHexString(getResources().getColor(R.color.webViewTextColor)).substring(2);
+        Log.d("tag","text color  "+TextColorString);
+
+
+        String content = new StringBuilder(item.getContent())
+                .insert(0,"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>\n" +
+                "<font color=\""+TextColorString+"\"><body>").append("</font><div></div><div></div></html>").toString();
+
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setTextZoom(AppSetting.getSetting().getFontSize());
         mWebView.setBackgroundColor(Color.TRANSPARENT);
-        mWebView.loadData(mContent.getContent(), "text/html;charset=UTF-8", null);
+        mWebView.loadData(content, "text/html;charset=UTF-8", null);
     }
 
     @Override
@@ -147,7 +162,7 @@ public class WebViewActivity extends AppCompatActivity implements ArticleContent
     @Override
     public void loading()
     {
-        Object o = new Object();
+
     }
 
     @Override

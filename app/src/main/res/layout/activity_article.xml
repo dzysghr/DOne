@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             tools:text="小庄与阿妆 作者/青谙安"
-            android:textColor="#c7000000"
             android:textSize="24sp"/>
 
         <TextView
@@ -31,7 +30,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             tools:text="发布时间：2015-10-10 02:55"
-            android:textColor="#c7000000"
             android:textSize="15sp"/>
 
         <WebView

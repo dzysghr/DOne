@@ -7,4 +7,5 @@
 
 
     <color name="pannelColor">#F2F2F2</color>
+    <color name="webViewTextColor">#1C1C1C</color>
 </resources>

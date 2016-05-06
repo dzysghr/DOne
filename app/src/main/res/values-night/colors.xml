@@ -9,4 +9,6 @@
 
     <color name="pannelColor">#00000000</color>
 
+    <color name="webViewTextColor">#CFCFCF</color>
+
 </resources>
