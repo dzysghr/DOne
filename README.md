@@ -1,7 +1,12 @@
 # DOne
-One一个 第三方客户端，后台数据来自http://www.wufafuwu.com/
+One一个 第三方客户端，数据来自http://www.wufafuwu.com/
 
-注：新浪云有时会出现问题，导致后台无法获取到正确数据，Retrofit解析异常，只能耐心等待
+后台接口
+* ghtostCloud  http://gw35ib.gcpro-sz-01.ghostcloud.cn/DonePHP/
+* sina sae http://dzyone.applinzi.com/
+
+> 如果无法获取数据，请在app类中尝试更换retrofit的baseUrl
+
 
 ##TODO
 * 增加主题换色
