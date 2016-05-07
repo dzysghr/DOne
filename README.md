@@ -6,6 +6,8 @@ One一个 第三方客户端，后台数据来自http://www.wufafuwu.com/
 ##TODO
 * 增加主题换色
 * 增加分享
+* 增加加载更多时的Footview
+* 增加ErrorView和EmptyView
 
 ## 近期更新
 v2.2 
