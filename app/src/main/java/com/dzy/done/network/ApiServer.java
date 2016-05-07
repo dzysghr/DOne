@@ -19,35 +19,35 @@ public interface ApiServer
 {
 
     @Headers("Cache-Control: public, max-age=3600")
-    @GET("/articlelist.php")
+    @GET("articlelist.php")
     Call<List<ListItem>> getArticleList(@Query("page") int page);
 
     @Headers("Cache-Control: public, max-age=2678400")
-    @GET("/article.php")
+    @GET("article.php")
     Call<String> getArticle(@Query("url") String url);
 
     @Headers("Cache-Control: public, max-age=3600")
-    @GET("/thinglist.php")
+    @GET("thinglist.php")
     Call<List<ListItem>> getThingList(@Query("page") int page);
 
 
     @Headers("Cache-Control: public, max-age=2678400")
-    @GET("/thing.php")
+    @GET("thing.php")
     Call<ThingItem> getThing(@Query("url") String url);
 
     @Headers("Cache-Control: public, max-age=3600")
-    @GET("/picturelist.php")
+    @GET("picturelist.php")
     Call<List<ListItem>> getPictureList(@Query("page") int page);
 
     @Headers("Cache-Control: public, max-age=2678400")
-    @GET("/picture.php")
+    @GET("picture.php")
     Call<PictureItem> getPicture(@Query("url") String url);
 
     @Headers("Cache-Control: public, max-age=3600")
-    @GET("/QAlist.php")
+    @GET("QAlist.php")
     Call<List<ListItem>> getQAList(@Query("page") int page);
 
     @Headers("Cache-Control: public, max-age=2678400")
-    @GET("/QA.php")
+    @GET("QA.php")
     Call<String> getQA(@Query("url") String url);
 }

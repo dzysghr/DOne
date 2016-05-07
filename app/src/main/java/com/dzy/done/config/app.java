@@ -49,7 +49,8 @@ public class app extends Application
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl("http://dzyone.applinzi.com")
+                .baseUrl("http://3fp8t7.gcpro-sz-01.ghostcloud.cn/DonePHP/")
+                //.baseUrl("http://dzyone.applinzi.com/")
                 //.baseUrl("http://192.168.199.234")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())

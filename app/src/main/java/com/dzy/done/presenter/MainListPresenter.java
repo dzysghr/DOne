@@ -31,13 +31,17 @@ public class MainListPresenter implements ListPresenter
         {
             if (mView==null)
                 return;
-
-            mDatas.addAll(items);
-            mView.showDatas(mDatas);
+            if (items!=null)
+            {
+                mDatas.addAll(items);
+                mView.showDatas(mDatas);
+                page++;
+                Log.i("tag", "presenter onFinish    items:" + items.size() + "");
+            }
             mView.hideProgress();
             isLoading = false;
-            page++;
-            Log.i("tag", "presenter onFinish    items:" + items.size() + "");
+
+
         }
 
         @Override
