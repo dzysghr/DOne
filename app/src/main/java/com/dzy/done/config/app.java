@@ -39,7 +39,7 @@ public class app extends Application
 
         OkHttpClient client =new OkHttpClient
                 .Builder()
-                .addNetworkInterceptor(new MInterceptor())
+                .addInterceptor(new MInterceptor())
                 .cache(new Cache(file, 1024 * 1024 * 100)).build();
 
         Picasso picasso = new Picasso.Builder(this)
@@ -49,12 +49,14 @@ public class app extends Application
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl("http://gw35ib.gcpro-sz-01.ghostcloud.cn/DonePHP/")
+                //.baseUrl("http://gw35ib.gcpro-sz-01.ghostcloud.cn/DonePHP/")
                 //.baseUrl("http://dzyone.applinzi.com/")
-                //.baseUrl("http://192.168.199.234")
+                .baseUrl("http://192.168.199.234")
+                //.baseUrl("http://doneapp-1-dzyone.hz.tenxapp.com/DonePHP/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
+
         mApi = retrofit.create(ApiServer.class);
     }
 

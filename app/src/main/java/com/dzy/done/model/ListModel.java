@@ -66,6 +66,9 @@ public class ListModel
             call = mApiServer.getQAList(page);
 
         mCall = call;
+
+
+
         call.enqueue(new Callback<List<ListItem>>()
         {
             @Override

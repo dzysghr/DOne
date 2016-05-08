@@ -29,6 +29,9 @@ public class MainListPresenter implements ListPresenter
         @Override
         public void onFinish(List<ListItem> items)
         {
+
+            isLoading = false;
+
             if (mView==null)
                 return;
             if (items!=null)
@@ -39,18 +42,14 @@ public class MainListPresenter implements ListPresenter
                 Log.i("tag", "presenter onFinish    items:" + items.size() + "");
             }
             mView.hideProgress();
-            isLoading = false;
-
-
         }
 
         @Override
         public void OnFalure(String msg)
         {
+            isLoading = false;
             if (mView==null)
                 return;
-
-            isLoading = false;
             Log.e("tag", "onFalure    " + msg);
             mView.showMsg(msg);
             mView.hideProgress();
@@ -72,7 +71,6 @@ public class MainListPresenter implements ListPresenter
         if (isLoading)
             return;
 
-
         page=1;
         isLoading = true;
         mDatas.clear();
@@ -89,7 +87,6 @@ public class MainListPresenter implements ListPresenter
     {
         if (isLoading)
             return;
-
 
         isLoading = true;
         mView.showProgress();
