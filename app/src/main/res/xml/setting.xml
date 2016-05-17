@@ -24,5 +24,18 @@
             />
     </PreferenceCategory>
 
-
+    <ListPreference
+        android:defaultValue="http://dzyone.applinzi.com/"
+        android:dialogTitle="地址"
+        android:entries="@array/baseUrl"
+        android:entryValues="@array/baseUrl"
+        android:key="baseUrl"
+        android:title="接口地址"
+        android:summary="重启生效"
+        />
+    <Preference
+        android:key="GitHub"
+        android:title="项目地址"
+        android:summary="https://github.com/dzysghr/DOne"
+        />
 </PreferenceScreen>

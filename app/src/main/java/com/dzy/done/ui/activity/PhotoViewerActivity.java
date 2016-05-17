@@ -99,8 +99,6 @@ public class PhotoViewerActivity extends Activity {
 
             }
         });
-
-
     }
 
     @Override

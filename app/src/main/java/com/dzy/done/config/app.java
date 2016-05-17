@@ -2,6 +2,7 @@ package com.dzy.done.config;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.dzy.done.network.ApiServer;
 import com.dzy.done.network.MInterceptor;
@@ -47,15 +48,22 @@ public class app extends Application
                 .build();
         Picasso.setSingletonInstance(picasso);
 
+
+        String url =  mContext.getSharedPreferences("setting",0).getString("baseUrl","http://dzyone.applinzi.com/");
+
+        Log.e("tag","base url "+ url);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 //.baseUrl("http://gw35ib.gcpro-sz-01.ghostcloud.cn/DonePHP/")
                 //.baseUrl("http://dzyone.applinzi.com/")
-                .baseUrl("http://192.168.199.234")
+                //.baseUrl("http://192.168.199.234")
                 //.baseUrl("http://doneapp-1-dzyone.hz.tenxapp.com/DonePHP/")
+                .baseUrl(url)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
+
 
         mApi = retrofit.create(ApiServer.class);
     }

@@ -1,5 +1,7 @@
 package com.dzy.done.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -63,6 +65,12 @@ public class SettingFragment extends PreferenceFragment
         {
             new ClearCacheTask().execute();
             return true;
+        }else if (preference.getKey().equals("GitHub"))
+        {
+            String url = (String) preference.getSummary();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);

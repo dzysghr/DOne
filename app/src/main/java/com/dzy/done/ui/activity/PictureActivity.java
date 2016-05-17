@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -65,7 +64,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     PicturePresenter mPresenter;
     List<BottomSheetItem> mBSItems;
     BottomSheet mBottomSheet;
-
+    PictureItem mPictureItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,7 +79,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         ViewCompat.setTransitionName(mIv, mItem.getUrl());
         initView();
         initData();
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
 
     }
 
@@ -163,7 +161,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         if (mIv.getDrawable() != null)
         {
             Intent intent = new Intent(this, PhotoViewerActivity.class);
-            intent.putExtra("url", mItem.getImg());
+            intent.putExtra("url", mPictureItem.getImg());
             startActivity(intent);
         }
     }
@@ -183,7 +181,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     {
         //数据加载完成
         MLog.getLogger().d("load image " + item.getImg());
-
+        mPictureItem = item;
 
         Picasso.with(this).load(item.getImg()).noPlaceholder().into(mIv, new Callback() {
             @Override
@@ -201,7 +199,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
                 Log.e("tag", "onBitmapFailed");
             }
         });
-
 
         mTvContent.setText(item.getContent());
         mTvDay.setText(item.getDay());
