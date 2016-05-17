@@ -2,7 +2,7 @@
 One一个 第三方客户端，数据来自http://www.wufafuwu.com/
 
 后台接口
-* ghtostCloud  http://gw35ib.gcpro-sz-01.ghostcloud.cn/DonePHP/
+* 时速云  http://doneapp-1-dzyone.hz.tenxapp.com/DonePHP/
 * sina sae http://dzyone.applinzi.com/
 
 > 如果无法获取数据，请在app类中尝试更换retrofit的baseUrl
