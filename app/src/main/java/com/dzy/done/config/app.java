@@ -64,7 +64,6 @@ public class app extends Application
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
-
         mApi = retrofit.create(ApiServer.class);
     }
 

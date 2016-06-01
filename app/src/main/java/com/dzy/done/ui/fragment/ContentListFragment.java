@@ -1,5 +1,6 @@
 package com.dzy.done.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.MainListAdapter;
+import com.dzy.done.adapter.BaseAdapter;
+import com.dzy.done.adapter.Holder.BaseHolder;
+import com.dzy.done.adapter.Holder.MainListHolder;
 import com.dzy.done.bean.ListItem;
 import com.dzy.done.presenter.FavoritePresenter;
 import com.dzy.done.presenter.ListPresenter;
@@ -41,7 +44,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     int mType = 1;
     List<ListItem> mDatas = new ArrayList<>();
     ListPresenter mPresenter;
-    private MainListAdapter mAdapter;
+    private BaseAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
     @Nullable
@@ -88,7 +91,13 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
 
     private void initRecycleView()
     {
-        mAdapter = new MainListAdapter(getActivity(), mDatas);
+        mAdapter = new BaseAdapter<ListItem>(getActivity(), mDatas,R.layout.list_item){
+            @Override
+            public BaseHolder<ListItem> createHolder(View v, Context context)
+            {
+                return new MainListHolder(v,context);
+            }
+        };
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);

@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.Holder.BottomSheetAdapter;
+import com.dzy.done.adapter.BaseAdapter;
+import com.dzy.done.adapter.Holder.BaseHolder;
+import com.dzy.done.adapter.Holder.BottomSheetHolder;
 import com.dzy.done.bean.BottomSheetItem;
 
 import java.util.List;
@@ -23,16 +25,16 @@ public class BottomSheet extends BottomSheetDialog
 {
 
     List<BottomSheetItem> mList;
-    BottomSheetAdapter.ItemClickListener mListener;
 
-    public BottomSheet(@NonNull Context context, @StyleRes int theme,@NonNull List<BottomSheetItem> list,BottomSheetAdapter.ItemClickListener listener)
+    BottomSheetHolder.ItemClickListener mListener;
+
+    public BottomSheet(@NonNull Context context, @StyleRes int theme,@NonNull List<BottomSheetItem> list,BottomSheetHolder.ItemClickListener listener)
     {
         super(context, theme);
         mList = list;
         mListener = listener;
         init();
     }
-
 
 
     public void setList(List<BottomSheetItem> list)
@@ -46,7 +48,13 @@ public class BottomSheet extends BottomSheetDialog
         RecyclerView review = (RecyclerView) view.findViewById(R.id.review);
         review.setHasFixedSize(true);
         review.setLayoutManager(new LinearLayoutManager(getContext()));
-        review.setAdapter(new BottomSheetAdapter(mList, mListener));
+        review.setAdapter(new BaseAdapter<BottomSheetItem>(this.getContext(),mList,R.layout.bottom_sheet_item){
+                              @Override
+                              public BaseHolder<BottomSheetItem> createHolder(View v, Context context)
+                              {
+                                  return new BottomSheetHolder(v,context,mListener);
+                              }
+                          });
         setContentView(view);
     }
 }

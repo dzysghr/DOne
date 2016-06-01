@@ -31,7 +31,6 @@ public class MainListPresenter implements ListPresenter
         {
 
             isLoading = false;
-
             if (mView==null)
                 return;
             if (items!=null)

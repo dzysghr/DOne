@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.Holder.BottomSheetAdapter;
+import com.dzy.done.adapter.Holder.BottomSheetHolder;
 import com.dzy.done.asynctask.SavePhotoTask;
 import com.dzy.done.bean.BottomSheetItem;
 import com.dzy.done.bean.ListItem;
@@ -40,7 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PictureActivity extends AppCompatActivity implements PictureView, View.OnLongClickListener, BottomSheetAdapter.ItemClickListener
+public class PictureActivity extends AppCompatActivity implements PictureView, View.OnLongClickListener, BottomSheetHolder.ItemClickListener
 {
 
 
