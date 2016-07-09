@@ -39,7 +39,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-jackson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile files('libs/EasyDao-1.1.jar')
 }

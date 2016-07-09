@@ -60,6 +60,7 @@ public class app extends Application
                 //.baseUrl("http://192.168.199.234")
                 //.baseUrl("http://doneapp-1-dzyone.hz.tenxapp.com/DonePHP/")
                 .baseUrl(url)
+
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();

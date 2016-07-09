@@ -35,10 +35,13 @@ public class MainListHolder extends BaseHolder<ListItem>
     @Bind(R.id.img) public ImageView img;
 
     ListItem mItem;
+    Context mContext;
 
-    public MainListHolder(View itemView, Context context)
+    public MainListHolder(View itemView)
     {
-        super(itemView, context);
+        super(itemView);
+        mContext = itemView.getContext();
+
         ButterKnife.bind(this, itemView);
     }
 
@@ -51,7 +54,7 @@ public class MainListHolder extends BaseHolder<ListItem>
         mItem = item;
         if (item.getType()==ListItem.PICTURE||item.getType()==ListItem.THING)
         {
-            Picasso.with(mContext).load(item.getImg()).fit().into(img);
+            Picasso.with(itemView.getContext()).load(item.getImg()).fit().into(img);
         }
     }
 

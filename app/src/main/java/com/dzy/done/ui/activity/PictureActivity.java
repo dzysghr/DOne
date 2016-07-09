@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.adapter.Holder.BottomSheetHolder;
+import com.dzy.done.adapter.Holder.BaseHolder;
 import com.dzy.done.asynctask.SavePhotoTask;
 import com.dzy.done.bean.BottomSheetItem;
 import com.dzy.done.bean.ListItem;
@@ -40,7 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PictureActivity extends AppCompatActivity implements PictureView, View.OnLongClickListener, BottomSheetHolder.ItemClickListener
+public class PictureActivity extends AppCompatActivity implements PictureView, View.OnLongClickListener, BaseHolder.OnItemClickListener
 {
 
 
@@ -238,7 +238,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     }
 
     @Override
-    public void onItemClick(int position)
+    public void OnItemClick(View view, int position)
     {
         //收藏或者取消收藏
         if (position == 1)
@@ -266,6 +266,4 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         }
         mBottomSheet.dismiss();
     }
-
-
 }

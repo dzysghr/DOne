@@ -3,6 +3,7 @@ package com.dzy.done.bean;
 import android.support.annotation.DrawableRes;
 
 /**
+ *
  * Created by dzysg on 2016/5/5 0005.
  */
 public class BottomSheetItem

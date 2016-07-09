@@ -26,9 +26,9 @@ public class BottomSheet extends BottomSheetDialog
 
     List<BottomSheetItem> mList;
 
-    BottomSheetHolder.ItemClickListener mListener;
+    BaseHolder.OnItemClickListener mListener;
 
-    public BottomSheet(@NonNull Context context, @StyleRes int theme,@NonNull List<BottomSheetItem> list,BottomSheetHolder.ItemClickListener listener)
+    public BottomSheet(@NonNull Context context, @StyleRes int theme,@NonNull List<BottomSheetItem> list,BaseHolder.OnItemClickListener listener)
     {
         super(context, theme);
         mList = list;
@@ -52,7 +52,11 @@ public class BottomSheet extends BottomSheetDialog
                               @Override
                               public BaseHolder<BottomSheetItem> createHolder(View v, Context context)
                               {
-                                  return new BottomSheetHolder(v,context,mListener);
+                                  BaseHolder<BottomSheetItem> holder = new BottomSheetHolder(v);
+                                    holder.setOnItemClickListener(mListener);
+
+
+                                  return holder;
                               }
                           });
         setContentView(view);

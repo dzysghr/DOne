@@ -28,7 +28,7 @@ public class FavoriteListHolder extends BaseHolder<ListItem>
 
     public FavoriteListHolder(View itemView, Context context)
     {
-        super(itemView, context);
+        super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
@@ -41,7 +41,7 @@ public class FavoriteListHolder extends BaseHolder<ListItem>
         mItem = item;
         if (item.getType()==ListItem.PICTURE||item.getType()==ListItem.THING)
         {
-            Picasso.with(mContext).load(item.getImg()).fit().into(img);
+            Picasso.with(itemView.getContext()).load(item.getImg()).fit().into(img);
         }
     }
 

@@ -95,7 +95,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
             @Override
             public BaseHolder<ListItem> createHolder(View v, Context context)
             {
-                return new MainListHolder(v,context);
+                return new MainListHolder(v);
             }
         };
 
