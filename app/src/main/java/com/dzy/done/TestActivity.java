@@ -9,6 +9,10 @@ import android.view.View;
 
 import com.dzy.done.util.MLog;
 
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 /**
  *  测试用
  */
@@ -23,6 +27,10 @@ public class TestActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Log.i("tag", "onCreate");
+
+        OkHttpClient client = null;
+        Call c =  client.newCall(new Request.Builder().build());
+
 
     }
 

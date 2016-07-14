@@ -23,6 +23,7 @@ public abstract class BaseHolder<T> extends RecyclerView.ViewHolder implements V
         super(itemView);
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
+        mViews = new SparseArray<>();
     }
 
     public abstract void setData(T t);

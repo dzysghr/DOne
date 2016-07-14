@@ -55,6 +55,9 @@ public class MainListHolder extends BaseHolder<ListItem>
         if (item.getType()==ListItem.PICTURE||item.getType()==ListItem.THING)
         {
             Picasso.with(itemView.getContext()).load(item.getImg()).fit().into(img);
+        }else
+        {
+            img.setBackgroundResource(R.drawable.smile);
         }
     }
 
@@ -93,6 +96,5 @@ public class MainListHolder extends BaseHolder<ListItem>
                 mContext.startActivity(intent);
             }
         }
-
     }
 }
