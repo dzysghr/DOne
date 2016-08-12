@@ -2,7 +2,7 @@ package com.dzy.done.presenter;
 
 import android.util.Log;
 
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.model.ListModel;
 import com.dzy.done.model.ListModelCallback;
 import com.dzy.done.view.ContentListView;

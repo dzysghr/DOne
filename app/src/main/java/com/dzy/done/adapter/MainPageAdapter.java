@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.config.PageConfig;
 import com.dzy.done.ui.fragment.ContentListFragment;
 

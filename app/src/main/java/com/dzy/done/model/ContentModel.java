@@ -2,10 +2,10 @@ package com.dzy.done.model;
 
 import android.support.v4.util.LruCache;
 
-import com.dzy.done.bean.ArticleItem;
+import com.dzy.done.model.bean.ArticleItem;
 import com.dzy.done.network.ApiServer;
-import com.dzy.done.bean.PictureItem;
-import com.dzy.done.bean.ThingItem;
+import com.dzy.done.model.bean.PictureItem;
+import com.dzy.done.model.bean.ThingItem;
 import com.dzy.done.config.app;
 import com.dzy.done.util.MLog;
 import retrofit2.Call;

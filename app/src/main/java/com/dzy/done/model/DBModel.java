@@ -1,6 +1,6 @@
 package com.dzy.done.model;
 
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.easydao.dborm.orm.EasyDAO;
 
 import java.util.List;

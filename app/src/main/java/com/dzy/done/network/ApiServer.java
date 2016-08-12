@@ -1,8 +1,8 @@
 package com.dzy.done.network;
 
-import com.dzy.done.bean.ListItem;
-import com.dzy.done.bean.PictureItem;
-import com.dzy.done.bean.ThingItem;
+import com.dzy.done.model.bean.ListItem;
+import com.dzy.done.model.bean.PictureItem;
+import com.dzy.done.model.bean.ThingItem;
 
 import java.util.List;
 

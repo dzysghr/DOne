@@ -21,9 +21,9 @@ import android.widget.Toast;
 import com.dzy.done.R;
 import com.dzy.done.adapter.Holder.BaseHolder;
 import com.dzy.done.asynctask.SavePhotoTask;
-import com.dzy.done.bean.BottomSheetItem;
-import com.dzy.done.bean.ListItem;
-import com.dzy.done.bean.PictureItem;
+import com.dzy.done.model.bean.BottomSheetItem;
+import com.dzy.done.model.bean.ListItem;
+import com.dzy.done.model.bean.PictureItem;
 import com.dzy.done.config.AppSetting;
 import com.dzy.done.presenter.PicturePresenter;
 import com.dzy.done.util.MLog;
@@ -134,7 +134,6 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
         mSaveItem = new BottomSheetItem(R.drawable.star, "收藏");
         mBSItems.add(mSaveItem);
         mBSItems.add(new BottomSheetItem(R.drawable.share, "分享"));
-
 
         //设置作者等信息，这两项数据可以在请求成功回调finish方法获取和设置，这里提前设置让体验好一丢丢
         mTvNum.setText(mItem.getTitle().split(" ", 2)[0]);

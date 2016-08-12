@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzy.done.R;
-import com.dzy.done.bean.ListItem;
-import com.dzy.done.bean.ThingItem;
+import com.dzy.done.model.bean.ListItem;
+import com.dzy.done.model.bean.ThingItem;
 import com.dzy.done.config.AppSetting;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.util.MLog;

@@ -9,6 +9,16 @@
     <!--
     这里设置会让appbar隐藏失效,navigetionbar透明生效
     android:fitsSystemWindows="true" -->
+    <android.support.design.widget.FloatingActionButton
+        app:fabSize="mini"
+        android:id="@+id/fab"
+        android:src="@drawable/up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:layout_behavior="com.dzy.done.widget.ScrollAwareFABBehavior"
+        />
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -34,15 +44,6 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <android.support.design.widget.FloatingActionButton
-        app:fabSize="mini"
-        android:id="@+id/fab"
-        android:src="@drawable/up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        app:layout_behavior="com.dzy.done.widget.ScrollAwareFABBehavior"
-        />
+
 </android.support.design.widget.CoordinatorLayout>
 

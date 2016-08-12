@@ -1,4 +1,4 @@
-package com.dzy.done.bean;
+package com.dzy.done.model.bean;
 
 /**
  * 为了方便，文章和问答共用一个实体类

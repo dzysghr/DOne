@@ -17,7 +17,7 @@ import com.dzy.done.R;
 import com.dzy.done.adapter.BaseAdapter;
 import com.dzy.done.adapter.Holder.BaseHolder;
 import com.dzy.done.adapter.Holder.MainListHolder;
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.presenter.FavoritePresenter;
 import com.dzy.done.presenter.ListPresenter;
 import com.dzy.done.presenter.MainListPresenter;
@@ -41,11 +41,22 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
     @Bind(R.id.swrfresh) ScrollChildSwipeRefreshLayout mSwipeRefreshLayout;
 
-    int mType = 1;
-    List<ListItem> mDatas = new ArrayList<>();
-    ListPresenter mPresenter;
+    private int mType = 1;
+    private boolean mFirshLoad = true;
+    private boolean mViewCreated = false;
+    private List<ListItem> mDatas = new ArrayList<>();
+    private ListPresenter mPresenter;
     private BaseAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+
+    /**
+     * @param type 页面类型，图片、文章、东西  {@link com.dzy.done.model.bean.ListItem#ARTICLE}
+     * @return 实例
+     */
+    public static ContentListFragment newInstance(int type)
+    {
+        return new ContentListFragment(type);
+    }
 
     @Nullable
     @Override
@@ -59,39 +70,57 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         mSwipeRefreshLayout.setScrollUpChild(mRecyclerView);
         initRecycleView();
         initPresenter();
+        mViewCreated = true;
         return view;
     }
 
-    /**
-     *
-     */
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        //如果这是第一个fragment，setUserVisibleHint比onCreateView会比先调用，mViewCreated为false，这里判断不会为true
+        if (mFirshLoad && isVisibleToUser&&mViewCreated)
+        {
+            mPresenter.loadListDates();
+            mFirshLoad = false;
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        if (getUserVisibleHint()) //如果这是第一个fragment,这里结果为true
+        {
+            mPresenter.loadListDates();
+            mFirshLoad = false;
+        }
+    }
+
     private void initPresenter()
     {
 
-        if (mPresenter==null)
+        if (mType == 2)
+            Log.e("tag", "initPresenter ");
+
+        if (mPresenter == null)
         {
             if (mType == ListItem.Common)
                 mPresenter = new FavoritePresenter();
             else
                 mPresenter = new MainListPresenter(mType);
 
-            mPresenter.attachView(this);
-            //加载第一页
-            mPresenter.loadListDates();
-            Log.i("tag", "mPresenter loaddatas");
-
-        }else
-        {
-            Log.i("tag", "mPresenter onResume");
-            mPresenter.attachView(this);
-            mPresenter.onResume();
         }
+        mPresenter.attachView(this);
+
     }
 
 
     private void initRecycleView()
     {
-        mAdapter = new BaseAdapter<ListItem>(getActivity(), mDatas,R.layout.list_item){
+        mAdapter = new BaseAdapter<ListItem>(getActivity(), mDatas, R.layout.list_item)
+        {
             @Override
             public BaseHolder<ListItem> createHolder(View v, Context context)
             {
@@ -151,14 +180,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
         mType = type;
     }
 
-    /**
-     * @param type 页面类型，图片、文章、东西  {@link com.dzy.done.bean.ListItem#ARTICLE}
-     * @return 实例
-     */
-    public static ContentListFragment newInstance(int type)
-    {
-        return new ContentListFragment(type);
-    }
 
     @Override
     public void showDatas(List<ListItem> datas)
@@ -193,7 +214,6 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     {
         Log.i("tag", "on Refresh");
         mPresenter.loadListDates();
-
     }
 
     public void scrollToTop()

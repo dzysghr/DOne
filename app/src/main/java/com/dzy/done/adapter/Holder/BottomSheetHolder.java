@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.dzy.done.R;
-import com.dzy.done.bean.BottomSheetItem;
+import com.dzy.done.model.bean.BottomSheetItem;
 
 public class BottomSheetHolder extends BaseHolder<BottomSheetItem>
 {

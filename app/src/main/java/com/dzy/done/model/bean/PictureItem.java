@@ -1,4 +1,4 @@
-package com.dzy.done.bean;
+package com.dzy.done.model.bean;
 
 public class PictureItem
 {

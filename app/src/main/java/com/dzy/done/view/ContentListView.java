@@ -1,6 +1,6 @@
 package com.dzy.done.view;
 
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 
 import java.util.List;
 

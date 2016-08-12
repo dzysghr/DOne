@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dzy.done.R;
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.ui.activity.PictureActivity;
 import com.dzy.done.ui.activity.ThingActivity;
 import com.dzy.done.ui.activity.WebViewActivity;

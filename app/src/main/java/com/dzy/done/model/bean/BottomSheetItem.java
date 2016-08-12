@@ -1,4 +1,4 @@
-package com.dzy.done.bean;
+package com.dzy.done.model.bean;
 
 import android.support.annotation.DrawableRes;
 

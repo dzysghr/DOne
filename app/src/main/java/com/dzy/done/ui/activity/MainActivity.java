@@ -26,6 +26,7 @@ import com.dzy.done.model.DBModel;
 import com.dzy.done.ui.fragment.ContentListFragment;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState)
     {
 
-
         if (isNightMode = AppSetting.getSetting().isNightMode())
         {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        //ButterKnife.bind(this);
-        bindView();
+        ButterKnife.bind(this);
+        //bindView();
         setupView();
     }
 

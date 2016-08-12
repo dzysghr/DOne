@@ -1,6 +1,6 @@
 package com.dzy.done.view;
 
-import com.dzy.done.bean.PictureItem;
+import com.dzy.done.model.bean.PictureItem;
 
 /**
  *

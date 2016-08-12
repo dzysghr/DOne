@@ -13,7 +13,7 @@ import com.dzy.done.R;
 import com.dzy.done.adapter.BaseAdapter;
 import com.dzy.done.adapter.Holder.BaseHolder;
 import com.dzy.done.adapter.Holder.BottomSheetHolder;
-import com.dzy.done.bean.BottomSheetItem;
+import com.dzy.done.model.bean.BottomSheetItem;
 
 import java.util.List;
 

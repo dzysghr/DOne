@@ -1,6 +1,6 @@
 package com.dzy.done.model;
 
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.config.app;
 import com.dzy.done.network.ApiServer;
 

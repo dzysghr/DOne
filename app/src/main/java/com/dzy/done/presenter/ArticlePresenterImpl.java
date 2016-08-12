@@ -1,7 +1,7 @@
 package com.dzy.done.presenter;
 
-import com.dzy.done.bean.ArticleItem;
-import com.dzy.done.bean.ListItem;
+import com.dzy.done.model.bean.ArticleItem;
+import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.model.DBModel;
 import com.dzy.done.model.ContentModel;
 import com.dzy.done.view.ArticleContentView;

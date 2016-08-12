@@ -1,4 +1,4 @@
-package com.dzy.done.bean;
+package com.dzy.done.model.bean;
 
 import com.dzy.easydao.dborm.annotation.Column;
 import com.dzy.easydao.dborm.annotation.ID;
