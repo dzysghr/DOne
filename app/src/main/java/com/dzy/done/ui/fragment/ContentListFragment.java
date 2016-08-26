@@ -206,7 +206,7 @@ public class ContentListFragment extends Fragment implements ContentListView, Sw
     @Override
     public void showMsg(String msg)
     {
-        Toast.makeText(getContext(), R.string.load_fail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

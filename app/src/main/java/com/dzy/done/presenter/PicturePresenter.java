@@ -4,6 +4,7 @@ import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.model.bean.PictureItem;
 import com.dzy.done.model.DBModel;
 import com.dzy.done.model.ContentModel;
+import com.dzy.done.util.NetworkUtils;
 import com.dzy.done.view.PictureView;
 
 /**
@@ -45,6 +46,12 @@ public class PicturePresenter
 
     public void loadPicture(String url)
     {
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            mView.showMsg("当前无网络");
+            return;
+        }
+
         mModel.getPicture(url,mCallback);
     }
 

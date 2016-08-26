@@ -67,8 +67,6 @@ public class ListModel
 
         mCall = call;
 
-
-
         call.enqueue(new Callback<List<ListItem>>()
         {
             @Override
@@ -81,7 +79,6 @@ public class ListModel
             @Override
             public void onFailure(Call<List<ListItem>> call, Throwable t)
             {
-
                 mCallback.OnFalure(t.getMessage());
                 mCall = null;
             }

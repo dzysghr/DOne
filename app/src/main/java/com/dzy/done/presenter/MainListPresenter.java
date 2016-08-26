@@ -5,6 +5,7 @@ import android.util.Log;
 import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.model.ListModel;
 import com.dzy.done.model.ListModelCallback;
+import com.dzy.done.util.NetworkUtils;
 import com.dzy.done.view.ContentListView;
 
 import java.util.ArrayList;
@@ -67,6 +68,14 @@ public class MainListPresenter implements ListPresenter
     @Override
     public void loadListDates()
     {
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            mView.showMsg("当前无网络");
+            mView.hideProgress();
+            return;
+        }
+
+
         if (isLoading)
             return;
 
@@ -84,6 +93,13 @@ public class MainListPresenter implements ListPresenter
     @Override
     public void loadMore()
     {
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            mView.showMsg("当前无网络");
+            mView.hideProgress();
+            return;
+        }
+
         if (isLoading)
             return;
 

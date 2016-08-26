@@ -155,6 +155,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
     @OnClick(R.id.iv)
     public void ImageOnClick()
     {
+
         if (!mIsFinish)
             return;
         if (mIv.getDrawable() != null)
@@ -163,6 +164,7 @@ public class PictureActivity extends AppCompatActivity implements PictureView, V
             intent.putExtra("url", mPictureItem.getImg());
             startActivity(intent);
         }
+
     }
 
     @Override

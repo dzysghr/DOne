@@ -4,6 +4,7 @@ import com.dzy.done.model.bean.ArticleItem;
 import com.dzy.done.model.bean.ListItem;
 import com.dzy.done.model.DBModel;
 import com.dzy.done.model.ContentModel;
+import com.dzy.done.util.NetworkUtils;
 import com.dzy.done.view.ArticleContentView;
 
 /**
@@ -57,6 +58,11 @@ public class ArticlePresenterImpl implements ArticlePresenter
     @Override
     public void LoadArticleContent(String url)
     {
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            mView.showToast("当前无网络");
+            return;
+        }
         mModel.getArticle(url, mCallback);
     }
 
@@ -66,6 +72,12 @@ public class ArticlePresenterImpl implements ArticlePresenter
     @Override
     public void LoadQAContent(String url)
     {
+        if(!NetworkUtils.isNetworkConnected())
+        {
+            mView.showToast("当前无网络");
+
+            return;
+        }
         mModel.getQA(url,mCallback);
     }
 
